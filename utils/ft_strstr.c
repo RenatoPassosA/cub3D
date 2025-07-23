@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:07:35 by rpassos-         ###   ########.fr       */
+/*   Created: 2025/07/23 13:41:57 by rpassos-          #+#    #+#             */
+/*   Updated: 2025/07/23 13:42:17 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "utils.h"
 
-int	main(int ac, char **av)
+char *ft_strstr(const char *haystack, const char *needle)
 {
-	int	fd;
+    size_t i;
+    size_t j;
 
-	fd = open(av[1], O_RDONLY);
-	if (!check_argument(ac, av, fd))
-		exit(1);
-	init_data();
-	if (!validate_map(fd))
-		exit(1);
-
-	t_map	*map;
-	map = get_map_instance();
-	printf("----------%d", map->map_lines);
-	/*close(fd);
-	fd = open(av[1], O_RDONLY);
-	parser(fd);*/
-	
-
-	
+    if (!*needle)
+        return (char *)haystack;
+    i = 0;
+    while (haystack[i])
+    {
+        j = 0;
+        while (needle[j] && haystack[i + j] == needle[j])
+            j++;
+        if (!needle[j])
+            return (char *)&haystack[i];
+        i++;
+    }
+    return NULL;
 }
