@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:46:08 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 12:19:41 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:43:31 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ static void	init_identifiers(int *identifiers)
 	identifiers[3] = 0;
 	identifiers[4] = 0;
 	identifiers[5] = 0;
-	identifiers[6] = 0;
 }
 
 bool	is_type_identifier(char *splitted)
@@ -122,14 +121,14 @@ void	set_map(char *line, int	*index)
 	size_t	len;
 
 	len = ft_strlen(line);
-	line[len - 1] = '\0';
+	if (line[len - 1] == '\n')
+		line[len - 1] = '\0';
 	map = get_map_instance();
-	map->map[*index] = ft_strdup(line); //alocar map->map
+	map->map[*index] = ft_strdup(line);
 	(*index)++;
-	
 }
 
-void	check_identifier(char *line, int *identifiers, int *index)
+void	check_content(char *line, int *identifiers, int *index)
 {
 	char	**splitted;
 	
@@ -157,9 +156,56 @@ void	parser(int fd)
 	while ((line = get_next_line(fd)))
 	{
 		if (line[0] == '\n')
+		{
+			free(line);
 			continue;
-		check_identifier(line, identifiers, &index);
-		
+		}
+		check_content(line, identifiers, &index);
 		free(line);
+	}
+}
+
+bool	check_top_and_bottom_edge(char *line)
+{
+	while (*line)
+	{
+		if (*line != '1')
+			return (false);
+		line++;
+	}
+	return(true);		
+}
+
+bool	check_middle_edge(char *line)
+{
+	int	len;
+	
+	len = ft_strlen(line);
+	if (line[0] != '1' || line[len - 1] != '1')
+		return (false);
+	return(true);		
+}
+void	validate_edges(void)
+{
+	t_map	*map;
+	int	counter;
+
+	counter = 1;
+	map = get_map_instance();
+	if (!check_top_and_bottom_edge(map->map[0]) || !check_top_and_bottom_edge(map->map[map->map_lines]))
+	{
+		show_error_msg("Error.\nWrong edges configuration");
+		free_map_info();
+		exit(1);
+	}
+	while(counter < map->map_lines)
+	{
+		if (!check_middle_edge(map->map[counter]))
+		{
+			show_error_msg("Error.\nWrong edges configuration");
+			free_map_info();
+			exit(1);
+		}
+		counter++;
 	}
 }

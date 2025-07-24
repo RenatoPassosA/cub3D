@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 10:39:45 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:52:39 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	free_map_info(void)
 	if (map->EA_texture)
 		free(map->EA_texture);
 	if (map->map)
-		free_arr_with_null(map->map, get_arr_size(map->map));
+		free_arr_with_null(map->map, map->map_lines + 1);
 }

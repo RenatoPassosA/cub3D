@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:17:54 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:39:26 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	parser(int fd);
 t_map	*init_data(void);
 void	free_map_info(void);
 bool	validate_map(int fd);
+void	validate_edges(void);
 void	show_error_msg(char *msg);
 t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);

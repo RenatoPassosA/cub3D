@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:11:59 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:36:52 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:52:11 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,7 @@ bool	validate_map(int fd) //REFATORAR
 		close(fd);
 		exit(1);
 	}
+	map->map_lines--;
 	return(true);
 }
+
