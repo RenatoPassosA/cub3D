@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:11:59 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 12:52:11 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:06:23 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	validate_map(int fd) //REFATORAR
 			free(line);
 			close(fd);
 			show_error_msg("Error.\nWrong identifiers or map elements");
-			exit(1);
+			return(false);
 		}
 		if (splitted[0] && ft_strcmp(splitted[0], "\n") != 0)
 		{
@@ -52,7 +52,7 @@ bool	validate_map(int fd) //REFATORAR
 		{
 			show_error_msg("Error.\nWrong elements on map content");
 			clean_map_error(fd, line, splitted);
-			exit(1);
+			return(false);
 		}
 		if (is_map && is_valid_map_char(splitted[0]))
 			map->map_lines++;
@@ -64,7 +64,7 @@ bool	validate_map(int fd) //REFATORAR
 	{
 		show_error_msg("Error on malloc");
 		close(fd);
-		exit(1);
+		return(false);
 	}
 	map->map_lines--;
 	return(true);

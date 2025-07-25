@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   validation_map_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 18:17:28 by rpassos-         ###   ########.fr       */
+/*   Created: 2025/07/24 17:09:42 by rpassos-          #+#    #+#             */
+/*   Updated: 2025/07/24 21:01:23 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int ac, char **av)
+bool	is_type_identifier(char *splitted)
 {
-	int	fd;
-
-	fd = open(av[1], O_RDONLY);
-	if (!check_argument(ac, av, fd))
-		exit(1);
-	init_data();
-	if (!validate_map(av, fd))
-		exit(1);
-	close(fd);
-	fd = open(av[1], O_RDONLY);
-	parser(fd);
-	validate_edges();
-	validate_player_position();
-	
-
-	
+	return (ft_strcmp(splitted, "NO") == 0 || 
+		ft_strcmp(splitted, "SO") == 0 || 
+		ft_strcmp(splitted, "WE") == 0 || 
+		ft_strcmp(splitted, "EA") == 0 || 
+		ft_strcmp(splitted, "F") == 0 || 
+		ft_strcmp(splitted, "C") == 0);
 }

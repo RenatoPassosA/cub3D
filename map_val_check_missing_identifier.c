@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   map_val_check_missing_identifier.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 18:17:28 by rpassos-         ###   ########.fr       */
+/*   Created: 2025/07/24 17:30:01 by rpassos-          #+#    #+#             */
+/*   Updated: 2025/07/24 19:51:36 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int ac, char **av)
+void	check_missing_identifier(char ***content)
 {
-	int	fd;
+	int		index;
+	int		identifier_counter;
 
-	fd = open(av[1], O_RDONLY);
-	if (!check_argument(ac, av, fd))
-		exit(1);
-	init_data();
-	if (!validate_map(av, fd))
-		exit(1);
-	close(fd);
-	fd = open(av[1], O_RDONLY);
-	parser(fd);
-	validate_edges();
-	validate_player_position();
-	
-
-	
+	index = 0;
+	identifier_counter = 0;
+	while(content[index] != NULL)
+	{
+		if (is_type_identifier(content[index][0]))
+			identifier_counter++;
+		index++;
+	}
+	if (identifier_counter != 6)
+		show_error_msg("Error.\n Missing type identifier element.");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
 }

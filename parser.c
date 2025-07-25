@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:46:08 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 12:43:31 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/24 21:01:54 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void	init_identifiers(int *identifiers)
 	identifiers[5] = 0;
 }
 
-bool	is_type_identifier(char *splitted)
+/*bool	is_type_identifier(char *splitted)
 {
 	return (ft_strcmp(splitted, "NO") == 0 || 
 		ft_strcmp(splitted, "SO") == 0 || 
@@ -113,7 +113,7 @@ bool	is_type_identifier(char *splitted)
 		ft_strcmp(splitted, "EA") == 0 || 
 		ft_strcmp(splitted, "F") == 0 || 
 		ft_strcmp(splitted, "C") == 0);
-}
+}*/
 
 void	set_map(char *line, int	*index)
 {
@@ -165,47 +165,40 @@ void	parser(int fd)
 	}
 }
 
-bool	check_top_and_bottom_edge(char *line)
+//--------------
+
+
+ //--------------
+bool is_player_char(char c)
 {
-	while (*line)
-	{
-		if (*line != '1')
-			return (false);
-		line++;
-	}
-	return(true);		
+	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-bool	check_middle_edge(char *line)
-{
-	int	len;
-	
-	len = ft_strlen(line);
-	if (line[0] != '1' || line[len - 1] != '1')
-		return (false);
-	return(true);		
-}
-void	validate_edges(void)
+void	validate_player_position(void)
 {
 	t_map	*map;
-	int	counter;
+	int		index;
+	bool	has_player;
+	char	*line;
 
-	counter = 1;
 	map = get_map_instance();
-	if (!check_top_and_bottom_edge(map->map[0]) || !check_top_and_bottom_edge(map->map[map->map_lines]))
+	index = 0;
+	has_player = false;
+	while (index <= map->map_lines)
 	{
-		show_error_msg("Error.\nWrong edges configuration");
-		free_map_info();
-		exit(1);
-	}
-	while(counter < map->map_lines)
-	{
-		if (!check_middle_edge(map->map[counter]))
+		line = map->map[index];
+		while (*line)
 		{
-			show_error_msg("Error.\nWrong edges configuration");
-			free_map_info();
-			exit(1);
+			if (is_player_char(*line) && has_player == false)
+				has_player = true;
+			else if (is_player_char(*line) && has_player == true)
+			{
+				show_error_msg("Error.\nMore than one start position setted");
+				free_map_info();
+				exit(1);
+			}
+			line++;
 		}
-		counter++;
+		index++;
 	}
 }
