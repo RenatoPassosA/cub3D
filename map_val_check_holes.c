@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 10:43:22 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:32:45 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,45 +55,46 @@ int	get_line_width(char *line)
 
 	width = 0;
 	while (*line)
+	{
 		width++;
+		line++;
+	}
 	return (width);
 }
 
-char *fill_line(char *line, int target_len)
+char *fill_line(char *line, int	width)
 {
-    int     i;
-    int     original_len;
-    char    *new_line;
+	char *new_line;
+	int	index;
 
-    if (!line)
-        return (NULL);
-    original_len = ft_strlen(line);
-    if (original_len >= target_len)
-        return (ft_strdup(line));
-    new_line = (char *)malloc(sizeof(char) * (target_len + 1));
-    if (!new_line)
-        return (NULL);
-    i = 0;
-    while (line[i])
-    {
-        new_line[i] = line[i];
-        i++;
-    }
-    while (i < target_len)
-        new_line[i++] = ' ';
-    new_line[i] = '\0';
-    return (new_line);
+	index = 0;
+	new_line = (char *)malloc(sizeof(char) * (width + 1));
+	if (!new_line)
+		return (NULL);
+	while (line[index])
+	{
+		new_line[index] = line[index];
+		index++;
+	}
+	while (index < width)
+	{
+		new_line[index] = ' ';
+		index++;
+	}
+	new_line[index] = '\0';
+	return (new_line);
 }
 
-void prepare_map_for_flood_fill(char ***map)
+void prepare_map_for_flood_fill(char ***map, int fd)
 {
 	int index = 0;
 	int max_width = 0;
 	char *temp;
+	int width;
 
 	while ((*map)[index] != NULL)
 	{
-		int width = get_line_width((*map)[index]);
+		width = get_line_width((*map)[index]);
 		if (width > max_width)
 			max_width = width;
 		index++;
@@ -102,6 +103,8 @@ void prepare_map_for_flood_fill(char ***map)
 	while ((*map)[index] != NULL)
 	{
 		temp = fill_line((*map)[index], max_width);
+		if (!temp)
+			clean_all_and_message_error("Error on malloc", NULL, *map, fd);
 		free((*map)[index]);
 		(*map)[index] = temp;
 		index++;
@@ -146,14 +149,14 @@ void	check_holes_on_floor(char **av, int fd, char **map)
 		free(line);
 	}
 	flood_fill_map[index2] = NULL; //aqui tenho o mapa certinho
-
+	prepare_map_for_flood_fill(&flood_fill_map, fd); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
+	
 	int	index3 = 0;
 	while (flood_fill_map[index3])
 	{
-		printf("Linha:%d, content: %s\n", index3, flood_fill_map[index3]);
+		printf("Linha:%d, content: %s-\n", index3, flood_fill_map[index3]);
 		index3++;
 	}
 	
-	//prepare_map_for_flood_fill(&flood_fill_map);
 	//flood_fill(flood_fill_map, map);
 }
