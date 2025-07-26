@@ -6,19 +6,36 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 17:29:27 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:43:22 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	remove_backslash_n2(char *line)
+{
+	int	len;
+	
+	if (!line)
+		return;
+	if (ft_strstr(line,"\n"))
+	{
+		len = ft_strlen(line);
+		line[len - 1] = '\0';
+	}
+}
+
 bool	find_map(char *line)
 {
 	while (*line == ' ')
 			line++;
-	if (is_type_identifier(line) || ft_strcmp(line, "\n") == 0)
-		return(false);
-	return(true);
+	return (ft_strncmp(line, "NO", 2) == 0 || 
+		ft_strncmp(line, "SO", 2) == 0 || 
+		ft_strncmp(line, "WE", 2) == 0 || 
+		ft_strncmp(line, "EA", 2) == 0 || 
+		ft_strncmp(line, "F", 1) == 0 || 
+		ft_strncmp(line, "C", 1) == 0 ||
+		ft_strncmp(line, "\n", 1) == 0);
 	
 }
 
@@ -92,39 +109,51 @@ void prepare_map_for_flood_fill(char ***map)
 	(*map)[index] = NULL;
 }
 
-void	flood_fill(char **flood_fill_map, char **map)
+/*void	flood_fill(char **flood_fill_map, char **map)
 {
 	
 	
-}
+}*/
 
 void	check_holes_on_floor(char **av, int fd, char **map)
 {
 	int	index;
+	int	index2;
 	int	map_height;
 	char *line;
 	char **flood_fill_map;
 	
 	index = 0;
+	index2 = 0;
 	map_height = get_map_height(map);
 	flood_fill_map = (char **)malloc(sizeof(char *) * (map_height + 1));
 	if (!flood_fill_map)
-		;//show_error_msg("Error on malloc.\n");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+		return;//show_error_msg("Error on malloc.\n");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
 	close(fd);
 	fd = open(av[1], O_RDONLY);
 	while ((line = get_next_line(fd)))
 	{
-		if (!find_map(line))
+		if (find_map(line))
 		{
 			free(line);
+			index++;
 			continue;
 		}
-		//aqui chega no inicio do mapa tirando os espaços anteriores
-		flood_fill_map[index] = ft_strdup(line);
+		remove_backslash_n2(line);
+		flood_fill_map[index2] = ft_strdup(line);
 		index++;
+		index2++;
 		free(line);
 	}
-	flood_fill_map[index] = NULL;
-	prepare_map_for_flood_fill(&flood_fill_map);
-	flood_fill(flood_fill_map, map);
+	flood_fill_map[index2] = NULL; //aqui tenho o mapa certinho
+
+	int	index3 = 0;
+	while (flood_fill_map[index3])
+	{
+		printf("Linha:%d, content: %s\n", index3, flood_fill_map[index3]);
+		index3++;
+	}
+	
+	//prepare_map_for_flood_fill(&flood_fill_map);
+	//flood_fill(flood_fill_map, map);
 }

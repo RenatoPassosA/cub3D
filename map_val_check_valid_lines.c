@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 20:08:26 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 17:19:32 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:24:27 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	check_line(char *line)
 		line[0] == '\n');
 }
 
-void	check_valid_lines(char ***content)
+void	check_valid_lines(char ***content, int fd)
 {
 	int		index;
 	
@@ -35,7 +35,7 @@ void	check_valid_lines(char ***content)
 	while(content[index] != NULL)
 	{
 		if (!check_line(content[index][0]))
-			clean_all_and_message_error("Error.\nInvalid map element.", content, NULL);
+			clean_all_and_message_error("Error.\nInvalid map element.", content, NULL, fd);
 		index++;
 	}
 }

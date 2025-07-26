@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 21:00:41 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:21:44 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	free_tridimensional_array(char ***content)
 }
 
 
-void clean_all_and_message_error(char *msg, char ***content, char **map)
+void clean_all_and_message_error(char *msg, char ***content, char **map, int fd)
 {
 	while(*msg)
 		write(2, msg++, 1);
@@ -113,7 +113,9 @@ void clean_all_and_message_error(char *msg, char ***content, char **map)
 	if (content)
 		free_tridimensional_array(content);
 	if (map)
-		free_bidimensional_array(map);;
+		free_bidimensional_array(map);
+	if (fd)
+		close(fd);
 	exit(1);
 }
 

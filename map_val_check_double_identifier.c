@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:30:01 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 17:19:13 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:22:26 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool	check_identifier_flag(int *identifier, char *splitted)
 	((ft_strcmp(splitted, "C") == 0) &&	identifier[C_RGB]));
 }
 
-void	check_double_identifier(char ***content)
+void	check_double_identifier(char ***content, int fd)
 {
 	int		identifiers[6];
 	int		index;
@@ -60,7 +60,7 @@ void	check_double_identifier(char ***content)
 		if (is_type_identifier(content[index][0]))
 		{
 			if (check_identifier_flag(identifiers, content[index][0]))
-				clean_all_and_message_error("Error. \n Duplicated identifiers.", content, NULL);
+				clean_all_and_message_error("Error. \n Duplicated identifiers.", content, NULL, fd);
 			else
 				set_identifier_flag(identifiers, content[index][0]);
 		}

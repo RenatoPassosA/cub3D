@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 20:35:15 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 10:06:10 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,24 @@ bool	clean_map_error(int fd, char *line, char **splitted);
 
 int		get_arr_size(char **arr);
 void	show_error_msg(char *msg);
-void	validate_edges(char **map);
-void	validate_player(char **map);
 bool	validate_map(char **av, int fd);
-void	validate_colors(char ***content);
-void	validate_textures(char ***content);
 bool	is_type_identifier(char *splitted);
-void	check_valid_lines(char ***content);
+void	remove_backslash_n(char **content);
+void	validate_edges(char **map, int fd);
+void	validate_player(char **map, int fd);
 void	free_bidimensional_array(char **arr);
-void	validate_map_position(char ***content);
-void	check_map(char ***content, char ***map);
-void	check_double_identifier(char ***content);
-void	check_missing_identifier(char ***content);
+void	validate_colors(char ***content, int fd);
 int		check_argument(int ac, char **av, int fd);
+void	validate_textures(char ***content, int fd);
+void	check_valid_lines(char ***content, int fd);
 void	free_tridimensional_array(char ***content);
+void	validate_map_position(char ***content, int fd);
+void	check_map(char ***content, char ***map, int fd);
+void	check_double_identifier(char ***content, int fd);
+void	check_missing_identifier(char ***content, int fd);
+void	check_holes_on_floor(char **av, int fd, char **map);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
-void	clean_all_and_message_error(char *msg, char ***content, char **map);
+void	clean_all_and_message_error(char *msg, char ***content, char **map, int fd);
 
 
 

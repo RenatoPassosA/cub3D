@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 18:07:23 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:23:36 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool is_valid_color(const char *colors)
 	return (true);
 }
 
-void	validate_colors(char ***content)
+void	validate_colors(char ***content, int fd)
 {
 	int		index;
 
@@ -58,9 +58,9 @@ void	validate_colors(char ***content)
 		if (content[index][0] && is_color(content[index][0]))
 		{
 			if (!content[index][1])
-				clean_all_and_message_error("Error.\n Insert a color", content, NULL);
+				clean_all_and_message_error("Error.\n Insert a color", content, NULL, fd);
 			if (!is_valid_color(content[index][1]))
-				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL);
+				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL, fd);
 		}
 		index++;
 	}

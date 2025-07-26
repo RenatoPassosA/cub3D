@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 18:07:37 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:59:50 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,18 @@ bool	validate_map(char **av, int fd)
 	char	**map;
 	
 	get_content_splitted(av, &content, fd); //aqui joga o cursor lá pra baixo
-	check_missing_identifier(content);
-	check_double_identifier(content);
-	validate_textures(content);
-	validate_colors(content);
-	validate_map_position(content);
-	check_valid_lines(content);
-	check_map(content, &map);//aqui ja verifica se nao tiver mapa
+	check_missing_identifier(content, fd);
+	check_double_identifier(content, fd);
+	validate_textures(content, fd);
+	validate_colors(content, fd);
+	validate_map_position(content, fd);
+	check_valid_lines(content, fd);
+	check_map(content, &map, fd);//aqui ja verifica se nao tiver mapa
 	//se n usar mais o content - dar free
 	free_tridimensional_array(content); //----verificar se isso fica
-	validate_edges(map);
-	validate_player(map);
+	validate_edges(map, fd);
+	validate_player(map, fd);
+	check_holes_on_floor(av, fd, map);
 	
 	
 	

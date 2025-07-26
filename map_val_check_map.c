@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 21:10:58 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:29:16 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	check_map_size(char ***content, char **map)
 	return(true);
 }
 
-void check_map(char ***content, char ***map)
+void check_map(char ***content, char ***map, int fd)
 {
 	int index;
 	int	counter;
@@ -84,14 +84,11 @@ void check_map(char ***content, char ***map)
 		counter++;
 	}
 	while (content[index])
-		clean_all_and_message_error("Error.\nFile contains data after map.", content, NULL);
+		clean_all_and_message_error("Error.\nFile contains data after map.", content, NULL, fd);
 	if (counter == 0)
-		clean_all_and_message_error("Error.\nMissing map.", content, NULL);
+		clean_all_and_message_error("Error.\nMissing map.", content, NULL, fd);
 	*map = (char **)malloc(sizeof(char *) * (counter + 1));
 	fill_map(save_index, content, *map);
 	if (!check_map_size(content, *map))
-	{
-		clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, NULL);
-		free_bidimensional_array(*map);
-	}
+		clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, *map, fd);
 }

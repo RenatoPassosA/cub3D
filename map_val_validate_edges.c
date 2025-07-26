@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 20:37:19 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:26:29 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	check_middle_edges(char *line)
 	return(true);		
 }
 
-void	validate_edges(char **map)
+void	validate_edges(char **map, int fd)
 {
 	int	counter;
 	int	size;
@@ -43,11 +43,11 @@ void	validate_edges(char **map)
 	while(map[size] != NULL)
 		size++;
 	if (!check_top_and_bottom_edge(map[0]) || !check_top_and_bottom_edge(map[size - 1]))
-		clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map);
+		clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
 	while(counter < size - 1)
 	{
 		if (!check_middle_edges(map[counter]))
-			clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map);
+			clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
 		counter++;
 	}
 }

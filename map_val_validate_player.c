@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 09:23:58 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 20:36:49 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/26 09:26:53 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	check_player_one_line(char *line)
 	return(false);
 }
 
-void	validate_player(char **map)
+void	validate_player(char **map, int fd)
 {
 	int	index;
 	bool	has_player;
@@ -35,10 +35,10 @@ void	validate_player(char **map)
 		if (check_player_one_line(map[index]) && !has_player)
 			has_player = true;
 		else if (check_player_one_line(map[index]) && has_player)
-			clean_all_and_message_error("Error.\nMultiplayers not allowed.", NULL, map);
+			clean_all_and_message_error("Error.\nMultiplayers not allowed.", NULL, map, fd);
 		index++;
 	}
 	if (!has_player)
-		clean_all_and_message_error("Error.\nNo player start position found.", NULL, map);
+		clean_all_and_message_error("Error.\nNo player start position found.", NULL, map, fd);
 		
 }
