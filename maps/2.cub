@@ -1,10 +1,11 @@
 F 97,247,67
-NO ./textures/amongus.xpm
-SO ./textures/amongus.xpm
-WE ./textures/jib.xpm
-EA ./textures/jib.xpm
+NO ./textures/test/north.xpm
+SO ./textures/test/south.xpm
+WE ./textures/test/west.xpm
+EA ./textures/test/east.xpm
 C 235,115,115
 
 111111
 1000N1
+100001
 111111

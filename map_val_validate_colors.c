@@ -6,16 +6,16 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 19:52:22 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:07:23 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int get_rgb(int r, int g, int b)
+/*static int get_rgb(int r, int g, int b)
 {
 	return (r << 16) | (g << 8) | b;
-}
+}*/
 
 static bool check_rgb_range(int val)
 {
@@ -31,8 +31,6 @@ static bool	is_color(char *identifier)
 
 static bool is_valid_color(const char *colors)
 {
-	int		fd;
-	size_t	len;
 	char	**rgb;
 	int		size;
 
@@ -60,9 +58,9 @@ void	validate_colors(char ***content)
 		if (content[index][0] && is_color(content[index][0]))
 		{
 			if (!content[index][1])
-				show_error_msg("Error.\n Insert a color"); //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+				clean_all_and_message_error("Error.\n Insert a color", content, NULL);
 			if (!is_valid_color(content[index][1]))
-				show_error_msg("Error.\n Insert a valid color configuration"); //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL);
 		}
 		index++;
 	}

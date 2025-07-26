@@ -6,17 +6,11 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:14:04 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 21:00:41 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void show_error_msg(char *msg)
-{
-	while(*msg)
-		write(2, msg++, 1);
-}
 
 int	check_argument(int ac, char **av, int fd)
 {
@@ -52,6 +46,7 @@ int	get_arr_size(char **arr)
 	return (index);
 }
 
+
 void	free_arr_with_null(char **arr, int splitted_arr_size)
 {
 	int	index;
@@ -68,6 +63,58 @@ void	free_arr_with_null(char **arr, int splitted_arr_size)
 		}
 	}
 	free(arr);
+}
+
+void	free_bidimensional_array(char **arr)
+{
+	int i;
+
+	if (!arr)
+		return;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+
+void	free_tridimensional_array(char ***content)
+{
+	int	i;
+	int j;
+
+	if (!content)
+		return;
+	i = 0;
+	while (content[i])
+	{
+		j = 0;
+		while (content[i][j])
+		{
+			free(content[i][j]);
+			j++;
+		}
+		free(content[i]);
+		i++;
+	}
+	free(content);
+}
+
+
+void clean_all_and_message_error(char *msg, char ***content, char **map)
+{
+	while(*msg)
+		write(2, msg++, 1);
+	write(2, "\n", 1);
+	if (content)
+		free_tridimensional_array(content);
+	if (map)
+		free_bidimensional_array(map);;
+	exit(1);
 }
 
 

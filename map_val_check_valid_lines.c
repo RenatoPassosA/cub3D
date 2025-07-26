@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 20:08:26 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 20:08:46 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:19:32 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	check_valid_lines(char ***content)
 	while(content[index] != NULL)
 	{
 		if (!check_line(content[index][0]))
-			show_error_msg("Error.\nInvalid map element.");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+			clean_all_and_message_error("Error.\nInvalid map element.", content, NULL);
 		index++;
 	}
 }

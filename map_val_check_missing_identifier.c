@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:30:01 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 19:51:36 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:18:45 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	check_missing_identifier(char ***content)
 		index++;
 	}
 	if (identifier_counter != 6)
-		show_error_msg("Error.\n Missing type identifier element.");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+		clean_all_and_message_error("Error.\n Missing type identifier element.", content, NULL);
 }

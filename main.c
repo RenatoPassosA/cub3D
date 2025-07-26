@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 18:17:28 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 13:47:20 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@ int	main(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	if (!check_argument(ac, av, fd))
 		exit(1);
-	init_data();
+	//init_data();
 	if (!validate_map(av, fd))
 		exit(1);
 	close(fd);
 	fd = open(av[1], O_RDONLY);
-	parser(fd);
-	validate_edges();
-	validate_player_position();
+	//parser(fd);
+	
 	
 
 	

@@ -6,16 +6,11 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 12:52:39 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 13:34:50 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int get_rgb(int r, int g, int b)
-{
-	return (r << 16) | (g << 8) | b;
-}
 
 t_map *get_map_instance(void)
 {

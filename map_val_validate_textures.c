@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:46:53 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 20:08:17 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:19:18 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static bool	is_texture(char *identifier)
 	(ft_strcmp(identifier, "EA") == 0);
 }
 
-static bool is_valid_texture_path(const char *path)
+static bool is_valid_texture_path(char *path)
 {
 	int		fd;
 	size_t	len;
 	
-	len= strlen(path);
-	if (len < 4 || strcmp(path + len - 4, ".xpm") != 0)
+	len= ft_strlen(path);
+	if (len < 4 || ft_strcmp(path + len - 4, ".xpm") != 0)
 		return false;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -45,9 +45,9 @@ void	validate_textures(char ***content)
 		if (content[index][0] && is_texture(content[index][0]))
 		{
 			if (!content[index][1])
-				show_error_msg("Error.\n Insert a texture path"); //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+				clean_all_and_message_error("Error.\n Insert a texture path.", content, NULL);
 			if (!is_valid_texture_path(content[index][1]))
-				show_error_msg("Error.\n Insert a valid texture path"); //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+				clean_all_and_message_error("Error.\n Insert a valid texture path.", content, NULL);
 		}
 		index++;
 	}

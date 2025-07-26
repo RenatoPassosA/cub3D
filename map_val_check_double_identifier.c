@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:30:01 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 19:51:55 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 17:19:13 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	check_double_identifier(char ***content)
 		if (is_type_identifier(content[index][0]))
 		{
 			if (check_identifier_flag(identifiers, content[index][0]))
-				show_error_msg("Error. \n Duplicated identifiers");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+				clean_all_and_message_error("Error. \n Duplicated identifiers.", content, NULL);
 			else
 				set_identifier_flag(identifiers, content[index][0]);
 		}

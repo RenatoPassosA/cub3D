@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:36:27 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/24 19:52:43 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:12:22 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ static bool	check_map_on_middle(char ***content)
 		if (is_type_identifier(content[index][0]))
 			identifier_counter++;
 		else if (ft_strcmp(content[index][0], "\n") == 0)
+		{
+			index++;
 			continue;
+		}
 		else if (!is_type_identifier(content[index][0]) && ft_strcmp(content[index][0], "\n") != 0 && identifier_counter != 6)
 			return (false);
 		index++;
@@ -42,5 +45,5 @@ static bool	check_map_on_middle(char ***content)
 void	validate_map_position(char ***content)
 {
 	if (!check_map_on_top(content) || !check_map_on_middle(content))
-		show_error_msg("Error.\nInvalid map position.");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
+		clean_all_and_message_error("Error.\nInvalid map position on content.", content, NULL);
 }
