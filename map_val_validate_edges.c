@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:26:29 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:56:02 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,47 @@ static bool	check_middle_edges(char *line)
 	return(true);		
 }
 
+char *remove_spaces(char *line)
+{
+	char **splitted;
+	char *temp;
+	char *new_line;
+	int	index;
+
+	splitted = ft_split(line, ' ');
+	index = 0;
+	new_line = ft_strdup(splitted[0]);
+	while (splitted[++index])
+	{
+		temp = new_line;
+		new_line = ft_strjoin(new_line, splitted[index]);
+		free(temp);
+	}
+	free_bidimensional_array(splitted);
+	return(new_line);
+}
+
 void	validate_edges(char **map, int fd)
 {
 	int	counter;
 	int	size;
+	char *line;
 
 	counter = 1;
 	size = 0;
 	while(map[size] != NULL)
 		size++;
-	if (!check_top_and_bottom_edge(map[0]) || !check_top_and_bottom_edge(map[size - 1]))
+	
+	if (!check_top_and_bottom_edge(remove_spaces(map[0])) || 
+		!check_top_and_bottom_edge(remove_spaces(map[size - 1])))
 		clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
 	while(counter < size - 1)
 	{
-		if (!check_middle_edges(map[counter]))
+		if (!check_middle_edges(remove_spaces(map[counter])))
 			clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
 		counter++;
 	}
 }
+
+
+

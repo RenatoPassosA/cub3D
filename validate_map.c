@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:59:50 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:58:14 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,40 @@ void	get_content_splitted(char **av, char ****content, int fd)
 	close(fd);
 }
 
-bool	validate_map(char **av, int fd)
+bool	map_validations(char **av, int fd)
 {
 	char	***content;
 	char	**map;
 	
-	get_content_splitted(av, &content, fd); //aqui joga o cursor lá pra baixo
+	get_content_splitted(av, &content, fd);
 	check_missing_identifier(content, fd);
 	check_double_identifier(content, fd);
 	validate_textures(content, fd);
 	validate_colors(content, fd);
 	validate_map_position(content, fd);
-	check_valid_lines(content, fd);
-	check_map(content, &map, fd);//aqui ja verifica se nao tiver mapa
-	//se n usar mais o content - dar free
-	free_tridimensional_array(content); //----verificar se isso fica
+	validate_map_elements(content, fd);
+	validate_map(content, fd); //OK - TESTAR
+	get_map_matrix(av, &map, content);
+	free_tridimensional_array(content);
+	close(fd);
+	// A PARTIR DAQUI TENHO O MAP EM MATRIZ
+	
+	validate_map_lines(fd, map); //testar
 	validate_edges(map, fd);
 	validate_player(map, fd);
-	check_holes_on_floor(av, fd, map);
+
+	
+	int	index3 = 0;
+	while (map[index3])
+	{
+    	printf("content: %s-\n", map[index3]);
+    	index3++;
+	}	
+	
+
+
+	
+	//check_holes_on_floor(av, fd, map);
 	
 	
 	

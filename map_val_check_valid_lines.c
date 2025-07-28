@@ -5,37 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 20:08:26 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:24:27 by rpassos-         ###   ########.fr       */
+/*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
+/*   Updated: 2025/07/28 18:08:20 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static bool	check_line(char *line)
+bool	check_forbidden_char_in_line(char *line)
 {
-	if (!line)
-		return (false);
-	return (
-		ft_strncmp(line, "NO", 2) == 0 ||
-		ft_strncmp(line, "SO", 2) == 0 ||
-		ft_strncmp(line, "WE", 2) == 0 ||
-		ft_strncmp(line, "EA", 2) == 0 ||
-		ft_strncmp(line, "F", 1) == 0 ||
-		ft_strncmp(line, "C", 1) == 0 ||
-		line[0] == '1' ||
-		line[0] == '\n');
+	int	index;
+
+	index = 0;
+	while (*line)
+	{
+		if (line[index] != '0' &&
+			line[index] != '1' &&
+			line[index] != 'N' &&
+			line[index] != 'S' &&
+			line[index] != 'E' &&
+			line[index] != 'W' &&
+			line[index] != ' ')
+			return (true);
+		line++;
+	}
+	return (false);
 }
 
-void	check_valid_lines(char ***content, int fd)
+void	validate_map_lines(int fd, char **map)
 {
-	int		index;
+	int	height;
 	
-	index = 0;
-	while(content[index] != NULL)
+	height = 0;
+	while (map[height] != NULL)
 	{
-		if (!check_line(content[index][0]))
-			clean_all_and_message_error("Error.\nInvalid map element.", content, NULL, fd);
-		index++;
+		if (check_forbidden_char_in_line(map[height]))
+			clean_all_and_message_error("Error.\nForbidden chars on map content", NULL, map, fd);
+		height++;
 	}
 }

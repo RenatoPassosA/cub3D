@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_val_check_holes.c                              :+:      :+:    :+:   */
+/*   get_map_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 11:32:45 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:28:07 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,22 @@ bool	find_map(char *line)
 	
 }
 
-int	get_map_height(char **map)
+int	get_map_height(char ***content)
 {
-	int	height;
-
-	height = 0;
-	while (map[height] != NULL)
-		height++;
-	return (height);
+	int index;
+	int	map_height;
+	
+	index = 0;
+	map_height = 0;
+	while (content[index] && (is_type_identifier(content[index][0]) ||
+       ft_strcmp(content[index][0], "\n") == 0))
+		index++;
+	while (content[index] && *content[index][0] == '1')
+	{
+		index++;
+		map_height++;
+	}
+	return (map_height);
 }
 
 int	get_line_width(char *line)
@@ -85,7 +93,7 @@ char *fill_line(char *line, int	width)
 	return (new_line);
 }
 
-void prepare_map_for_flood_fill(char ***map, int fd)
+void set_matrix(char ***map, int fd)
 {
 	int index = 0;
 	int max_width = 0;
@@ -112,27 +120,20 @@ void prepare_map_for_flood_fill(char ***map, int fd)
 	(*map)[index] = NULL;
 }
 
-/*void	flood_fill(char **flood_fill_map, char **map)
-{
-	
-	
-}*/
-
-void	check_holes_on_floor(char **av, int fd, char **map)
+void	get_map_matrix(char **av, char ***map, char ***content)
 {
 	int	index;
 	int	index2;
 	int	map_height;
 	char *line;
-	char **flood_fill_map;
+	int	fd;
 	
 	index = 0;
 	index2 = 0;
-	map_height = get_map_height(map);
-	flood_fill_map = (char **)malloc(sizeof(char *) * (map_height + 1));
-	if (!flood_fill_map)
-		return;//show_error_msg("Error on malloc.\n");  //-------------------------criar função para imprimir a msg, dar free no ***map e exit
-	close(fd);
+	map_height = get_map_height(content);
+	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
+	if (!(*map))
+		clean_all_and_message_error("Error on malloc.\n", NULL, NULL, 0);
 	fd = open(av[1], O_RDONLY);
 	while ((line = get_next_line(fd)))
 	{
@@ -143,20 +144,11 @@ void	check_holes_on_floor(char **av, int fd, char **map)
 			continue;
 		}
 		remove_backslash_n2(line);
-		flood_fill_map[index2] = ft_strdup(line);
+		(*map)[index2] = ft_strdup(line);
 		index++;
 		index2++;
 		free(line);
 	}
-	flood_fill_map[index2] = NULL; //aqui tenho o mapa certinho
-	prepare_map_for_flood_fill(&flood_fill_map, fd); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
-	
-	int	index3 = 0;
-	while (flood_fill_map[index3])
-	{
-		printf("Linha:%d, content: %s-\n", index3, flood_fill_map[index3]);
-		index3++;
-	}
-	
-	//flood_fill(flood_fill_map, map);
+	(*map)[index2] = NULL; //aqui tenho o mapa certinho
+	set_matrix(map, fd); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
 }
