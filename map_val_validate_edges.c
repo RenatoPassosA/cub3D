@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:56:02 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:02:20 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	validate_edges(char **map, int fd)
 {
 	int	counter;
 	int	size;
-	char *line;
 
 	counter = 1;
 	size = 0;

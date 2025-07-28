@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:08:31 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:28:50 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,10 @@ typedef struct map_infos
 #define	F_RGB 4
 #define	C_RGB 5
 
-/*void	parser(int fd);
-t_map	*init_data(void);
-void	free_map_info(void);
-//bool	validate_map(int fd);
-//void	validate_edges(void);
-void	show_error_msg(char *msg);
-t_map	*get_map_instance(void);
-int		get_arr_size(char **arr);
-int		get_rgb(int r, int g, int b);
-bool	is_valid_map_char(char *line);
-void	validate_player_position(void);
-bool	check_valid_content(char *line);
-bool	is_type_identifier(char *splitted);
-int		check_argument(int ac, char **av, int fd);
-bool	clean_map_error(int fd, char *line, char **splitted);
-*/
-
 //----------------
 
 int		get_arr_size(char **arr);
-void	show_error_msg(char *msg);
+bool	check_map_size(char **map);
 bool	map_validations(char **av, int fd);
 bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);

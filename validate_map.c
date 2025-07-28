@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:58:14 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:13:58 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ bool	map_validations(char **av, int fd)
 	validate_player(map, fd);
 
 	
-	int	index3 = 0;
+	/*int	index3 = 0;
 	while (map[index3])
 	{
     	printf("content: %s-\n", map[index3]);
     	index3++;
-	}	
+	}	*/
 	
 
 

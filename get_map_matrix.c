@@ -6,7 +6,7 @@
 /*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:28:07 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:30:57 by rpassos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,7 @@ void	get_map_matrix(char **av, char ***map, char ***content)
 		free(line);
 	}
 	(*map)[index2] = NULL; //aqui tenho o mapa certinho
+	if (!check_map_size(*map))
+	 	clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, *map, fd);
 	set_matrix(map, fd); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
 }
