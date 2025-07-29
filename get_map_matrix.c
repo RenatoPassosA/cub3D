@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 19:30:57 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:35:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	find_map(char *line)
 	
 }
 
-int	get_map_height(char ***content)
+int	get_map_content_height(char ***content)
 {
 	int index;
 	int	map_height;
@@ -130,7 +130,7 @@ void	get_map_matrix(char **av, char ***map, char ***content)
 	
 	index = 0;
 	index2 = 0;
-	map_height = get_map_height(content);
+	map_height = get_map_content_height(content);
 	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
 	if (!(*map))
 		clean_all_and_message_error("Error on malloc.\n", NULL, NULL, 0);

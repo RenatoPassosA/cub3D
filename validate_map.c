@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 19:13:58 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/29 14:27:47 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,34 +94,32 @@ bool	map_validations(char **av, int fd)
 	validate_colors(content, fd);
 	validate_map_position(content, fd);
 	validate_map_elements(content, fd);
-	validate_map(content, fd); //OK - TESTAR
+	validate_map(content, fd);
 	get_map_matrix(av, &map, content);
 	free_tridimensional_array(content);
 	close(fd);
 	// A PARTIR DAQUI TENHO O MAP EM MATRIZ
 	
-	validate_map_lines(fd, map); //testar
+	validate_map_lines(fd, map);
 	validate_edges(map, fd);
 	validate_player(map, fd);
+	flood_fill(map);
 
-	
-	/*int	index3 = 0;
-	while (map[index3])
-	{
-    	printf("content: %s-\n", map[index3]);
-    	index3++;
-	}	*/
 	
 
 
+	// int	index3 = 0;
+	// while (map[index3])
+	// {
+    // 	printf("content: %s-\n", map[index3]);
+    // 	index3++;
+	// }
 	
-	//check_holes_on_floor(av, fd, map);
-	
-	
-	
+	//flood fill do player pra ver se ele nao consegue ir pra fora da borda
+	//dar um jeito de verificar o mapa forbidden
 
-
-	//falta validar se dentro do mapa há espaços entre paredes. para isso eu nao posso splitar.
+	
+	
 
 	return (true);
 }

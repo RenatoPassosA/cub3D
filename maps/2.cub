@@ -5,9 +5,9 @@ WE ./textures/test/west.xpm
 EA ./textures/test/east.xpm
 C 235,115,115
 
-111111
-    100001
-100001
+111111111
+ 111100001
+100001111
 10S001
 100001
 111111
