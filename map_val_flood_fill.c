@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/29 14:20:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 10:28:47 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,19 @@ void run_flood_fill(char **map, char **flood_fill_map, int x, int y)
     run_flood_fill(map, flood_fill_map, x, y - 1);
 }
 
-void    flood_fill(char **map)
+void    flood_fill(char **map, int fd)
 {
     int *player_position;
     char **flood_fill_map;
 
     flood_fill_map = copy_map(map);
     if (!flood_fill_map)
-        clean_all_and_message_error("Failed to copy map", NULL, map, 0);
+        clean_all_and_message_error("Failed to copy map", NULL, map, fd);
     player_position = get_player_position(flood_fill_map);
     if (!player_position)
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Player position not found", NULL, map, 0);
+        clean_all_and_message_error("Player position not found", NULL, map, fd);
     }
     outside_flood_fill(map, flood_fill_map);
     run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
@@ -129,7 +129,7 @@ void    flood_fill(char **map)
     if (!find_isolated_spaces(flood_fill_map))
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Error. Map contains isolated intern space", NULL, map, 0);
+        clean_all_and_message_error("Error. Map contains isolated intern space", NULL, map, fd);
     }
     free(player_position);
     free_bidimensional_array(flood_fill_map); //aqui o mapa está com F em toda a area acessível ao player

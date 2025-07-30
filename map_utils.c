@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/25 13:34:50 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:42:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,23 @@ t_map *init_data(void)
 	map->floor_rgb = -1;
 	map->ceiling_rgb = -1;
 	map->map_lines = 0;
+	map->fd = -1;
 	map->map = NULL;
 
 	return (map);
+}
+
+int	fd_manage(char *path, int fd, char ***content, char **map)
+{
+	t_map *map;
+
+	if (fd)
+		close(fd);
+	map = get_map_instance();
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		clean_all_and_message_error("Error on opening fd.", content, map);
+	map->fd = fd;
 }
 
 void	free_map_info(void)

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/29 12:35:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 10:27:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,19 @@ void set_matrix(char ***map, int fd)
 	(*map)[index] = NULL;
 }
 
-void	get_map_matrix(char **av, char ***map, char ***content)
+void	get_map_matrix(char **av, char ***map, char ***content, int fd)
 {
 	int	index;
 	int	index2;
 	int	map_height;
 	char *line;
-	int	fd;
 	
 	index = 0;
 	index2 = 0;
 	map_height = get_map_content_height(content);
 	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
 	if (!(*map))
-		clean_all_and_message_error("Error on malloc.\n", NULL, NULL, 0);
+		clean_all_and_message_error("Error on malloc.\n", content, NULL, fd);
 	fd = open(av[1], O_RDONLY);
 	while ((line = get_next_line(fd)))
 	{
