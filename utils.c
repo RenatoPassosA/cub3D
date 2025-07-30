@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:42:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 11:21:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_argument(int ac, char **av, int fd)
+int	check_argument(int ac, char **av)
 {
 	int	len;
 
@@ -25,12 +25,6 @@ int	check_argument(int ac, char **av, int fd)
 	if (ft_strnstr(&av[1][len - 4], ".cub", 4) == NULL)
 	{
 		printf("Error.\n Invalid map file");
-		return (0);
-	}
-	if (fd == -1)
-	{
-		printf("Error.\n Cannot read the map");
-		close(fd);
 		return (0);
 	}
 	return (1);
@@ -105,8 +99,11 @@ void	free_tridimensional_array(char ***content)
 }
 
 
-void clean_all_and_message_error(char *msg, char ***content, char **map, int fd)
+void clean_all_and_message_error(char *msg, char ***content, char **map)
 {
+	t_map *map_data;
+
+	map_data = get_map_instance();
 	if (msg)
 	{
 		while(*msg)
@@ -117,8 +114,8 @@ void clean_all_and_message_error(char *msg, char ***content, char **map, int fd)
 		free_tridimensional_array(content);
 	if (map)
 		free_bidimensional_array(map);
-	if (fd)
-		close(fd);
+	if (map_data->fd >= 0)
+		close(map_data->fd);
 	exit(1);
 }
 

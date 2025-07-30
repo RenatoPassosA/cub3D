@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_check_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 19:29:35 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:10:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	check_map_size(char **map)
 	return(true);
 }
 
-void validate_map(char ***content, int fd)
+void validate_map(char ***content)
 {
 	int index;
 	int	map_height;
@@ -59,7 +59,7 @@ void validate_map(char ***content, int fd)
 		map_height++;
 	}
 	while (content[index])
-		clean_all_and_message_error("Error.\nFile contains data after map.", content, NULL, fd);
+		clean_all_and_message_error("Error.\nFile contains data after map.", content, NULL);
 	if (map_height == 0)
-		clean_all_and_message_error("Error.\nMissing map.", content, NULL, fd);
+		clean_all_and_message_error("Error.\nMissing map.", content, NULL);
 }

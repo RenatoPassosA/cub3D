@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:27:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 11:25:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char *fill_line(char *line, int	width)
 	return (new_line);
 }
 
-void set_matrix(char ***map, int fd)
+void set_matrix(char ***map)
 {
 	int index = 0;
 	int max_width = 0;
@@ -112,7 +112,7 @@ void set_matrix(char ***map, int fd)
 	{
 		temp = fill_line((*map)[index], max_width);
 		if (!temp)
-			clean_all_and_message_error("Error on malloc", NULL, *map, fd);
+			clean_all_and_message_error("Error on malloc", NULL, *map);
 		free((*map)[index]);
 		(*map)[index] = temp;
 		index++;
@@ -120,21 +120,23 @@ void set_matrix(char ***map, int fd)
 	(*map)[index] = NULL;
 }
 
-void	get_map_matrix(char **av, char ***map, char ***content, int fd)
+void	get_map_matrix(char **av, char ***map, char ***content)
 {
 	int	index;
 	int	index2;
 	int	map_height;
 	char *line;
+	t_map	*map_data;
 	
 	index = 0;
 	index2 = 0;
 	map_height = get_map_content_height(content);
 	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
 	if (!(*map))
-		clean_all_and_message_error("Error on malloc.\n", content, NULL, fd);
-	fd = open(av[1], O_RDONLY);
-	while ((line = get_next_line(fd)))
+		clean_all_and_message_error("Error on malloc.\n", content, NULL);
+	map_data = get_map_instance();
+	fd_manage(av[1], map_data->fd, content, *map);
+	while ((line = get_next_line(map_data->fd)))
 	{
 		if (find_map(line))
 		{
@@ -150,6 +152,6 @@ void	get_map_matrix(char **av, char ***map, char ***content, int fd)
 	}
 	(*map)[index2] = NULL; //aqui tenho o mapa certinho
 	if (!check_map_size(*map))
-	 	clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, *map, fd);
-	set_matrix(map, fd); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
+	 	clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, *map);
+	set_matrix(map); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
 }

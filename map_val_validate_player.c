@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_validate_player.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 09:23:58 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 18:17:51 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:16:40 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	check_player_one_line(char *line)
 	return(false);
 }
 
-void	validate_player(char **map, int fd)
+void	validate_player(char **map)
 {
 	int	index;
 	bool	has_player;
@@ -35,10 +35,9 @@ void	validate_player(char **map, int fd)
 		if (check_player_one_line(map[index]) && !has_player)
 			has_player = true;
 		else if (check_player_one_line(map[index]) && has_player)
-			clean_all_and_message_error("Error.\nMultiplayers not allowed.", NULL, map, fd);
+			clean_all_and_message_error("Error.\nMultiplayers not allowed.", NULL, map);
 		index++;
 	}
 	if (!has_player)
-		clean_all_and_message_error("Error.\nNo player start position found.", NULL, map, fd);
-		
+		clean_all_and_message_error("Error.\nNo player start position found.", NULL, map);	
 }

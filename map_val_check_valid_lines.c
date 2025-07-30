@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/29 11:59:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 11:16:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	check_forbidden_char_in_line(char *line)
 	return (false);
 }
 
-void	validate_map_lines(int fd, char **map)
+void	validate_map_lines(char **map)
 {
 	int	height;
 	
@@ -40,7 +40,7 @@ void	validate_map_lines(int fd, char **map)
 	while (map[height] != NULL)
 	{
 		if (check_forbidden_char_in_line(map[height]))
-			clean_all_and_message_error("Error.\nForbidden chars on map content", NULL, map, fd);
+			clean_all_and_message_error("Error.\nForbidden chars on map content", NULL, map);
 		height++;
 	}
 }

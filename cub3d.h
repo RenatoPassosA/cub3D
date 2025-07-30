@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:36:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:20:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,38 @@ typedef struct map_infos
 
 //----------------
 
+void	free_map_info(void);
+void	init_data(char *path);
+void    flood_fill(char **map);
+t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);
 int		get_map_height(char **map);
 int		get_line_width(char *line);
 bool	check_map_size(char **map);
-void    flood_fill(char **map, int fd);
+bool	map_validations(char **av);
+void	validate_edges(char **map);
+void	validate_player(char **map);
+void	validate_map(char ***content);
+void	validate_map_lines(char **map);
+void	validate_colors(char ***content);
 bool	find_isolated_spaces(char **map);
+int		check_argument(int ac, char **av);
 bool	check_player_one_line(char *line);
-bool	map_validations(char **av, int fd);
 bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);
-void	validate_edges(char **map, int fd);
-void	validate_player(char **map, int fd);
+void	validate_textures(char ***content);
 void	free_bidimensional_array(char **arr);
-void	validate_map(char ***content, int fd);
-void	validate_map_lines(int fd, char **map);
-void	validate_colors(char ***content, int fd);
-int		check_argument(int ac, char **av, int fd);
-void	validate_textures(char ***content, int fd);
+void	validate_map_elements(char ***content);
+void	validate_map_position(char ***content);
+void	check_double_identifier(char ***content);
+void    set_map_data(char ***content, char **map);
+void	check_missing_identifier(char ***content);
 void	free_tridimensional_array(char ***content);
-void	validate_map_elements(char ***content, int fd);
-void	validate_map_position(char ***content, int fd);
-void	check_double_identifier(char ***content, int fd);
-void	check_missing_identifier(char ***content, int fd);
 void    outside_flood_fill(char **map, char **flood_fill_map);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
-void	get_map_matrix(char **av, char ***map, char ***content, int fd);
-void	clean_all_and_message_error(char *msg, char ***content, char **map, int fd);
+void	get_map_matrix(char **av, char ***map, char ***content);
+void	fd_manage(char *path, int fd, char ***content, char **map);
+void	clean_all_and_message_error(char *msg, char ***content, char **map);
 
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 17:17:41 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:02:18 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 
 int	main(int ac, char **av)
 {
-	int	fd;
-
-	fd = open(av[1], O_RDONLY);
-	if (!check_argument(ac, av, fd))
+	
+	if (!check_argument(ac, av))
 		exit(1);
-	//init_data();
-	if (!map_validations(av, fd))
+	init_data(av[1]);
+	if (!map_validations(av))
 		exit(1);
-	close(fd);
-	fd = open(av[1], O_RDONLY);
 	//parser(fd);
 	
 	

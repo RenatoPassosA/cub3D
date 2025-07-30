@@ -3,25 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_validate_colors.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:23:36 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:14:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*static int get_rgb(int r, int g, int b)
-{
-	return (r << 16) | (g << 8) | b;
-}*/
-
 static bool check_rgb_range(int val)
 {
 	return (val >= 0 && val <= 255);
 }
-
 
 static bool	is_color(char *identifier)
 {
@@ -48,7 +42,7 @@ static bool is_valid_color(const char *colors)
 	return (true);
 }
 
-void	validate_colors(char ***content, int fd)
+void	validate_colors(char ***content)
 {
 	int		index;
 
@@ -58,9 +52,9 @@ void	validate_colors(char ***content, int fd)
 		if (content[index][0] && is_color(content[index][0]))
 		{
 			if (!content[index][1])
-				clean_all_and_message_error("Error.\n Insert a color", content, NULL, fd);
+				clean_all_and_message_error("Error.\n Insert a color", content, NULL);
 			if (!is_valid_color(content[index][1]))
-				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL, fd);
+				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL);
 		}
 		index++;
 	}

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:28:47 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:29:44 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int *get_player_position(char **map)
     y = 0;
     position = (int *)malloc(sizeof(int) * 2);
     if (!position)
-        clean_all_and_message_error("Error on malloc.", NULL, map, 0);
+        clean_all_and_message_error("Error on malloc.", NULL, map);
     while (x < get_map_height(map))
     {
         while (y < get_line_width(map[x]))
@@ -92,7 +92,7 @@ void run_flood_fill(char **map, char **flood_fill_map, int x, int y)
     if (flood_fill_map[x][y] == ' ' || flood_fill_map[x][y] == '\0')
     {   
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Error.\nMap is not closed or holes on the floor", NULL, map, 0);
+        clean_all_and_message_error("Error.\nMap is not closed or holes on the floor", NULL, map);
     }
     if (flood_fill_map[x][y] != '0' && flood_fill_map[x][y] != 'N' &&
         flood_fill_map[x][y] != 'S' && flood_fill_map[x][y] != 'W' && flood_fill_map[x][y] != 'E')
@@ -104,32 +104,26 @@ void run_flood_fill(char **map, char **flood_fill_map, int x, int y)
     run_flood_fill(map, flood_fill_map, x, y - 1);
 }
 
-void    flood_fill(char **map, int fd)
+void    flood_fill(char **map)
 {
     int *player_position;
     char **flood_fill_map;
 
     flood_fill_map = copy_map(map);
     if (!flood_fill_map)
-        clean_all_and_message_error("Failed to copy map", NULL, map, fd);
+        clean_all_and_message_error("Failed to copy map", NULL, map);
     player_position = get_player_position(flood_fill_map);
     if (!player_position)
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Player position not found", NULL, map, fd);
+        clean_all_and_message_error("Player position not found", NULL, map);
     }
     outside_flood_fill(map, flood_fill_map);
     run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
-    int	index3 = 0;
-	while (flood_fill_map[index3])
-	{
-    	printf("content: %s-\n", flood_fill_map[index3]);
-    	index3++;
-	}
     if (!find_isolated_spaces(flood_fill_map))
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Error. Map contains isolated intern space", NULL, map, fd);
+        clean_all_and_message_error("Error. Map contains isolated intern space", NULL, map);
     }
     free(player_position);
     free_bidimensional_array(flood_fill_map); //aqui o mapa está com F em toda a area acessível ao player

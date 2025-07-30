@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:42:10 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 11:56:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_map *get_map_instance(void)
 	return (&map);
 }
 
-t_map *init_data(void)
+void init_data(char *path)
 {
 	t_map	*map;
 
@@ -31,23 +31,22 @@ t_map *init_data(void)
 	map->floor_rgb = -1;
 	map->ceiling_rgb = -1;
 	map->map_lines = 0;
-	map->fd = -1;
-	map->map = NULL;
-
-	return (map);
+	map->fd = open(path, O_RDONLY);
+	if (map->fd < 0)
+		clean_all_and_message_error("Error on opening fd.", NULL, NULL);
 }
 
-int	fd_manage(char *path, int fd, char ***content, char **map)
+void	fd_manage(char *path, int fd, char ***content, char **map)
 {
-	t_map *map;
+	t_map *map_data;
 
-	if (fd)
+	if (fd >= 0)
 		close(fd);
-	map = get_map_instance();
+	map_data = get_map_instance();
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		clean_all_and_message_error("Error on opening fd.", content, map);
-	map->fd = fd;
+	map_data->fd = fd;
 }
 
 void	free_map_info(void)
@@ -64,5 +63,5 @@ void	free_map_info(void)
 	if (map->EA_texture)
 		free(map->EA_texture);
 	if (map->map)
-		free_arr_with_null(map->map, map->map_lines + 1);
+		free_bidimensional_array(map->map);
 }

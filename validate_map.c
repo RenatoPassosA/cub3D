@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/30 10:28:12 by renato           ###   ########.fr       */
+/*   Updated: 2025/07/30 12:38:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,67 +45,85 @@ void	remove_backslash_n(char **content)
 }
 
 
-void	get_content_splitted(char **av, char ****content, int fd)
+void	get_content_splitted(char **av, char ****content)
 {
 	int		counter;
 	char	*line;
+	t_map	*map_data;
 
 	counter = 0;
-	
-	while ((line = get_next_line(fd)))
+	map_data = get_map_instance();
+	while ((line = get_next_line(map_data->fd)))
 	{
 		counter++;
 		free(line);
 	}
 	*content = (char ***)malloc(sizeof(char **) * (counter + 1));
 	if (!(*content))
-	{
-		close(fd);
-		exit(1);
-	}
+		clean_all_and_message_error("Error on malloc.", NULL, NULL);
 	(*content)[counter] = NULL;
-	close(fd);
-	fd = open(av[1], O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error opening file");
-		exit(1);
-	}
+	fd_manage(av[1], map_data->fd, *content, NULL); //preciso reabrir o fd pra subir o cursor
 	counter = 0;
-	while ((line = get_next_line(fd)))
+	while ((line = get_next_line(map_data->fd)))
 	{
 		(*content)[counter] = ft_split(line, ' ');
 		remove_backslash_n((*content)[counter]);
 		free(line);
 		counter++;
 	}
-	close(fd);
+	close(map_data->fd);
 }
 
-bool	map_validations(char **av, int fd)
+bool	map_validations(char **av)
 {
 	char	***content;
 	char	**map;
 	
-	get_content_splitted(av, &content, fd);
-	check_missing_identifier(content, fd);
-	check_double_identifier(content, fd);
-	validate_textures(content, fd);
-	validate_colors(content, fd);
-	validate_map_position(content, fd);
-	validate_map_elements(content, fd);
-	validate_map(content, fd);
-	get_map_matrix(av, &map, content, fd); // A PARTIR DAQUI TENHO O MAP EM MATRIZ
-	
-	
-	
-	
-	validate_map_lines(fd, map);
-	validate_edges(map, fd);
-	validate_player(map, fd);
-	close(fd);
-	flood_fill(map, fd);
+	get_content_splitted(av, &content);//saio daqui com o fd fechado
+	check_missing_identifier(content);
+	check_double_identifier(content);
+	validate_textures(content);
+	validate_colors(content);
+	validate_map_position(content);
+	validate_map_elements(content);
+	validate_map(content);
+	get_map_matrix(av, &map, content);
+	//--A PARTIR DAQUI TENHO O MAP EM MATRIZ--
+	validate_map_lines(map);
+	validate_edges(map);
+	validate_player(map);
+	flood_fill(map);
 	set_map_data(content, map);
+		
+
+	/*t_map	*map_data;
+	map_data = get_map_instance();
+	int i = 0;
+	while (map_data->map[i])
+	{
+		printf("---%s-\n", map_data->map[i]);
+		i++;
+	}
+	printf("----------%d\n", map_data->ceiling_rgb);
+	printf("----------%d\n", map_data->floor_rgb);
+	printf("----------%s\n", map_data->WE_texture);
+	printf("----------%s\n", map_data->EA_texture);
+	printf("----------%s\n", map_data->SO_texture);
+	printf("----------%s\n", map_data->NO_texture);*/
+
+	/*int i = 0;
+	while (content[i])
+	{
+		int j = 0;
+		printf("Bloco %d:\n", i);
+		while (content[i][j])
+		{
+			printf("  [%d][%d]: %s\n", i, j, content[i][j]);
+			j++;
+		}
+		i++;
+	}*/
+
 	free_tridimensional_array(content);
 
 	

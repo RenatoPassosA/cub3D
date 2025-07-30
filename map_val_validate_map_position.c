@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_validate_map_position.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:36:27 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:24:00 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:08:45 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static bool	check_map_on_middle(char ***content)
 	return (true);
 }
 
-void	validate_map_position(char ***content, int fd)
+void	validate_map_position(char ***content)
 {
 	if (!check_map_on_top(content) || !check_map_on_middle(content))
-		clean_all_and_message_error("Error.\nInvalid map position on content.", content, NULL, fd);
+		clean_all_and_message_error("Error.\nInvalid map position on content.", content, NULL);
 }

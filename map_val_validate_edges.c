@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_validate_edges.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/28 19:02:20 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:16:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char *remove_spaces(char *line)
 	return(new_line);
 }
 
-void	validate_edges(char **map, int fd)
+void	validate_edges(char **map)
 {
 	int	counter;
 	int	size;
@@ -65,11 +65,11 @@ void	validate_edges(char **map, int fd)
 	
 	if (!check_top_and_bottom_edge(remove_spaces(map[0])) || 
 		!check_top_and_bottom_edge(remove_spaces(map[size - 1])))
-		clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
+		clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map);
 	while(counter < size - 1)
 	{
 		if (!check_middle_edges(remove_spaces(map[counter])))
-			clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map, fd);
+			clean_all_and_message_error("Error.\nWrong edges configuration", NULL, map);
 		counter++;
 	}
 }

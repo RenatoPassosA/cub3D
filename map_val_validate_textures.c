@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_val_validate_textures.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpassos- <rpassos-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:46:53 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/07/26 09:23:00 by rpassos-         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:07:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool is_valid_texture_path(char *path)
 	return (true);
 }
 
-void	validate_textures(char ***content, int fd)
+void	validate_textures(char ***content)
 {
 	int		index;
 
@@ -45,9 +45,9 @@ void	validate_textures(char ***content, int fd)
 		if (content[index][0] && is_texture(content[index][0]))
 		{
 			if (!content[index][1])
-				clean_all_and_message_error("Error.\n Insert a texture path.", content, NULL, fd);
+				clean_all_and_message_error("Error.\n Insert a texture path.", content, NULL);
 			if (!is_valid_texture_path(content[index][1]))
-				clean_all_and_message_error("Error.\n Insert a valid texture path.", content, NULL, fd);
+				clean_all_and_message_error("Error.\n Insert a valid texture path.", content, NULL);
 		}
 		index++;
 	}
