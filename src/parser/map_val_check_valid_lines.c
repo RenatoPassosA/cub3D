@@ -1,0 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_val_check_valid_lines.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
+/*   Updated: 2025/08/08 10:17:14 by renato           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../cub3d.h"
+
+bool	check_forbidden_char_in_line(char *line)
+{
+	int	index;
+
+	index = 0;
+	while (*line)
+	{
+		if (line[index] != '0' &&
+			line[index] != '1' &&
+			line[index] != 'N' &&
+			line[index] != 'S' &&
+			line[index] != 'E' &&
+			line[index] != 'W' &&
+			line[index] != ' ')
+			return (true);
+		line++;
+	}
+	return (false);
+}
+
+void	validate_map_lines(char **map)
+{
+	int	height;
+	
+	height = 0;
+	while (map[height] != NULL)
+	{
+		if (check_forbidden_char_in_line(map[height]))
+			clean_all_and_message_error("Error.\nForbidden chars on map content", NULL, map);
+		height++;
+	}
+}

@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#include "../cub3d.h"
+#include "../src/cub3d.h"
 
 void	redirect_all_stdout_echo(void)
 {
@@ -12,16 +12,57 @@ void	redirect_all_stdout_echo(void)
 	cr_redirect_stderr();
 }
 
+char ***get_content(const char *path)
+{
+	int     fd;
+	int     counter = 0;
+	char    *line;
+	char    ***content;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return NULL;
+
+	while ((line = get_next_line(fd)))
+	{
+		counter++;
+		free(line);
+	}
+	close(fd);
+	content = malloc(sizeof(char **) * (counter + 1));
+	if (!content)
+		return NULL;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return NULL;
+
+	counter = 0;
+	while ((line = get_next_line(fd)))
+	{
+		content[counter] = ft_split(line, ' ');
+		remove_backslash_n(content[counter]);
+		free(line);
+		counter++;
+	}
+	content[counter] = NULL;
+	close(fd);
+	return content;
+}
+
+
 //--Validações
 
-Test(map_validation, invalid_identifier_should_return_false, .init=redirect_all_stdout_echo)
+Test(check_missing_identifier, missing_identifier_should_print_error_msg, .init=redirect_all_stdout_echo)
 {
-	int fd = open("maps/2.cub", O_RDONLY);
-	cr_assert_neq(fd, -1, "Falha ao abrir arquivo de teste");
+	char ***content = get_content("resources/invalid_maps/textures_missing.cub");
+	char *error_msg;
 
-	bool result = validate_map(fd);
+	check_missing_identifier(content);
+	fflush(stdout);
+
 
 	cr_assert_not(result, "Deveria retornar false");
 
-	close(fd);
+	
 }
