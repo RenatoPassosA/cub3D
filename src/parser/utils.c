@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:16:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:31:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_argument(int ac, char **av)
 	len = ft_strlen(av[1]);
 	if (ft_strnstr(&av[1][len - 4], ".cub", 4) == NULL)
 	{
-		printf("Error.\n Invalid map file");
+		printf("Error.\nInvalid map file\n");
 		return (0);
 	}
 	return (1);

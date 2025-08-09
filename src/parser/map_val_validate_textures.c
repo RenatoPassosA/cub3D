@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:46:53 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:34:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool is_valid_texture_path(char *path)
 	return (true);
 }
 
-void	validate_textures(char ***content)
+t_validation_status	validate_textures(char ***content)
 {
 	int		index;
 
@@ -45,10 +45,11 @@ void	validate_textures(char ***content)
 		if (content[index][0] && is_texture(content[index][0]))
 		{
 			if (!content[index][1])
-				clean_all_and_message_error("Error.\n Insert a texture path.", content, NULL);
+				return(ERR_MISSING_TEXTURE_PATH);
 			if (!is_valid_texture_path(content[index][1]))
-				clean_all_and_message_error("Error.\n Insert a valid texture path.", content, NULL);
+				return(ERR_INVALID_TEXTURE_PATH);
 		}
 		index++;
 	}
+	return(VALIDATION_OK);
 }

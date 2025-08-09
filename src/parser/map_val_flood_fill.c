@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:33:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int *get_player_position(char **map)
     y = 0;
     position = (int *)malloc(sizeof(int) * 2);
     if (!position)
-        clean_all_and_message_error("Error on malloc.", NULL, map);
+        return(NULL);
     while (x < get_map_height(map))
     {
         while (y < get_line_width(map[x]))
@@ -83,48 +83,64 @@ char **copy_map(char **map)
     return (map_copy);
 }
 
-void run_flood_fill(char **map, char **flood_fill_map, int x, int y)
+t_validation_status run_flood_fill(char **map, char **flood_fill_map, int x, int y)
 {
+    t_validation_status status;
+    
     if (x < 0 || y < 0)
-        return ;
+        return (VALIDATION_OK);
     if (x >= get_map_height(flood_fill_map) || y >= get_line_width(flood_fill_map[x]))
-        return ;
+         return (VALIDATION_OK);
     if (flood_fill_map[x][y] == ' ' || flood_fill_map[x][y] == '\0')
-    {   
-        free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Error.\nMap is not closed or holes on the floor", NULL, map);
-    }
+        return (ERR_MAP_OPEN);
     if (flood_fill_map[x][y] != '0' && flood_fill_map[x][y] != 'N' &&
         flood_fill_map[x][y] != 'S' && flood_fill_map[x][y] != 'W' && flood_fill_map[x][y] != 'E')
-        return;
+         return (VALIDATION_OK);
     flood_fill_map[x][y] = 'F';
-    run_flood_fill(map, flood_fill_map, x + 1, y);
-    run_flood_fill(map, flood_fill_map, x - 1, y);
-    run_flood_fill(map, flood_fill_map, x, y + 1);
-    run_flood_fill(map, flood_fill_map, x, y - 1);
+    status = run_flood_fill(map, flood_fill_map, x + 1, y);
+    if (status != VALIDATION_OK)
+        return (status);
+    status = run_flood_fill(map, flood_fill_map, x - 1, y);
+    if (status != VALIDATION_OK)
+        return (status);
+    status = run_flood_fill(map, flood_fill_map, x, y + 1);
+    if (status != VALIDATION_OK)
+        return (status);
+    status = run_flood_fill(map, flood_fill_map, x, y - 1);
+    if (status != VALIDATION_OK)
+        return (status);
+    return (VALIDATION_OK);
 }
 
-void    flood_fill(char **map)
+t_validation_status    flood_fill(char **map)
 {
     int *player_position;
     char **flood_fill_map;
+    t_validation_status status;
 
     flood_fill_map = copy_map(map);
     if (!flood_fill_map)
-        clean_all_and_message_error("Failed to copy map", NULL, map);
+        return(ERR_COPY_MAP);
     player_position = get_player_position(flood_fill_map);
     if (!player_position)
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Player position not found", NULL, map);
+        return(ERR_NO_PLAYER);
     }
     outside_flood_fill(map, flood_fill_map);
-    run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
+    status = run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
+    if (status != VALIDATION_OK)
+    {
+        free(player_position);
+        free_bidimensional_array(flood_fill_map);
+        return status;
+    }
     if (!find_isolated_spaces(flood_fill_map))
     {
         free_bidimensional_array(flood_fill_map);
-        clean_all_and_message_error("Error. Map contains isolated intern space", NULL, map);
+        return(ERR_INTER_SPACE);
     }
     free(player_position);
     free_bidimensional_array(flood_fill_map); //aqui o mapa está com F em toda a area acessível ao player
+    return(VALIDATION_OK);
 }

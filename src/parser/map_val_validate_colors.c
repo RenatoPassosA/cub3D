@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:19 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:34:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool is_valid_color(const char *colors)
 	return (true);
 }
 
-void	validate_colors(char ***content)
+t_validation_status	validate_colors(char ***content)
 {
 	int		index;
 
@@ -52,11 +52,12 @@ void	validate_colors(char ***content)
 		if (content[index][0] && is_color(content[index][0]))
 		{
 			if (!content[index][1])
-				clean_all_and_message_error("Error.\n Insert a color", content, NULL);
+				return(ERR_MISSING_COLOR);
 			if (!is_valid_color(content[index][1]))
-				clean_all_and_message_error("Error.\n Insert a valid color configuration", content, NULL);
+				return(ERR_INVALID_RGB);
 		}
 		index++;
 	}
+	return(VALIDATION_OK);
 }
 

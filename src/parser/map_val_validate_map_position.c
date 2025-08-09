@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:36:27 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:34:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ static bool	check_map_on_middle(char ***content)
 	return (true);
 }
 
-void	validate_map_position(char ***content)
+t_validation_status	validate_map_position(char ***content)
 {
 	if (!check_map_on_top(content) || !check_map_on_middle(content))
-		clean_all_and_message_error("Error.\nInvalid map position on content.", content, NULL);
+		return(ERR_INVALID_MAP_POSITION);
+	return(VALIDATION_OK);
+
 }

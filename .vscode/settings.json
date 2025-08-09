@@ -60,6 +60,9 @@
     "fstream": "c",
     "functional": "c",
     "cub3d.h": "c",
-    "array": "c"
+    "array": "c",
+    "cstdlib": "c",
+    "stdbool.h": "c",
+    "redirect.h": "c"
   }
 }

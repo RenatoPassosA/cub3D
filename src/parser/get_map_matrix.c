@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:16:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:18:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char *fill_line(char *line, int	width)
 	return (new_line);
 }
 
-void set_matrix(char ***map)
+t_validation_status set_matrix(char ***map)
 {
 	int index = 0;
 	int max_width = 0;
@@ -112,15 +112,16 @@ void set_matrix(char ***map)
 	{
 		temp = fill_line((*map)[index], max_width);
 		if (!temp)
-			clean_all_and_message_error("Error on malloc", NULL, *map);
+			return (ERR_MALLOC_MAP_AND_CONTENT);
 		free((*map)[index]);
 		(*map)[index] = temp;
 		index++;
 	}
 	(*map)[index] = NULL;
+	return(VALIDATION_OK);
 }
 
-void	get_map_matrix(char **av, char ***map, char ***content)
+t_validation_status	get_map_matrix(char **av, char ***map, char ***content)
 {
 	int	index;
 	int	index2;
@@ -133,7 +134,7 @@ void	get_map_matrix(char **av, char ***map, char ***content)
 	map_height = get_map_content_height(content);
 	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
 	if (!(*map))
-		clean_all_and_message_error("Error on malloc.\n", content, NULL);
+		return(ERR_MALLOC_MAP);
 	map_data = get_map_instance();
 	fd_manage(av[1], map_data->fd, content, *map);
 	while ((line = get_next_line(map_data->fd)))
@@ -151,7 +152,7 @@ void	get_map_matrix(char **av, char ***map, char ***content)
 		free(line);
 	}
 	(*map)[index2] = NULL; //aqui tenho o mapa certinho
-	if (!check_map_size(*map))
-	 	clean_all_and_message_error("Error.\nMap should be at least 5x5.", content, *map);
-	set_matrix(map); //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
+	if (set_matrix(map) == 	ERR_MALLOC_MAP_AND_CONTENT) //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
+		return (ERR_MALLOC_MAP_AND_CONTENT);
+	return (VALIDATION_OK);
 }

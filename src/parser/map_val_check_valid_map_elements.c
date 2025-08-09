@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 20:08:26 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:15 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:34:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	check_line(char *line)
 		line[0] == '\n');
 }
 
-void	validate_map_elements(char ***content)
+t_validation_status	validate_map_elements(char ***content)
 {
 	int		index;
 	
@@ -35,7 +35,8 @@ void	validate_map_elements(char ***content)
 	while(content[index] != NULL)
 	{
 		if (!check_line(content[index][0]))
-			clean_all_and_message_error("Error.\nInvalid map element.", content, NULL);
+			return(ERR_INVALID_MAP_ELEMENT);
 		index++;
 	}
+	return(VALIDATION_OK);
 }

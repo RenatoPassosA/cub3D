@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:19:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 15:40:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void    get_identifier_content(t_map *map_data, char ***content)
     } 
 }
 
-void get_map(t_map *map_data, char **map, char ***content)
+t_validation_status get_map(t_map *map_data, char **map)
 {
     int size;
     int index;
@@ -67,21 +67,24 @@ void get_map(t_map *map_data, char **map, char ***content)
 
     map_data->map = (char **)malloc(sizeof(char *) * (size + 1));
     if (!map_data->map)
-        clean_all_and_message_error("Error on malloc.", content, map);
+        return(ERR_MALLOC_CONTENT);
     while (map[index])
     {
         map_data->map[index] = ft_strdup(map[index]);
         index++;
     }
     map_data->map[index] = NULL;
+    return(VALIDATION_OK);
 }
 
-void    set_map_data(char ***content, char **map)
+t_validation_status    set_map_data(char ***content, char **map)
 {
     t_map   *map_data;
 
     map_data = get_map_instance();
     get_identifier_content(map_data, content);
-    get_map(map_data, map, content);
+    if (get_map(map_data, map) != VALIDATION_OK)
+        return(ERR_MALLOC_CONTENT);
+    return(VALIDATION_OK);
 }
  

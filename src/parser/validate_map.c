@@ -6,141 +6,138 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:16:52 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:47:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-bool	is_type_identifier(char *splitted)
+void	putstr(char *msg)
 {
-	return (ft_strcmp(splitted, "NO") == 0 || 
-		ft_strcmp(splitted, "SO") == 0 || 
-		ft_strcmp(splitted, "WE") == 0 || 
-		ft_strcmp(splitted, "EA") == 0 || 
-		ft_strcmp(splitted, "F") == 0 || 
-		ft_strcmp(splitted, "C") == 0);
+	while(*msg)
+		write(2, msg++, 1);
+	write(2, "\n", 1);
 }
-
-void	remove_backslash_n(char **content)
+void print_error_message(t_validation_status status)
 {
-	int	index;
-	int	len;
+	char *msg;
 	
-	index = 0;
-	while (content[index] != NULL)
-	{
-		if (ft_strcmp(content[index], "\n") == 0)
-		{
-			index++;
-			continue;
-		}
-		else if (ft_strstr(content[index],"\n"))
-		{
-			len = ft_strlen(content[index]);
-			content[index][len - 1] = '\0';
-		}
-		index++;
-	}
+	if (status == ERR_MISSING_IDENTIFIER)
+		msg = "Error.\nMissing type identifier element.";
+	if (status == ERR_DOUBLE_IDENTIFIER)
+		msg = "Error. \nDuplicated identifiers.";
+	else if (status == ERR_MISSING_TEXTURE_PATH)
+		msg = "Error.\nInsert a texture path.";
+	else if (status == ERR_INVALID_TEXTURE_PATH)
+		msg = "Error.\nInsert a valid texture path.";
+	else if (status == ERR_INVALID_MAP_POSITION)
+		msg = "Error.\nInvalid map position on content.";
+	else if (status == ERR_MISSING_COLOR)
+		msg = "Error.\n Insert a color";
+	else if (status == ERR_INVALID_RGB)
+		msg = "Error.\n Insert a valid color configuration";
+	else if (status == ERR_INVALID_MAP_POSITION)
+		msg = "Error.\nInvalid map position on content.";
+	else if (status == ERR_INVALID_MAP_ELEMENT)
+		msg = "Error.\nInvalid map element.";
+	else if (status == ERR_DATA_AFTER_MAP)
+		msg = "Error.\nFile contains data after map.";
+	else if (status == ERR_MISSING_MAP)
+		msg = "Error.\nMissing map.";
+	else if (status == ERR_INVALID_MAP_CONTENT)
+		msg = "Error.\nForbidden chars on map content";
+	else if (status == ERR_INVALID_MAP_SIZE)
+		msg = "Error.\nMap should be at least 5x5.";
+	else if (status == ERR_INVALID_MAP_CONTENT)
+		msg = "Error.\nForbidden chars on map content";
+	else if (status == ERR_INVALID_EDGES)
+		msg = "Error.\nWrong edges configuration";
+	else if (status == ERR_COPY_MAP)
+		msg = "Error.\nFailed to copy map";
+	else if (status == ERR_NO_PLAYER)
+		msg = "Error.\nNo player start position found.";
+	else if (status == ERR_INTER_SPACE)
+		msg = "Error.\nMap contains isolated intern space";
+	else if (status == ERR_MAP_OPEN)
+		msg = "Error.\nMap is not closed or holes on the floor";
+	else if (status == ERR_MULTIPLAYERS)
+		msg = "Error.\nMultiplayers not allowed.";
+	else if (status == ERR_MALLOC_CONTENT)
+		msg = "Error.\nAllocation Failed";
+	else if (status == ERR_MALLOC_MAP)
+		msg = "Error.\nAllocation Failed";
+	else if (status == ERR_MALLOC_MAP_AND_CONTENT)
+		msg = "Error.\nAllocation Failed";
+	putstr(msg);
 }
 
-
-void	get_content_splitted(char **av, char ****content)
+void handle_error(t_validation_status status, char ***content, char **map)
 {
-	int		counter;
-	char	*line;
-	t_map	*map_data;
+	t_map *map_data;
 
-	counter = 0;
 	map_data = get_map_instance();
-	while ((line = get_next_line(map_data->fd)))
-	{
-		counter++;
-		free(line);
-	}
-	*content = (char ***)malloc(sizeof(char **) * (counter + 1));
-	if (!(*content))
-		clean_all_and_message_error("Error on malloc.", NULL, NULL);
-	(*content)[counter] = NULL;
-	fd_manage(av[1], map_data->fd, *content, NULL); //preciso reabrir o fd pra subir o cursor
-	counter = 0;
-	while ((line = get_next_line(map_data->fd)))
-	{
-		(*content)[counter] = ft_split(line, ' ');
-		remove_backslash_n((*content)[counter]);
-		free(line);
-		counter++;
-	}
-	close(map_data->fd);
+	
+	if (content)
+		free_tridimensional_array(content);
+	if (map)
+		free_bidimensional_array(map);
+	if (map_data->fd >= 0)
+		close(map_data->fd);
+	print_error_message(status);
+	exit(1);
+
 }
 
-bool	map_validations(char **av)
+void	map_validations1(char **av)
 {
 	char	***content;
 	char	**map;
+	t_validation_status status;
 	
-	get_content_splitted(av, &content);//saio daqui com o fd fechado
-	check_missing_identifier(content);
-	check_double_identifier(content);
-	validate_textures(content);
-	validate_colors(content);
-	validate_map_position(content);
-	validate_map_elements(content);
-	validate_map(content);
-	get_map_matrix(av, &map, content);
-	//--A PARTIR DAQUI TENHO O MAP EM MATRIZ--
-	validate_map_lines(map);
-	validate_edges(map);
-	validate_player(map);
-	flood_fill(map);
-	set_map_data(content, map);
-		
-
-	/*t_map	*map_data;
-	map_data = get_map_instance();
-	int i = 0;
-	while (map_data->map[i])
-	{
-		printf("---%s-\n", map_data->map[i]);
-		i++;
-	}
-	printf("----------%d\n", map_data->ceiling_rgb);
-	printf("----------%d\n", map_data->floor_rgb);
-	printf("----------%s\n", map_data->WE_texture);
-	printf("----------%s\n", map_data->EA_texture);
-	printf("----------%s\n", map_data->SO_texture);
-	printf("----------%s\n", map_data->NO_texture);*/
-
-	/*int i = 0;
-	while (content[i])
-	{
-		int j = 0;
-		printf("Bloco %d:\n", i);
-		while (content[i][j])
-		{
-			printf("  [%d][%d]: %s\n", i, j, content[i][j]);
-			j++;
-		}
-		i++;
-	}*/
-
+	status = get_content_splitted(av[1], &content);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, NULL);
+	status = check_missing_identifier(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = check_double_identifier(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = validate_textures(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = validate_colors(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = validate_map_position(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = validate_map_elements(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = validate_map_existence(content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, NULL);
+	status = get_map_matrix(av, &map, content);
+	if (status != VALIDATION_OK)
+		handle_error(status, content, map);
+	status = validate_map_size(map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, map);
+	status = validate_map_lines(map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, map);
+	status = validate_edges(map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, map);
+	status = validate_player(map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, map);
+	status = flood_fill(map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, map);
+	status = set_map_data(content, map);
+	if (status != VALIDATION_OK)
+		handle_error(status, NULL, NULL);
 	free_tridimensional_array(content);
-
-	
-
-
-	// int	index3 = 0;
-	// while (map[index3])
-	// {
-    // 	printf("content: %s-\n", map[index3]);
-    // 	index3++;
-	// }
-	
-	//flood fill do player pra ver se ele nao consegue ir pra fora da borda
-	//dar um jeito de verificar o mapa forbidden
-
-	
-	
-
-	return (true);
 }

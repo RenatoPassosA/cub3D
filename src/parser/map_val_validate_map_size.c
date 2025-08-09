@@ -1,35 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_val_check_map.c                                :+:      :+:    :+:   */
+/*   map_val_validate_map_size.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:33:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:34:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-t_validation_status validate_map_existence(char ***content)
+static int	count_width(char *line)
 {
-	int index;
-	int	map_height;
-	
-	index = 0;
-	map_height = 0;
-	while (content[index] && (is_type_identifier(content[index][0]) ||
-       ft_strcmp(content[index][0], "\n") == 0))
-		index++;
-	while (content[index] && *content[index][0] == '1')
+	int	width;
+
+	width = 0;
+	while (*line)
 	{
-		index++;
-		map_height++;
+		width++;
+		line++;
 	}
-	while (content[index])
-		return(ERR_DATA_AFTER_MAP);
-	if (map_height == 0)
-		return(ERR_MISSING_MAP);
+	return (width);
+}
+
+bool	check_map_size(char **map)
+{
+	int	heigth;
+	int	width;
+	
+	heigth = 0;
+	while (map[heigth] != NULL)
+	{
+		width = count_width(map[heigth]);
+		if (width < 5)
+			return(false);
+		heigth++;
+	}
+	if (heigth < 5)
+			return(false);
+	return(true);
+}
+
+t_validation_status validate_map_size(char **map)
+{
+	if (!check_map_size(map))
+		return (ERR_INVALID_MAP_SIZE);
 	return(VALIDATION_OK);
 }

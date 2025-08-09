@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:16:07 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/08 16:47:47 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,32 @@ typedef struct map_infos
 	t_mlx		mlx;
 } t_map;
 
+typedef enum e_validation_status
+{
+    VALIDATION_OK = 0,
+	ERR_MISSING_IDENTIFIER,
+	ERR_DOUBLE_IDENTIFIER,
+    ERR_MISSING_TEXTURE_PATH,
+	ERR_INVALID_TEXTURE_PATH,
+	ERR_MISSING_COLOR,
+    ERR_INVALID_RGB,
+	ERR_INVALID_MAP_POSITION,
+	ERR_INVALID_MAP_ELEMENT,
+	ERR_DATA_AFTER_MAP,
+	ERR_MISSING_MAP,
+	ERR_INVALID_MAP_SIZE,
+	ERR_INVALID_MAP_CONTENT,
+	ERR_INVALID_EDGES,
+	ERR_MULTIPLAYERS,
+	ERR_NO_PLAYER,
+	ERR_COPY_MAP,
+	ERR_INTER_SPACE,
+	ERR_MAP_OPEN,
+	ERR_MALLOC_CONTENT,
+	ERR_MALLOC_MAP,
+	ERR_MALLOC_MAP_AND_CONTENT
+}   t_validation_status;
+
 #define	NO 0
 #define	SO 1
 #define	WE 2
@@ -98,38 +124,41 @@ void    init_mlx();
 void    init_player();
 void	free_map_info(void);
 void	init_data(char *path);
-void    flood_fill(char **map);
 t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);
 int		get_map_height(char **map);
 int		get_line_width(char *line);
-bool	check_map_size(char **map);
-bool	map_validations(char **av);
-void	validate_edges(char **map);
-void	validate_player(char **map);
-void	validate_map(char ***content);
-void	validate_map_lines(char **map);
+void	map_validations1(char **av);
 int		*get_player_position(char **map);
-void	validate_colors(char ***content);
 bool	find_isolated_spaces(char **map);
 int		check_argument(int ac, char **av);
 bool	check_player_one_line(char *line);
 bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);
-void	validate_textures(char ***content);
 void	free_bidimensional_array(char **arr);
-void	validate_map_elements(char ***content);
-void	validate_map_position(char ***content);
-void	check_double_identifier(char ***content);
-void    set_map_data(char ***content, char **map);
-void	check_missing_identifier(char ***content);
 void	free_tridimensional_array(char ***content);
 void    outside_flood_fill(char **map, char **flood_fill_map);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
-void	get_map_matrix(char **av, char ***map, char ***content);
 void	fd_manage(char *path, int fd, char ***content, char **map);
 void	clean_all_and_message_error(char *msg, char ***content, char **map);
 
+//-----VALIDATIONS
+
+t_validation_status set_map_data(char ***content, char **map);
+t_validation_status	get_content_splitted(char *path, char ****content);
+t_validation_status	flood_fill(char **map);
+t_validation_status	validate_edges(char **map);
+t_validation_status	validate_player(char **map);
+t_validation_status validate_map_size(char **map);
+t_validation_status	validate_map_lines(char **map);
+t_validation_status	validate_colors(char ***content);
+t_validation_status	validate_textures(char ***content);
+t_validation_status	validate_map_elements(char ***content);
+t_validation_status	validate_map_position(char ***content);
+t_validation_status validate_map_existence(char ***content);
+t_validation_status	check_double_identifier(char ***content);
+t_validation_status	check_missing_identifier(char ***content);
+t_validation_status	get_map_matrix(char **av, char ***map, char ***content);
 
 
 #endif
