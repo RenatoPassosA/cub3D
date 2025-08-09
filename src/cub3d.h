@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:47:47 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/09 11:46:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,14 @@ void    outside_flood_fill(char **map, char **flood_fill_map);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
 void	fd_manage(char *path, int fd, char ***content, char **map);
 void	clean_all_and_message_error(char *msg, char ***content, char **map);
+
+
+t_validation_status set_matrix(char ***map);
+char *fill_line(char *line, int	width);
+int	get_line_width(char *line);
+int	get_map_content_height(char ***content);
+bool	find_map(char *line);
+void	remove_backslash_n2(char *line);
 
 //-----VALIDATIONS
 

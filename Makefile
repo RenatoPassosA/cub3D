@@ -6,7 +6,7 @@
 #    By: renato <renato@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/22 17:02:19 by rpassos-          #+#    #+#              #
-#    Updated: 2025/08/08 17:09:51 by renato           ###   ########.fr        #
+#    Updated: 2025/08/09 12:07:16 by renato           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ sanitizer:
 	$(CC) $(CCFLAGS) $(SRCS) $(MLX) -g -o cub3d -g -fsanitize=address -fno-omit-frame-pointer
 
 test:
+	@clear
 	$(CC) $(CCFLAGS) $(TEST) tests/*.c -o test_map -lcriterion -I./src -I./utils
 	./test_map
 

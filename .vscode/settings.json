@@ -63,6 +63,7 @@
     "array": "c",
     "cstdlib": "c",
     "stdbool.h": "c",
-    "redirect.h": "c"
+    "redirect.h": "c",
+    "criterion.h": "c"
   }
 }

@@ -1,0 +1,13 @@
+F 97,247,67
+NO ./textures/test/north.xpm
+SO ./textures/test/south.xpm
+WE ./textures/test/west.xpm
+EA ./textures/test/east.xpm
+CA 235,115,115
+
+111111111
+111100001
+100001111
+100001
+1S0001
+111111
