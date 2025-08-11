@@ -26,6 +26,15 @@ Test(check_missing_identifier, missing_identifier_should_return_ERR_MISSING_IDEN
 	cr_assert_eq(status, ERR_MISSING_IDENTIFIER, "Esperava ERR_MISSING_IDENTIFIER, mas recebeu %d", status);
 }
 
+Test(check_missing_identifier, empty_file_should_return_ERR_MISSING_IDENTIFIER, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	get_content_splitted_mock("./tests/resources/invalid_maps/empty.cub", &content);
+	t_validation_status status = check_missing_identifier(content);
+	
+	cr_assert_eq(status, ERR_MISSING_IDENTIFIER, "Esperava ERR_MISSING_IDENTIFIER, mas recebeu %d", status);
+}
+
 Test(check_missing_identifier, no_missing_identifier_should_return_VALIDATION_OK, .init=redirect_all_stdout_echo)
 {
 	char ***content;
@@ -84,7 +93,6 @@ Test(validate_textures, filetype_missing_should_return_ERR_INVALID_TEXTURE_PATH,
 	cr_assert_eq(status, ERR_INVALID_TEXTURE_PATH, "Esperava ERR_INVALID_TEXTURE_PATH, mas recebeu %d", status);
 }
 
-//--------------------------------------------------------------------VERIFICAR
 Test(validate_textures, texture_no_path_should_return_ERR_MISSING_TEXTURE_PATH, .init=redirect_all_stdout_echo)
 {
 	char ***content;
@@ -197,37 +205,6 @@ Test(validate_map_position, valid_map_should_return_VALIDATION_OK, .init=redirec
 	cr_assert_eq(status, VALIDATION_OK, "Esperava VALIDATION_OK, mas recebeu %s", get_status_name(status));
 }
 
-// ------------------- TYPE IDENTIFIER ELEMENTS -------------------
-
-//--------------------------------------------------------------------VERIFICAR
-Test(validate_map_elements, wrong_identifier_should_return_ERR_INVALID_MAP_ELEMENT, .init=redirect_all_stdout_echo)//VERIFICAR
-{
-	char ***content;
-	get_content_splitted_mock("./tests/resources/invalid_maps/wrong_identifier.cub", &content);
-	t_validation_status status = validate_map_elements(content);
-	
-	cr_assert_eq(status, ERR_INVALID_MAP_ELEMENT, "Esperava ERR_INVALID_MAP_ELEMENT, mas recebeu %s", get_status_name(status));
-}
-
-//--------------------------------------------------------------------VERIFICAR
-Test(validate_map_elements, wrong_identifier2_should_return_ERR_INVALID_MAP_ELEMENT, .init=redirect_all_stdout_echo)//VERIFICAR
-{
-	char ***content;
-	get_content_splitted_mock("./tests/resources/invalid_maps/wrong_identifier2.cub", &content);
-	t_validation_status status = validate_map_elements(content);
-	
-	cr_assert_eq(status, ERR_INVALID_MAP_ELEMENT, "Esperava ERR_INVALID_MAP_ELEMENT, mas recebeu %s", get_status_name(status));
-}
-
-Test(validate_map_elements, valid_map_should_return_VALIDATION_OK, .init=redirect_all_stdout_echo)
-{
-	char ***content;
-	get_content_splitted_mock("./tests/resources/valid_maps/1.cub", &content);
-	t_validation_status status = validate_map_elements(content);
-	
-	cr_assert_eq(status, VALIDATION_OK, "Esperava VALIDATION_OK, mas recebeu %s", get_status_name(status));
-}
-
 // ------------------- MAP EXISTENCE -------------------
 
 Test(validate_map_existence, map_missing_should_return_ERR_MISSING_MAP, .init=redirect_all_stdout_echo)//VERIFICAR
@@ -307,4 +284,150 @@ Test(validate_map_lines, valid_map_should_return_VALIDATION_OK, .init=redirect_a
 
 // ------------------- EDGES VALIDATION -------------------
 
+Test(validate_edges, hole_on_north_edge_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/wall_hole_north.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/wall_hole_north.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
 
+Test(validate_edges, hole_on_south_edge_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/wall_hole_south.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/wall_hole_south.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_edges, hole_on_east_edge_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/wall_hole_east.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/wall_hole_east.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_edges, hole_on_west_edge_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/wall_hole_west.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/wall_hole_west.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_edges, player_on_edge_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/player_on_edge.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/player_on_edge.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_edges, no_walls_should_return_ERR_INVALID_EDGES, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/wall_none.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/wall_none.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, ERR_INVALID_EDGES, "Esperava ERR_INVALID_EDGES, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_edges, valid_map_should_return_VALIDATION_OK, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/valid_maps/1.cub", &content);
+	get_map_matrix_mock("./tests/resources/valid_maps/1.cub", &map, content);
+	t_validation_status status = validate_edges(map);
+	
+	cr_assert_eq(status, VALIDATION_OK, "Esperava VALIDATION_OK, mas recebeu %s", get_status_name(status));
+}
+
+// ------------------- PLAYER VALIDATION -------------------
+
+Test(validate_player, multiplayer_should_return_ERR_MULTIPLAYERS, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/player_multiple.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/player_multiple.cub", &map, content);
+	t_validation_status status = validate_player(map);
+	
+	cr_assert_eq(status, ERR_MULTIPLAYERS, "Esperava ERR_MULTIPLAYERS, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_player, no_player_should_return_ERR_NO_PLAYER, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/player_none.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/player_none.cub", &map, content);
+	t_validation_status status = validate_player(map);
+	
+	cr_assert_eq(status, ERR_NO_PLAYER, "Esperava ERR_NO_PLAYER, mas recebeu %s", get_status_name(status));
+}
+
+Test(validate_player, valid_map_should_return_VALIDATION_OK, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/valid_maps/1.cub", &content);
+	get_map_matrix_mock("./tests/resources/valid_maps/1.cub", &map, content);
+	t_validation_status status = validate_player(map);
+	
+	cr_assert_eq(status, VALIDATION_OK, "Esperava VALIDATION_OK, mas recebeu %s", get_status_name(status));
+}
+
+// ------------------- FLOOD FILL -------------------
+
+Test(flood_fill, map_open_should_return_ERR_MAP_OPEN, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/map_open.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/map_open.cub", &map, content);
+	t_validation_status status = flood_fill(map);
+	
+	cr_assert_eq(status, ERR_MAP_OPEN, "Esperava ERR_MAP_OPEN, mas recebeu %s", get_status_name(status));
+}
+
+Test(flood_fill, inter_space_should_return_ERR_INTER_SPACE, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/invalid_maps/forbidden.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/forbidden.cub", &map, content);
+	t_validation_status status = flood_fill(map);
+	
+	cr_assert_eq(status, ERR_INTER_SPACE, "Esperava ERR_INTER_SPACE, mas recebeu %s", get_status_name(status));
+}
+
+
+Test(flood_fill, valid_map_should_return_VALIDATION_OK, .init=redirect_all_stdout_echo)
+{
+	char ***content;
+	char **map;
+	get_content_splitted_mock("./tests/resources/valid_maps/1.cub", &content);
+	get_map_matrix_mock("./tests/resources/valid_maps/1.cub", &map, content);
+	t_validation_status status = flood_fill(map);
+	
+	cr_assert_eq(status, VALIDATION_OK, "Esperava VALIDATION_OK, mas recebeu %s", get_status_name(status));
+}

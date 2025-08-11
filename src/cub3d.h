@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/09 11:46:46 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 12:11:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);
 int		get_map_height(char **map);
 int		get_line_width(char *line);
-void	map_validations1(char **av);
+void	map_validations(char **av);
 int		*get_player_position(char **map);
 bool	find_isolated_spaces(char **map);
 int		check_argument(int ac, char **av);
@@ -137,7 +137,6 @@ bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);
 void	free_bidimensional_array(char **arr);
 void	free_tridimensional_array(char ***content);
-void    outside_flood_fill(char **map, char **flood_fill_map);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
 void	fd_manage(char *path, int fd, char ***content, char **map);
 void	clean_all_and_message_error(char *msg, char ***content, char **map);
@@ -152,6 +151,7 @@ void	remove_backslash_n2(char *line);
 
 //-----VALIDATIONS
 
+t_validation_status outside_flood_fill(char **map, char **flood_fill_map);
 t_validation_status set_map_data(char ***content, char **map);
 t_validation_status	get_content_splitted(char *path, char ****content);
 t_validation_status	flood_fill(char **map);

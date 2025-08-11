@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:36:13 by renato            #+#    #+#             */
-/*   Updated: 2025/08/08 16:47:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 11:24:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_validation_status	get_content_splitted(char *path, char ****content)
 	if (!(*content))
 		return(ERR_MALLOC_CONTENT);
 	(*content)[counter] = NULL;
-	fd_manage(path, map_data->fd, *content, NULL); //preciso reabrir o fd pra subir o cursor
+	fd_manage(path, map_data->fd, *content, NULL);
 	counter = 0;
 	while ((line = get_next_line(map_data->fd)))
 	{

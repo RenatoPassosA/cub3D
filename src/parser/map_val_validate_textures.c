@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:46:53 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/09 10:47:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 10:53:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_validation_status	validate_textures(char ***content)
 	{
 		if (content[index][0] && is_texture(content[index][0]))
 		{
-			if (!content[index][1])
+			if (!content[index][1] || content[index][1][0] == '\n')
 				return(ERR_MISSING_TEXTURE_PATH);
 			if (!is_valid_texture_path(content[index][1]))
 				return(ERR_INVALID_TEXTURE_PATH);

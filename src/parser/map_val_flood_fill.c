@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:33:49 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 10:32:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,13 @@ t_validation_status    flood_fill(char **map)
         free_bidimensional_array(flood_fill_map);
         return(ERR_NO_PLAYER);
     }
-    outside_flood_fill(map, flood_fill_map);
+    status = outside_flood_fill(map, flood_fill_map);
+    if (status != VALIDATION_OK)
+    {
+        free(player_position);
+        free_bidimensional_array(flood_fill_map);
+        return status;
+    }
     status = run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
     if (status != VALIDATION_OK)
     {
