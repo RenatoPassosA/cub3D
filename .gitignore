@@ -1,2 +1,9 @@
 cub3d
 *.o
+.git
+**/*.o
+**/*.out
+**/*.a
+test_map
+build/
+dist/
