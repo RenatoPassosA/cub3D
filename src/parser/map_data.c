@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:19:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/08 15:40:11 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 15:17:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int get_color(char *rgb)
     return (color);
 }
 
-void    get_identifier_content(t_map *map_data, char ***content)
+static void get_identifier_content(t_map *map_data, char ***content)
 {
     int index;
 
@@ -57,7 +57,7 @@ void    get_identifier_content(t_map *map_data, char ***content)
     } 
 }
 
-t_validation_status get_map(t_map *map_data, char **map)
+static t_validation_status get_map(t_map *map_data, char **map)
 {
     int size;
     int index;

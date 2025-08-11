@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 12:29:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:49:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int ac, char **av)
 	t_map *map;
 	map = get_map_instance();
 
-	// for (int i = 0; map->map[i] != NULL; i++)
-	// 	printf("-%s-\n", map->map[i]);
+	for (int i = 0; map->map[i] != NULL; i++)
+		printf("-%s-\n", map->map[i]);
 
 
 

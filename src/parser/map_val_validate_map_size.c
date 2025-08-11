@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:34:08 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:53:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	count_width(char *line)
 	return (width);
 }
 
-bool	check_map_size(char **map)
+static bool	check_map_size(char **map)
 {
 	int	heigth;
 	int	width;

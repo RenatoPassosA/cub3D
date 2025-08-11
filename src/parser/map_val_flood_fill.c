@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 10:32:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 15:15:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int get_map_height(char **map)
     return (height);
 }
 
-int *fill_position(int *position, int x, int y)
+static int *fill_position(int *position, int x, int y)
 {
     position[0] = x;
     position[1] = y;
@@ -56,7 +56,7 @@ int *get_player_position(char **map)
     return(NULL);
 }
 
-char **copy_map(char **map)
+static char **copy_map(char **map)
 {
     int height = 0;
     char **map_copy;
@@ -83,7 +83,7 @@ char **copy_map(char **map)
     return (map_copy);
 }
 
-t_validation_status run_flood_fill(char **map, char **flood_fill_map, int x, int y)
+static t_validation_status run_flood_fill(char **map, char **flood_fill_map, int x, int y)
 {
     t_validation_status status;
     
@@ -112,6 +112,14 @@ t_validation_status run_flood_fill(char **map, char **flood_fill_map, int x, int
     return (VALIDATION_OK);
 }
 
+t_validation_status clean_and_return_status(t_validation_status status, int *player_position, char **flood_fill_map)
+{
+    if (player_position)
+        free(player_position);
+    free_bidimensional_array(flood_fill_map);
+    return (status);
+}
+
 t_validation_status    flood_fill(char **map)
 {
     int *player_position;
@@ -123,30 +131,16 @@ t_validation_status    flood_fill(char **map)
         return(ERR_COPY_MAP);
     player_position = get_player_position(flood_fill_map);
     if (!player_position)
-    {
-        free_bidimensional_array(flood_fill_map);
-        return(ERR_NO_PLAYER);
-    }
+        return (clean_and_return_status(ERR_NO_PLAYER, NULL, flood_fill_map));
     status = outside_flood_fill(map, flood_fill_map);
     if (status != VALIDATION_OK)
-    {
-        free(player_position);
-        free_bidimensional_array(flood_fill_map);
-        return status;
-    }
+        return (clean_and_return_status(status, player_position, flood_fill_map));
     status = run_flood_fill(map, flood_fill_map, player_position[0], player_position[1]);
     if (status != VALIDATION_OK)
-    {
-        free(player_position);
-        free_bidimensional_array(flood_fill_map);
-        return status;
-    }
+        return (clean_and_return_status(status, player_position, flood_fill_map));
     if (!find_isolated_spaces(flood_fill_map))
-    {
-        free_bidimensional_array(flood_fill_map);
-        return(ERR_INTER_SPACE);
-    }
+       return (clean_and_return_status(ERR_INTER_SPACE, player_position, flood_fill_map));
     free(player_position);
-    free_bidimensional_array(flood_fill_map); //aqui o mapa está com F em toda a area acessível ao player
+    free_bidimensional_array(flood_fill_map);
     return(VALIDATION_OK);
 }

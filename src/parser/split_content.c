@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:36:13 by renato            #+#    #+#             */
-/*   Updated: 2025/08/11 11:24:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 15:31:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,5 @@ t_validation_status	get_content_splitted(char *path, char ****content)
 		free(line);
 		counter++;
 	}
-	close(map_data->fd);
 	return(VALIDATION_OK);
 }

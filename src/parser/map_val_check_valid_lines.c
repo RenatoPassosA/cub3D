@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:33:42 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:53:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-bool	check_forbidden_char_in_line(char *line)
+static bool	check_forbidden_char_in_line(char *line)
 {
 	int	index;
 

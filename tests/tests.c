@@ -264,8 +264,8 @@ Test(validate_map_lines, small_map_should_return_ERR_INVALID_MAP_SIZE, .init=red
 {
 	char ***content;
 	char **map;
-	get_content_splitted_mock("./tests/resources/invalid_maps/forbiden_map_content.cub", &content);
-	get_map_matrix_mock("./tests/resources/invalid_maps/forbiden_map_content.cub", &map, content);
+	get_content_splitted_mock("./tests/resources/invalid_maps/forbidden_map_content.cub", &content);
+	get_map_matrix_mock("./tests/resources/invalid_maps/forbidden_map_content.cub", &map, content);
 	t_validation_status status = validate_map_lines(map);
 	
 	cr_assert_eq(status, ERR_INVALID_MAP_CONTENT, "Esperava ERR_INVALID_MAP_SIZE, mas recebeu %s", get_status_name(status));

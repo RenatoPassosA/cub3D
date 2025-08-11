@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:36:27 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:34:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:33:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static bool	check_map_on_middle(char ***content)
 			index++;
 			continue;
 		}
-		else if (!is_type_identifier(content[index][0]) && ft_strcmp(content[index][0], "\n") != 0 && identifier_counter != 6)
+		else if (!is_type_identifier(content[index][0]) &&
+				ft_strcmp(content[index][0], "\n") != 0 &&
+				identifier_counter != 6)
 			return (false);
 		index++;
 	}
@@ -47,5 +49,4 @@ t_validation_status	validate_map_position(char ***content)
 	if (!check_map_on_top(content) || !check_map_on_middle(content))
 		return(ERR_INVALID_MAP_POSITION);
 	return(VALIDATION_OK);
-
 }

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 15:18:19 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 14:49:59 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,38 +121,42 @@ t_validation_status set_matrix(char ***map)
 	return(VALIDATION_OK);
 }
 
+bool	check_find_map(char *line, int *index)
+{
+	if (find_map(line))
+	{
+		free(line);
+		(*index)++;
+		return (true);
+	}
+	return (false);
+}
+
 t_validation_status	get_map_matrix(char **av, char ***map, char ***content)
 {
 	int	index;
 	int	index2;
-	int	map_height;
 	char *line;
 	t_map	*map_data;
 	
 	index = 0;
 	index2 = 0;
-	map_height = get_map_content_height(content);
-	*map = (char **)malloc(sizeof(char *) * (map_height + 1));
+	*map = (char **)malloc(sizeof(char *) * (get_map_content_height(content) + 1));
 	if (!(*map))
 		return(ERR_MALLOC_MAP);
 	map_data = get_map_instance();
 	fd_manage(av[1], map_data->fd, content, *map);
 	while ((line = get_next_line(map_data->fd)))
 	{
-		if (find_map(line))
-		{
-			free(line);
-			index++;
+		if (check_find_map(line, &index))
 			continue;
-		}
 		remove_backslash_n2(line);
-		(*map)[index2] = ft_strdup(line);
+		(*map)[index2++] = ft_strdup(line);
 		index++;
-		index2++;
 		free(line);
 	}
-	(*map)[index2] = NULL; //aqui tenho o mapa certinho
-	if (set_matrix(map) == 	ERR_MALLOC_MAP_AND_CONTENT) //aqui o meu mapa está com as linhas ao final preenchido com espaço até todas as linhas ficarem iguais
+	(*map)[index2] = NULL;
+	if (set_matrix(map) == ERR_MALLOC_MAP_AND_CONTENT)
 		return (ERR_MALLOC_MAP_AND_CONTENT);
 	return (VALIDATION_OK);
 }
