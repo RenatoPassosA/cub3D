@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 12:11:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/11 16:43:07 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 #include "../utils/utils.h"
-#include "../mlx/mlx.h"
+//#include "../mlx/mlx.h"
 
 #include <stdbool.h>
 #include <fcntl.h>
