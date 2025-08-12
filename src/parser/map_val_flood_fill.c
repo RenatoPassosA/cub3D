@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 09:55:41 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 15:15:10 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:00:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int get_map_height(char **map)
 
 static int *fill_position(int *position, int x, int y)
 {
-    position[0] = x;
-    position[1] = y;
+    position[0] = y;
+    position[1] = x;
     return (position);
 }
 
@@ -40,17 +40,17 @@ int *get_player_position(char **map)
     position = (int *)malloc(sizeof(int) * 2);
     if (!position)
         return(NULL);
-    while (x < get_map_height(map))
+    while (y < get_map_height(map))
     {
-        while (y < get_line_width(map[x]))
+        while (x < get_line_width(map[y]))
         {
-            if (map[x][y] == 'N' || map[x][y] == 'S' || map[x][y] == 'W' || 
-                map[x][y] == 'E')
-                    return(fill_position(position, x, y));
-                y++;
+            if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W' || 
+                map[y][x] == 'E')
+                   return(fill_position(position, x, y));
+            x++;
         }
-        y = 0;
-        x++;
+        x = 0;
+        y++;
     }
     free(position);
     return(NULL);

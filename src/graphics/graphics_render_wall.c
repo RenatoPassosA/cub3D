@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:27:34 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void    render()
     
     map = get_map_instance();
     x = 0;    
+
     while (x < SCREEN_WIDTH)
     {
         map->render_data.mapX = (int)map->player.posX;
@@ -71,6 +72,8 @@ void    render()
             map->render_data.perpWallDist = (map->render_data.mapX - map->player.posX + (1 - map->render_data.stepX) / 2) / map->render_data.rayDirX;
         else
             map->render_data.perpWallDist = (map->render_data.mapY - map->player.posY + (1 - map->render_data.stepY) / 2) / map->render_data.rayDirY;
+         
+
         
         map->render_data.lineHeight = (int)(SCREEN_HEIGHT / map->render_data.perpWallDist);
 
@@ -128,7 +131,7 @@ formulas:
     dirX e dirY - valores com base no plano cartesiano para ver pra onde está virado (N: 0, 1; S: 0, -1; E: 1, 0; W: -1, 0)
     planeX e Y - FOV (field of view) - vetor perpendicular que define a abertura de angulo do campo de visão - defini como 0.66
 
-    rayX e rayY rerpesentam para qual direção esse raio está apontando no espaço 2D - esse vetor não representa distância, mas sim orientação e inclinação do raio.
+    rayX e rayY representam para qual direção esse raio está apontando no espaço 2D - esse vetor não representa distância, mas sim orientação e inclinação do raio.
     
 
     deltaDistX e deltaDistY dizem quanto o raio anda em linha reta até bater na próxima linha de grade, no eixo X ou Y.
