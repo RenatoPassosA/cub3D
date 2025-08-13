@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:49:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/12 16:01:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char *fill_line(char *line, int	width)
 	}
 	while (index < width)
 	{
-		new_line[index] = ' ';
+		new_line[index] = '1';
 		index++;
 	}
 	new_line[index] = '\0';

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/08/12 10:07:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/13 12:42:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,21 @@ void    init_player()
     player = get_player_position(map->map);
     set_player_direction(&map->player, direction);
     set_plane_direction(&map->player, direction);
-    map->player.posX = player[0] + 0.5;
-    map->player.posY = player[1] + 0.5; 
+    map->player.posY = player[0] + 0.5;
+    map->player.posX = player[1] + 0.5;
+    map->player.time = get_current_time_ms();
+    map->player.old_time = map->player.time;
+    map->player.frame_time = 0;
+    map->player.rot_speed = 0;
+    map->player.move_speed = 0;
     free(player);
+    for (int i = 0; map->map[i] != NULL; i++)           // percorre linhas
+	{
+		for (int j = 0; map->map[i][j] != '\0'; j++)    // percorre caracteres da linha
+		{
+			if (map->map[i][j] == 'N' || map->map[i][j] == 'S' || map->map[i][j] == 'W' || map->map[i][j] == 'E')
+				map->map[i][j] = '0';
+		}
+	}
 }
 

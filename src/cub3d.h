@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/12 10:41:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/13 17:50:38 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
+#include <sys/time.h>
 
 typedef struct mlx_data
 {
@@ -40,6 +41,11 @@ typedef struct player_infos
 	double	dirY;
 	double	planeX;
 	double	planeY;
+	double time;
+	double old_time;
+	double frame_time;
+	double move_speed;
+    double rot_speed;
 } t_player;
 
 typedef struct render_data
@@ -116,16 +122,27 @@ typedef enum e_validation_status
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+#define KEY_ESC     65307
+#define KEY_LEFT    65361
+#define KEY_RIGHT   65363
+#define KEY_W       119
+#define KEY_S       115
+#define KEY_A       97
+#define KEY_D       100
+
 
 //----------------
 
 void    render();
 void    init_mlx();
 void    init_player();
+void    game_loop(void);
 void	free_map_info(void);
 void	init_data(char *path);
 t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);
+
+double	get_current_time_ms(void);
 int		get_map_height(char **map);
 int		get_line_width(char *line);
 void	map_validations(char **av);
@@ -135,6 +152,7 @@ int		check_argument(int ac, char **av);
 bool	check_player_one_line(char *line);
 bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);
+int  	keyboard_inputs(int key);
 void	free_bidimensional_array(char **arr);
 void	free_tridimensional_array(char ***content);
 void	free_arr_with_null(char **arr, int splitted_arr_size);

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/13 17:17:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/13 12:32:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,112 +15,12 @@
 void    render()
 {
     t_map   *map;
+    map = get_map_instance();
     int x;
     int y;
-    
-    map = get_map_instance();
-    x = 0;    
 
-    ft_memset(map->mlx.img_data, 0, SCREEN_WIDTH * SCREEN_HEIGHT * (map->mlx.bits_per_pixel / 8));
-    while (x < SCREEN_WIDTH)
-    {
-        map->render_data.mapX = (int)map->player.posX;
-        map->render_data.mapY = (int)map->player.posY;
-        map->render_data.hit = false;
-        map->render_data.side = 0;
-        map->render_data.cameraX = 2.0 * x / (double)SCREEN_WIDTH - 1;
-        map->render_data.rayDirX = map->player.dirX + map->player.planeX * map->render_data.cameraX;
-        map->render_data.rayDirY = map->player.dirY + map->player.planeY * map->render_data.cameraX;
-        map->render_data.deltaDistX = fabs(1 / map->render_data.rayDirX);
-        map->render_data.deltaDistY = fabs(1 / map->render_data.rayDirY);
-        if (map->render_data.rayDirX < 0)
-        {
-            map->render_data.stepX = -1;
-            map->render_data.sideDistX = (map->player.posX - map->render_data.mapX) * map->render_data.deltaDistX;
-        }
-        else
-        {
-            map->render_data.stepX = 1;
-            map->render_data.sideDistX = (map->render_data.mapX + 1.0 - map->player.posX) * map->render_data.deltaDistX;
-        }
-        if (map->render_data.rayDirY < 0)
-        {
-            map->render_data.stepY = -1;
-            map->render_data.sideDistY = (map->player.posY - map->render_data.mapY) * map->render_data.deltaDistY;
-        }
-        else
-        {
-            map->render_data. stepY = 1;
-            map->render_data.sideDistY = (map->render_data.mapY + 1.0 - map->player.posY) * map->render_data.deltaDistY;
-        }
-        while (!map->render_data.hit)
-        {
-            if (map->render_data.sideDistX < map->render_data.sideDistY)
-            {
-                map->render_data.sideDistX += map->render_data.deltaDistX;
-                map->render_data.mapX += map->render_data.stepX;
-                map->render_data.side = 0;
-            }
-            else
-            {
-                map->render_data.sideDistY += map->render_data.deltaDistY;
-                map->render_data.mapY += map->render_data.stepY;
-                map->render_data.side = 1;
-            }
-            if (map->render_data.mapY >= 0 && map->render_data.mapY < get_map_height(map->map) &&
-                map->render_data.mapX >= 0 && map->render_data.mapX < get_line_width(map->map[0]))
-            {
-                if (map->map[map->render_data.mapY][map->render_data.mapX] == '1')
-                    map->render_data.hit = true;
-            }       
-        }
-        if (map->render_data.side == 0)
-            map->render_data.perpWallDist = (map->render_data.mapX - map->player.posX + (1 - map->render_data.stepX) / 2) / map->render_data.rayDirX;
-        else
-            map->render_data.perpWallDist = (map->render_data.mapY - map->player.posY + (1 - map->render_data.stepY) / 2) / map->render_data.rayDirY;
-        
-        if (map->render_data.perpWallDist <= 0)
-        {
-            x++;
-            continue;
-        }
-         
-
-        
-        map->render_data.lineHeight = (int)(SCREEN_HEIGHT / map->render_data.perpWallDist);
-
-
-
-
-        map->render_data.drawStart = -map->render_data.lineHeight / 2 + SCREEN_HEIGHT / 2;
-        map->render_data.drawEnd = map->render_data.lineHeight / 2 + SCREEN_HEIGHT / 2;
-        if (map->render_data.drawStart < 0)
-            map->render_data.drawStart = 0;
-        if (map->render_data.drawEnd >= SCREEN_HEIGHT)
-            map->render_data.drawEnd = SCREEN_HEIGHT - 1;
-            
-        int index;
-        y = map->render_data.drawStart;
-        while (y < map->render_data.drawEnd)
-        {
-            index = (y * map->mlx.size_line) + (x * (map->mlx.bits_per_pixel / 8));
-            if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
-                map->render_data.color = 0xFF0000; // leste
-            else if (map->render_data.side == 0 && map->render_data.rayDirX < 0)
-                map->render_data.color = 0x800000; // oeste
-            else if (map->render_data.side == 1 && map->render_data.rayDirY > 0)
-                map->render_data.color = 0x00FF00; // sul
-            else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
-                map->render_data.color = 0x008000; // norte
-            *((int *)(map->mlx.img_data + index)) = map->render_data.color;
-            
-            y++;
-        }
-        x++;
-    }
-    mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);
+ 
 }
-
 
 
 
