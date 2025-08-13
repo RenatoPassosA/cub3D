@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/13 17:50:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/13 18:55:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
+
+typedef struct s_input {
+    int w;
+	int s;
+	int a;
+	int d;
+	int left;
+	int right;
+	int esc;
+} t_input;
 
 typedef struct mlx_data
 {
@@ -45,7 +55,7 @@ typedef struct player_infos
 	double old_time;
 	double frame_time;
 	double move_speed;
-    double rot_speed;
+    double rotate_speed;
 } t_player;
 
 typedef struct render_data
@@ -82,6 +92,7 @@ typedef struct map_infos
 	int			fd;
 	char		**map;
 	t_player	player;
+	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
 } t_map;
@@ -131,6 +142,8 @@ typedef enum e_validation_status
 #define KEY_D       100
 
 
+int on_key_press(int key, t_map *map);
+int on_key_release(int key, t_map *map);
 //----------------
 
 void    render();
@@ -152,7 +165,7 @@ int		check_argument(int ac, char **av);
 bool	check_player_one_line(char *line);
 bool	is_type_identifier(char *splitted);
 void	remove_backslash_n(char **content);
-int  	keyboard_inputs(int key);
+int    keyboard_inputs(t_map *map);
 void	free_bidimensional_array(char **arr);
 void	free_tridimensional_array(char ***content);
 void	free_arr_with_null(char **arr, int splitted_arr_size);

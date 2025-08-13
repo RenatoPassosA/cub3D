@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/08/13 12:42:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/13 18:17:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void    init_player()
     map->player.time = get_current_time_ms();
     map->player.old_time = map->player.time;
     map->player.frame_time = 0;
-    map->player.rot_speed = 0;
+    map->player.rotate_speed = 0;
     map->player.move_speed = 0;
     free(player);
     for (int i = 0; map->map[i] != NULL; i++)           // percorre linhas
