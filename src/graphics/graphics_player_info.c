@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/08/13 18:17:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 13:09:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void    init_player()
     map->player.rotate_speed = 0;
     map->player.move_speed = 0;
     free(player);
-    for (int i = 0; map->map[i] != NULL; i++)           // percorre linhas
+    for (int i = 0; map->map[i] != NULL; i++)/////////// REFATORAR
 	{
-		for (int j = 0; map->map[i][j] != '\0'; j++)    // percorre caracteres da linha
+		for (int j = 0; map->map[i][j] != '\0'; j++)
 		{
 			if (map->map[i][j] == 'N' || map->map[i][j] == 'S' || map->map[i][j] == 'W' || map->map[i][j] == 'E')
 				map->map[i][j] = '0';

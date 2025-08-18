@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/13 18:55:12 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 16:03:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,24 @@
 # define CUB3D_H
 
 #include "../utils/utils.h"
-//#include "../mlx/mlx.h"
+#include "../mlx/mlx.h"
 
 #include <stdbool.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
+#include <stdint.h>
+
+typedef struct s_tex {
+    void   *img;
+    char   *addr;
+    int     width; 
+    int     height;
+    int     bpp;
+    int     line_len;
+    int     endian;
+} t_tex;
 
 typedef struct s_input {
     int w;
@@ -77,7 +88,7 @@ typedef struct render_data
     int		lineHeight;
     int		drawStart;
     int		drawEnd;
-	int		color;
+	int		color;	
 } t_render;
 
 typedef struct map_infos
@@ -95,6 +106,7 @@ typedef struct map_infos
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
+	t_tex		textures[4];
 } t_map;
 
 typedef enum e_validation_status
@@ -132,6 +144,8 @@ typedef enum e_validation_status
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#define texWidth 64
+#define texHeight 64
 
 #define KEY_ESC     65307
 #define KEY_LEFT    65361
@@ -142,10 +156,15 @@ typedef enum e_validation_status
 #define KEY_D       100
 
 
+
+
+uint32_t texel_at(const t_tex *t, int tx, int ty);
+
 int on_key_press(int key, t_map *map);
 int on_key_release(int key, t_map *map);
 //----------------
 
+void	init_textures();
 void    render();
 void    init_mlx();
 void    init_player();
@@ -154,7 +173,6 @@ void	free_map_info(void);
 void	init_data(char *path);
 t_map	*get_map_instance(void);
 int		get_arr_size(char **arr);
-
 double	get_current_time_ms(void);
 int		get_map_height(char **map);
 int		get_line_width(char *line);
@@ -170,6 +188,7 @@ void	free_bidimensional_array(char **arr);
 void	free_tridimensional_array(char ***content);
 void	free_arr_with_null(char **arr, int splitted_arr_size);
 void	fd_manage(char *path, int fd, char ***content, char **map);
+
 void	clean_all_and_message_error(char *msg, char ***content, char **map);
 
 

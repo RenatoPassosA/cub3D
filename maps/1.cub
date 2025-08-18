@@ -1,8 +1,8 @@
 F 97,247,67
-NO ./textures/test/north.xpm
-SO ./textures/test/south.xpm
-WE ./textures/test/west.xpm
-EA ./textures/test/east.xpm
+NO ./textures/greystonexpm.xpm
+SO ./textures/greystonexpm.xpm
+WE ./textures/greystonexpm.xpm
+EA ./textures/greystonexpm.xpm
 C 235,115,115
 
         1111111111111111111111111

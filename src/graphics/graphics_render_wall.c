@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/13 17:17:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 16:03:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,41 @@ void    render()
             x++;
             continue;
         }
-         
+        
+        int texture_index;
 
+        if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
+            texture_index = WE;
+        else if (map->render_data.side == 0 && map->render_data.rayDirX < 0)
+            texture_index = EA;
+        else if (map->render_data.side == 1 && map->render_data.rayDirY > 0)
+            texture_index = NO;
+        else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
+            texture_index = SO;
+
+        t_tex   *texture = &map->textures[texture_index];
+        
+        double wallX; 
+        if (map->render_data.side == 0)
+            wallX = map->player.posY + map->render_data.perpWallDist * map->render_data.rayDirY;
+        else
+            wallX = map->player.posX + map->render_data.perpWallDist * map->render_data.rayDirX;
+        wallX = wallX - floor(wallX);
+
+        int tx;
+        int ty;
+
+        tx = (int)(wallX * texture->width);
+        if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
+            tx = texture->width - tx - 1;
+        else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
+            tx = texture->width - tx - 1;
+        
+        
         
         map->render_data.lineHeight = (int)(SCREEN_HEIGHT / map->render_data.perpWallDist);
 
+        
 
 
 
@@ -98,22 +128,33 @@ void    render()
             map->render_data.drawStart = 0;
         if (map->render_data.drawEnd >= SCREEN_HEIGHT)
             map->render_data.drawEnd = SCREEN_HEIGHT - 1;
-            
-        int index;
+        
+
+        double text_step = (double)texture->height / (double)map->render_data.lineHeight;
+
+        double text_position = (map->render_data.drawStart - SCREEN_HEIGHT/2 + map->render_data.lineHeight/2) * text_step;
+
+
+        
+
         y = map->render_data.drawStart;
         while (y < map->render_data.drawEnd)
         {
-            index = (y * map->mlx.size_line) + (x * (map->mlx.bits_per_pixel / 8));
-            if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
-                map->render_data.color = 0xFF0000; // leste
-            else if (map->render_data.side == 0 && map->render_data.rayDirX < 0)
-                map->render_data.color = 0x800000; // oeste
-            else if (map->render_data.side == 1 && map->render_data.rayDirY > 0)
-                map->render_data.color = 0x00FF00; // sul
-            else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
-                map->render_data.color = 0x008000; // norte
-            *((int *)(map->mlx.img_data + index)) = map->render_data.color;
+            ty = (int)text_position;
+            if (ty < 0)
+                ty = 0;
+            else if (ty >= texture->height)
+                ty = texture->height - 1;
             
+
+
+            text_position += text_step;
+            map->render_data.color = texel_at(texture, tx, ty);
+
+            int bytes = map->mlx.bits_per_pixel / 8;
+            int offset = y * map->mlx.size_line + x * bytes;
+            *(uint32_t *)(map->mlx.img_data + offset) = map->render_data.color;
+
             y++;
         }
         x++;
