@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:00:36 by renato            #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:53:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "graphics.h"
 
 void    init_mlx()
 {

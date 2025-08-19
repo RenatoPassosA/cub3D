@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:53:30 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 static bool	check_forbidden_char_in_line(char *line)
 {

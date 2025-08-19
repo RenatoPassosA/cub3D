@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:33:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 t_validation_status validate_map_existence(char ***content)
 {

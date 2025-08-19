@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:46:53 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 10:53:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:41 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 static bool	is_texture(char *identifier)
 {

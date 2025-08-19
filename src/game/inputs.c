@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 11:21:28 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 14:01:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "game.h"
 
 static void    input_w(t_map *map)
 {

@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:30:01 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:32:26 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 static void	init_identifiers(int *identifiers)
 {

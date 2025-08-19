@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/08/18 18:06:26 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:53:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "graphics.h"
 
 double	get_current_time_ms(void)
 {

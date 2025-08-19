@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:36:13 by renato            #+#    #+#             */
-/*   Updated: 2025/08/11 15:31:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 bool	is_type_identifier(char *splitted)
 {

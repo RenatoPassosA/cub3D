@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:52:45 by renato            #+#    #+#             */
-/*   Updated: 2025/08/11 15:16:43 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 t_validation_status run_outside_flood_fill(char **map, char **ff_map, int x, int y)
 {

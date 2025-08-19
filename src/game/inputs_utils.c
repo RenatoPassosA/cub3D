@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/18 18:12:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 14:01:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "game.h"
 
 int on_key_press(int key, t_map *map)
 { 

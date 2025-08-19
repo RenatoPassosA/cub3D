@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 10:17:07 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 t_map *get_map_instance(void)
 {

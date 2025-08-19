@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/18 17:33:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 14:03:34 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "./cub3d.h"
 
 int	get_arr_size(char **arr)
 {

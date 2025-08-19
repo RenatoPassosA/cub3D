@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:34:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:55:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 static bool check_rgb_range(int val)
 {

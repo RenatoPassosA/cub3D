@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 09:23:58 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:56:57 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:45 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 bool	check_player_one_line(char *line)
 {

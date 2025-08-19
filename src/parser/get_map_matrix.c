@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 13:10:29 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/18 17:48:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 char *fill_line(char *line, int	width)
 {

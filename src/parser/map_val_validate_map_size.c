@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 21:00:51 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/11 14:53:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 static int	count_width(char *line)
 {

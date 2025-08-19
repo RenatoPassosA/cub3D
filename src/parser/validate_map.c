@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:32:12 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/19 11:41:07 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:54:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "parser.h"
 
 t_validation_status do_matrix_validations(char **map)
 {
