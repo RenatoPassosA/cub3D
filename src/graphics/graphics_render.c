@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics_render_wall.c                             :+:      :+:    :+:   */
+/*   graphics_render.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/18 16:03:35 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 12:38:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,71 +15,74 @@
 void    render()
 {
     t_map   *map;
+    t_tex   *texture;
+    t_render *data;
     int x;
     int y;
     
     map = get_map_instance();
     x = 0;    
-
+    data = &map->render_data;
     ft_memset(map->mlx.img_data, 0, SCREEN_WIDTH * SCREEN_HEIGHT * (map->mlx.bits_per_pixel / 8));
+
     while (x < SCREEN_WIDTH)
     {
-        map->render_data.mapX = (int)map->player.posX;
-        map->render_data.mapY = (int)map->player.posY;
-        map->render_data.hit = false;
-        map->render_data.side = 0;
-        map->render_data.cameraX = 2.0 * x / (double)SCREEN_WIDTH - 1;
-        map->render_data.rayDirX = map->player.dirX + map->player.planeX * map->render_data.cameraX;
-        map->render_data.rayDirY = map->player.dirY + map->player.planeY * map->render_data.cameraX;
-        map->render_data.deltaDistX = fabs(1 / map->render_data.rayDirX);
-        map->render_data.deltaDistY = fabs(1 / map->render_data.rayDirY);
-        if (map->render_data.rayDirX < 0)
+        data->mapX = (int)map->player.posX;
+        data->mapY = (int)map->player.posY;
+        data->hit = false;
+        data->side = 0;
+        data->cameraX = 2.0 * x / (double)SCREEN_WIDTH - 1;
+        data->rayDirX = map->player.dirX + map->player.planeX * data->cameraX;
+        data->rayDirY = map->player.dirY + map->player.planeY * data->cameraX;
+        data->deltaDistX = fabs(1 / data->rayDirX);
+        data->deltaDistY = fabs(1 / data->rayDirY);
+        if (data->rayDirX < 0)
         {
-            map->render_data.stepX = -1;
-            map->render_data.sideDistX = (map->player.posX - map->render_data.mapX) * map->render_data.deltaDistX;
+            data->stepX = -1;
+            data->sideDistX = (map->player.posX - data->mapX) * data->deltaDistX;
         }
         else
         {
-            map->render_data.stepX = 1;
-            map->render_data.sideDistX = (map->render_data.mapX + 1.0 - map->player.posX) * map->render_data.deltaDistX;
+            data->stepX = 1;
+            data->sideDistX = (data->mapX + 1.0 - map->player.posX) * data->deltaDistX;
         }
-        if (map->render_data.rayDirY < 0)
+        if (data->rayDirY < 0)
         {
-            map->render_data.stepY = -1;
-            map->render_data.sideDistY = (map->player.posY - map->render_data.mapY) * map->render_data.deltaDistY;
+            data->stepY = -1;
+            data->sideDistY = (map->player.posY - data->mapY) * data->deltaDistY;
         }
         else
         {
-            map->render_data. stepY = 1;
-            map->render_data.sideDistY = (map->render_data.mapY + 1.0 - map->player.posY) * map->render_data.deltaDistY;
+            data-> stepY = 1;
+            data->sideDistY = (data->mapY + 1.0 - map->player.posY) * data->deltaDistY;
         }
-        while (!map->render_data.hit)
+        while (!data->hit)
         {
-            if (map->render_data.sideDistX < map->render_data.sideDistY)
+            if (data->sideDistX < data->sideDistY)
             {
-                map->render_data.sideDistX += map->render_data.deltaDistX;
-                map->render_data.mapX += map->render_data.stepX;
-                map->render_data.side = 0;
+                data->sideDistX += data->deltaDistX;
+                data->mapX += data->stepX;
+                data->side = 0;
             }
             else
             {
-                map->render_data.sideDistY += map->render_data.deltaDistY;
-                map->render_data.mapY += map->render_data.stepY;
-                map->render_data.side = 1;
+                data->sideDistY += data->deltaDistY;
+                data->mapY += data->stepY;
+                data->side = 1;
             }
-            if (map->render_data.mapY >= 0 && map->render_data.mapY < get_map_height(map->map) &&
-                map->render_data.mapX >= 0 && map->render_data.mapX < get_line_width(map->map[0]))
+            if (data->mapY >= 0 && data->mapY < get_map_height(map->map) &&
+                data->mapX >= 0 && data->mapX < get_line_width(map->map[0]))
             {
-                if (map->map[map->render_data.mapY][map->render_data.mapX] == '1')
-                    map->render_data.hit = true;
+                if (map->map[data->mapY][data->mapX] == '1')
+                    data->hit = true;
             }       
         }
-        if (map->render_data.side == 0)
-            map->render_data.perpWallDist = (map->render_data.mapX - map->player.posX + (1 - map->render_data.stepX) / 2) / map->render_data.rayDirX;
+        if (data->side == 0)
+            data->perpWallDist = (data->mapX - map->player.posX + (1 - data->stepX) / 2) / data->rayDirX;
         else
-            map->render_data.perpWallDist = (map->render_data.mapY - map->player.posY + (1 - map->render_data.stepY) / 2) / map->render_data.rayDirY;
+            data->perpWallDist = (data->mapY - map->player.posY + (1 - data->stepY) / 2) / data->rayDirY;
         
-        if (map->render_data.perpWallDist <= 0)
+        if (data->perpWallDist <= 0)
         {
             x++;
             continue;
@@ -87,74 +90,90 @@ void    render()
         
         int texture_index;
 
-        if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
+        if (data->side == 0 && data->rayDirX > 0)
             texture_index = WE;
-        else if (map->render_data.side == 0 && map->render_data.rayDirX < 0)
+        else if (data->side == 0 && data->rayDirX < 0)
             texture_index = EA;
-        else if (map->render_data.side == 1 && map->render_data.rayDirY > 0)
+        else if (data->side == 1 && data->rayDirY > 0)
             texture_index = NO;
-        else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
+        else if (data->side == 1 && data->rayDirY < 0)
             texture_index = SO;
 
-        t_tex   *texture = &map->textures[texture_index];
+        texture = &map->textures[texture_index];
         
-        double wallX; 
-        if (map->render_data.side == 0)
-            wallX = map->player.posY + map->render_data.perpWallDist * map->render_data.rayDirY;
+        if (data->side == 0)
+            data->wallX = map->player.posY + data->perpWallDist * data->rayDirY;
         else
-            wallX = map->player.posX + map->render_data.perpWallDist * map->render_data.rayDirX;
-        wallX = wallX - floor(wallX);
+            data->wallX = map->player.posX + data->perpWallDist * data->rayDirX;
+        data->wallX = data->wallX - floor(data->wallX);
 
-        int tx;
-        int ty;
-
-        tx = (int)(wallX * texture->width);
-        if (map->render_data.side == 0 && map->render_data.rayDirX > 0)
-            tx = texture->width - tx - 1;
-        else if (map->render_data.side == 1 && map->render_data.rayDirY < 0)
-            tx = texture->width - tx - 1;
+        
+        data->tx = (int)(data->wallX * texture->width);
+        if (data->side == 0 && data->rayDirX > 0)
+            data->tx = texture->width - data->tx - 1;
+        else if (data->side == 1 && data->rayDirY < 0)
+           data->tx = texture->width - data->tx - 1;
         
         
         
-        map->render_data.lineHeight = (int)(SCREEN_HEIGHT / map->render_data.perpWallDist);
+        data->lineHeight = (int)(SCREEN_HEIGHT / data->perpWallDist);
 
         
 
 
 
-        map->render_data.drawStart = -map->render_data.lineHeight / 2 + SCREEN_HEIGHT / 2;
-        map->render_data.drawEnd = map->render_data.lineHeight / 2 + SCREEN_HEIGHT / 2;
-        if (map->render_data.drawStart < 0)
-            map->render_data.drawStart = 0;
-        if (map->render_data.drawEnd >= SCREEN_HEIGHT)
-            map->render_data.drawEnd = SCREEN_HEIGHT - 1;
+        data->drawStart = -data->lineHeight / 2 + SCREEN_HEIGHT / 2;
+        data->drawEnd = data->lineHeight / 2 + SCREEN_HEIGHT / 2;
+        if (data->drawStart < 0)
+            data->drawStart = 0;
+        if (data->drawEnd >= SCREEN_HEIGHT)
+            data->drawEnd = SCREEN_HEIGHT - 1;
         
-
-        double text_step = (double)texture->height / (double)map->render_data.lineHeight;
-
-        double text_position = (map->render_data.drawStart - SCREEN_HEIGHT/2 + map->render_data.lineHeight/2) * text_step;
-
-
-        
-
-        y = map->render_data.drawStart;
-        while (y < map->render_data.drawEnd)
+        y = 0;
+        while (y < map->render_data.drawStart)
         {
-            ty = (int)text_position;
-            if (ty < 0)
-                ty = 0;
-            else if (ty >= texture->height)
-                ty = texture->height - 1;
+            data->bytes = map->mlx.bits_per_pixel / 8;
+            data->offset = y * map->mlx.size_line + x * data->bytes;
+            *(uint32_t *)(map->mlx.img_data + data->offset) = map->ceiling_rgb;
+            y++;
+        }
+
+
+  
+        data->text_step = (double)texture->height / (double)data->lineHeight;
+
+        data->text_position = (data->drawStart - SCREEN_HEIGHT/2 + data->lineHeight/2) * data->text_step;
+
+
+        
+
+        y = data->drawStart;
+       
+        while (y < data->drawEnd)
+        {
+            data->ty = (int)data->text_position;
+            if (data->ty < 0)
+                data->ty = 0;
+            else if (data->ty >= texture->height)
+                data->ty = texture->height - 1;
             
 
 
-            text_position += text_step;
-            map->render_data.color = texel_at(texture, tx, ty);
+            data->text_position += data->text_step;
+            data->color = texel_at(texture, data->tx, data->ty);
 
-            int bytes = map->mlx.bits_per_pixel / 8;
-            int offset = y * map->mlx.size_line + x * bytes;
-            *(uint32_t *)(map->mlx.img_data + offset) = map->render_data.color;
+            data->bytes = map->mlx.bits_per_pixel / 8;
+            data->offset = y * map->mlx.size_line + x * data->bytes;
+            *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
 
+            y++;
+        }
+        y = map->render_data.drawEnd + 1;
+        while (y < SCREEN_HEIGHT)
+        {
+            data->bytes = map->mlx.bits_per_pixel / 8;
+            data->offset = y * map->mlx.size_line + x * data->bytes;
+            *(uint32_t *)(map->mlx.img_data + data->offset) = map->floor_rgb;
             y++;
         }
         x++;
@@ -204,6 +223,7 @@ formulas:
     Multiplica por deltaDistX para converter isso em distância reta no mundo
 
     perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+    é o quanto a parede está “para dentro” do cenário
     mapX - posX    → distância entre o jogador e a grade à esquerda da célula onde o raio bateu
     (1 - stepX) / 2    → compensação para saber em qual lado da célula o raio bateu:
     Se stepX == 1 (indo pra direita): (1 - 1)/2 = 0
@@ -221,6 +241,7 @@ formulas:
 
     drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2
     drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2
+    draw start e draw end seria onde eu começaria a desenhar somente a parede
     esses limites fazem com que a parede seja desenhada crescendo metade para cima e metade para baixo do centro da tela
     Parede próxima → perpWallDist é pequeno → lineHeight é grande
     ⟶ A parede vai ocupar quase a tela inteira
@@ -238,4 +259,6 @@ formulas:
     deslocamento (offset), ou seja, quantos bytes precisa pular para chegar naquele ponto no buffer da imagem.
     y * line_length: pula todas as linhas anteriores
     x * (bits_per_pixel / 8): pula os pixels anteriores daquela linha
+
+    tx e ty são coordenadas da textura
 */

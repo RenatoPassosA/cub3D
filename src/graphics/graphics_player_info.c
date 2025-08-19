@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/08/18 13:09:51 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 18:07:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void    set_player_direction(t_player *player, char c)
+static void    set_player_direction(t_player *player, char c)
 {
     if (c == 'N')
     {
@@ -36,7 +36,7 @@ void    set_player_direction(t_player *player, char c)
     }
 }
 
-void    set_plane_direction(t_player *player, char c)
+static void    set_plane_direction(t_player *player, char c)
 {
     if (c == 'N')
     {
@@ -59,7 +59,7 @@ void    set_plane_direction(t_player *player, char c)
         player->planeY = -0.66;
     }
 }
-char    get_player_direction(char **map)
+static char    get_player_direction(char **map)
 {
     int x;
     int y;
@@ -78,6 +78,26 @@ char    get_player_direction(char **map)
         y++;
     }
     return ('\0');
+}
+
+static void    remove_zeros(t_map *map)
+{
+    int i;
+    char c;
+
+    i = 0;
+    while (map->map[i] != NULL)
+    {
+        int j = 0;
+        while (map->map[i][j] != '\0')
+        {
+            c = map->map[i][j];
+            if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+                map->map[i][j] = '0';
+            j++;
+        }
+        i++;
+    }
 }
 
 void    init_player()
@@ -99,13 +119,5 @@ void    init_player()
     map->player.rotate_speed = 0;
     map->player.move_speed = 0;
     free(player);
-    for (int i = 0; map->map[i] != NULL; i++)/////////// REFATORAR
-	{
-		for (int j = 0; map->map[i][j] != '\0'; j++)
-		{
-			if (map->map[i][j] == 'N' || map->map[i][j] == 'S' || map->map[i][j] == 'W' || map->map[i][j] == 'E')
-				map->map[i][j] = '0';
-		}
-	}
+    remove_zeros(map);
 }
-

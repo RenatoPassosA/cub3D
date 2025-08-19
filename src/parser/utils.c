@@ -6,29 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/08 16:31:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 17:33:38 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-int	check_argument(int ac, char **av)
-{
-	int	len;
-
-	if (ac != 2)
-	{
-		printf("Error.\n Check the arguments");
-		return (0);
-	}
-	len = ft_strlen(av[1]);
-	if (ft_strnstr(&av[1][len - 4], ".cub", 4) == NULL)
-	{
-		printf("Error.\nInvalid map file\n");
-		return (0);
-	}
-	return (1);
-}
 
 int	get_arr_size(char **arr)
 {
@@ -39,7 +21,6 @@ int	get_arr_size(char **arr)
 		index++;
 	return (index);
 }
-
 
 void	free_arr_with_null(char **arr, int splitted_arr_size)
 {
@@ -75,7 +56,6 @@ void	free_bidimensional_array(char **arr)
 	free(arr);
 }
 
-
 void	free_tridimensional_array(char ***content)
 {
 	int	i;
@@ -97,7 +77,6 @@ void	free_tridimensional_array(char ***content)
 	}
 	free(content);
 }
-
 
 void clean_all_and_message_error(char *msg, char ***content, char **map)
 {

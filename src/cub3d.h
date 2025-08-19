@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:03:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/19 12:38:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 #include "../utils/utils.h"
-#include "../mlx/mlx.h"
+//#include "../mlx/mlx.h"
 
 #include <stdbool.h>
 #include <fcntl.h>
@@ -88,7 +88,15 @@ typedef struct render_data
     int		lineHeight;
     int		drawStart;
     int		drawEnd;
-	int		color;	
+	int		color;
+	double text_step;
+	double text_position;
+	int bytes;
+	int offset;
+	int tx;
+    int ty;
+	double wallX;
+	
 } t_render;
 
 typedef struct map_infos
@@ -157,13 +165,17 @@ typedef enum e_validation_status
 
 
 
-
+int	quit_game(void);
 uint32_t texel_at(const t_tex *t, int tx, int ty);
 
 int on_key_press(int key, t_map *map);
 int on_key_release(int key, t_map *map);
 //----------------
 
+bool	check_find_map(char *line, int *index);
+void rotate_player(t_map *map, double ang);
+void move_axis(t_map *map, double nextX, double nextY, char axis);
+int is_walkable(t_map *map, int x, int y);
 void	init_textures();
 void    render();
 void    init_mlx();
@@ -190,6 +202,7 @@ void	free_arr_with_null(char **arr, int splitted_arr_size);
 void	fd_manage(char *path, int fd, char ***content, char **map);
 
 void	clean_all_and_message_error(char *msg, char ***content, char **map);
+void handle_error(t_validation_status status, char ***content, char **map);
 
 
 t_validation_status set_matrix(char ***map);

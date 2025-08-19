@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/08/18 15:54:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/18 18:06:26 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	init_textures()
 	t_map   *map;
     
     map = get_map_instance();
-	
-	
 	map->textures[0].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->NO_texture, &map->textures[0].width, &map->textures[0].height);
 	map->textures[0].addr = mlx_get_data_addr(map->textures[0].img, &map->textures[0].bpp, &map->textures[0].line_len, &map->textures[0].endian);
 
@@ -39,27 +37,15 @@ void	init_textures()
 	map->textures[3].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->EA_texture, &map->textures[3].width, &map->textures[3].height);
 	map->textures[3].addr = mlx_get_data_addr(map->textures[3].img, &map->textures[3].bpp, &map->textures[3].line_len, &map->textures[3].endian);
 
-	
-	printf("Loaded %s: %dx%d, bpp=%d, line=%d, endian=%d\n",
-       map->NO_texture,
-       map->textures[0].width,
-       map->textures[0].height,
-       map->textures[0].bpp,
-       map->textures[0].line_len,
-       map->textures[0].endian);
 }
 
 uint32_t texel_at(const t_tex *t, int tx, int ty)
 {
-    if (!t || !t->addr || t->bpp <= 0 || t->line_len <= 0 || t->width <= 0 || t->height <= 0)
-        return 0;
+    int bytes;
+    size_t offset;
 
-    if (tx < 0) tx = 0; else if (tx >= t->width)  tx = t->width  - 1;
-    if (ty < 0) ty = 0; else if (ty >= t->height) ty = t->height - 1;
-
-    int bytes = t->bpp / 8;                 // ex.: 32 bpp -> 4 bytes
-    size_t offset = (size_t)ty * t->line_len + (size_t)tx * bytes;
-
-    return *(uint32_t *)((unsigned char *)t->addr + offset);
+	bytes = t->bpp / 8; 
+	offset = (size_t)ty * t->line_len + (size_t)tx * bytes;
+    return (*(uint32_t *)((unsigned char *)t->addr + offset));
 }
 

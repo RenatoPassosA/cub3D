@@ -1,8 +1,8 @@
 F 97,247,67
-NO ./textures/greystonexpm.xpm
-SO ./textures/greystonexpm.xpm
-WE ./textures/greystonexpm.xpm
-EA ./textures/greystonexpm.xpm
+NO ./textures/greystone.xpm
+SO ./textures/greystone.xpm
+WE ./textures/greystone.xpm
+EA ./textures/greystone.xpm
 C 235,115,115
 
         1111111111111111111111111
