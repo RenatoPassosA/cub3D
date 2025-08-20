@@ -70,6 +70,9 @@
     "string_view": "c",
     "utils.h": "c",
     "parser.h": "c",
-    "game.h": "c"
+    "game.h": "c",
+    "graphics_bonus.h": "c",
+    "graphics.h": "c",
+    "cmath": "c"
   }
 }

@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#include "../src/cub3d.h"
+#include "tests.h"
 
 t_validation_status	get_content_splitted_mock(char *path, char ****content)
 {

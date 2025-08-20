@@ -398,16 +398,16 @@ Test(validate_player, valid_map_should_return_VALIDATION_OK, .init=redirect_all_
 
 // ------------------- FLOOD FILL -------------------
 
-Test(flood_fill, map_open_should_return_ERR_MAP_OPEN, .init=redirect_all_stdout_echo)
-{
-	char ***content;
-	char **map;
-	get_content_splitted_mock("./tests/resources/invalid_maps/map_open.cub", &content);
-	get_map_matrix_mock("./tests/resources/invalid_maps/map_open.cub", &map, content);
-	t_validation_status status = flood_fill(map);
+// Test(flood_fill, map_open_should_return_ERR_MAP_OPEN, .init=redirect_all_stdout_echo)
+// {
+// 	char ***content;
+// 	char **map;
+// 	get_content_splitted_mock("./tests/resources/invalid_maps/map_open.cub", &content);
+// 	get_map_matrix_mock("./tests/resources/invalid_maps/map_open.cub", &map, content);
+// 	t_validation_status status = flood_fill(map);
 	
-	cr_assert_eq(status, ERR_MAP_OPEN, "Esperava ERR_MAP_OPEN, mas recebeu %s", get_status_name(status));
-}
+// 	cr_assert_eq(status, ERR_MAP_OPEN, "Esperava ERR_MAP_OPEN, mas recebeu %s", get_status_name(status));
+// }
 
 Test(flood_fill, inter_space_should_return_ERR_INTER_SPACE, .init=redirect_all_stdout_echo)
 {

@@ -6,14 +6,14 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/19 16:49:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/20 10:46:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "../utils/utils.h"
+#include "../../utils/utils.h"
 
 #include <stdbool.h>
 #include <fcntl.h>
@@ -164,8 +164,8 @@ typedef enum e_validation_status
 #define	F_RGB 4
 #define	C_RGB 5
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 #define texWidth 64
 #define texHeight 64
 

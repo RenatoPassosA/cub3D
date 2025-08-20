@@ -6,11 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/20 10:09:58 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/20 10:19:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+#include "../graphics/graphics.h"
 
 int	quit_game(void)
 {
@@ -45,7 +46,9 @@ int	update_frame(void)
 	map->player.move_speed = map->player.frame_time * 6.0;
 	map->player.rotate_speed  = map->player.frame_time * 3.0;
 	keyboard_inputs(map);
+	init_minimap_data();
 	render();
+	render_minimap();
     return (0);
 }
 
