@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 14:01:04 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/21 10:24:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int on_key_press(int key, t_map *map)
         map->input.a = 1;
     else if (key == KEY_D)
         map->input.d = 1;
-    else if (key == KEY_LEFT)   
-        map->input.left  = 1;
-    else if (key == KEY_RIGHT)
-        map->input.right = 1;
+    // else if (key == KEY_LEFT)   
+    //     map->input.left  = 1;
+    // else if (key == KEY_RIGHT)
+    //     map->input.right = 1;
     else if (key == KEY_ESC)
         map->input.esc = 1;
     return (0);
@@ -41,10 +41,10 @@ int on_key_release(int key, t_map *map)
         map->input.a = 0;
     else if (key == KEY_D)
         map->input.d = 0;
-    else if (key == KEY_LEFT)   
-        map->input.left  = 0;
-    else if (key == KEY_RIGHT)
-        map->input.right = 0;
+    // else if (key == KEY_LEFT)   
+    //     map->input.left  = 0;
+    // else if (key == KEY_RIGHT)
+    //     map->input.right = 0;
     else if (key == KEY_ESC)
         map->input.esc = 0;
     return (0);

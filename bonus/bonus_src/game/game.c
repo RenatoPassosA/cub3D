@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/20 10:19:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/21 17:12:45 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	update_frame(void)
 	init_minimap_data();
 	render();
 	render_minimap();
+	recenter_mouse();
     return (0);
 }
 
@@ -60,6 +61,7 @@ void    game_loop(void)
     mlx_hook(map->mlx.win_ptr, 2, 1L<<0, on_key_press, map);
 	mlx_hook(map->mlx.win_ptr, 3, 1L<<1, on_key_release, map); 
 	mlx_hook(map->mlx.win_ptr, 17, 0, quit_game, map);
-	mlx_loop_hook(map->mlx.mlx_ptr, update_frame, NULL);
+	mlx_hook(map->mlx.win_ptr, 6, PointerMotionMask, mouse_movement, map);
+	mlx_loop_hook(map->mlx.mlx_ptr, update_frame, map);
 	mlx_loop(map->mlx.mlx_ptr);
 }

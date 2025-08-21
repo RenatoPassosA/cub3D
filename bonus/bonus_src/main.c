@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/20 10:40:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/21 11:21:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	main(int ac, char **av)
 	init_mlx();
 	init_player();
 	init_textures();
-	render();
+	init_cam();
+	//render();
 	game_loop();
 	return (0);
 }

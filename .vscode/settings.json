@@ -73,6 +73,8 @@
     "game.h": "c",
     "graphics_bonus.h": "c",
     "graphics.h": "c",
-    "cmath": "c"
+    "cmath": "c",
+    "stdint.h": "c",
+    "math.h": "c"
   }
 }

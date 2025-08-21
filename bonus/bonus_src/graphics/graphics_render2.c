@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 13:53:41 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/21 12:04:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void    set_wall_height(t_map *map)
 
     data = &map->render_data;
     data->lineHeight = (int)(SCREEN_HEIGHT / data->perpWallDist);
-    data->drawStart = -data->lineHeight / 2 + SCREEN_HEIGHT / 2;
-    data->drawEnd = data->lineHeight / 2 + SCREEN_HEIGHT / 2;
+    data->drawStart = -data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
+    data->drawEnd = data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
     if (data->drawStart < 0)
         data->drawStart = 0;
     if (data->drawEnd >= SCREEN_HEIGHT)
@@ -78,7 +78,7 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
 
     data = &map->render_data;
     data->text_step = (double)texture->height / (double)data->lineHeight;
-    data->text_position = (data->drawStart - SCREEN_HEIGHT/2 + data->lineHeight/2) * data->text_step;
+    data->text_position = (data->drawStart - (SCREEN_HEIGHT / 2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
     y = data->drawStart;
     while (y < data->drawEnd)
     {

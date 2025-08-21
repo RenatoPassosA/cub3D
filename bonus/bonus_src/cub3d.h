@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/20 10:46:52 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/21 17:12:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@
 #include <math.h>
 #include <sys/time.h>
 #include <stdint.h>
+
+typedef struct s_camera {
+	float pitch_offset;
+    float pitch_sens;
+    float yaw_sens;
+    int pitch_max;
+	int deadzone;
+	bool ignore_warp;
+	bool should_recentre;
+	int center_x;
+	int	center_y;
+	float dx_prev_smooth;
+} t_cam;
 
 typedef struct s_minimap {
     int margin;
@@ -129,6 +142,7 @@ typedef struct map_infos
 	t_mlx		mlx;
 	t_tex		textures[4];
 	t_mini		minimap;
+	t_cam		cam;
 } t_map;
 
 typedef enum e_validation_status
