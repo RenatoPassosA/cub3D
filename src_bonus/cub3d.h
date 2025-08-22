@@ -6,14 +6,14 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/22 12:54:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 15:46:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "../../utils/utils.h"
+#include "../utils/utils.h"
 
 #include <stdbool.h>
 #include <fcntl.h>

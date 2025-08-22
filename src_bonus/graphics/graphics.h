@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:56:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 15:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GRAPHICS_H
 
 #include "../cub3d.h"
-#include "../../../mlx/mlx.h"
+#include "../../mlx/mlx.h"
 
 void    render();
 void	init_textures();

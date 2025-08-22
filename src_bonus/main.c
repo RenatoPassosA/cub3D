@@ -6,12 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/22 12:55:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 15:50:34 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "../../src/parser/parser.h"
+#include "./parser/parser.h"
 #include "./game/game.h"
 #include "./graphics/graphics.h"
 

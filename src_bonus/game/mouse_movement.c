@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:53:35 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 15:58:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,29 @@ int     mouse_movement(int x, int y, void *param)
     map->cam.dx_prev_smooth = smooth_dx;
 
 
+    if (x <= map->cam.edge_margin)
+    {
+        map->cam.edge_dir = -1;
+        map->cam.edge_intensity = (float)(map->cam.edge_margin - x) / (float)map->cam.edge_margin;
+        if (map->cam.edge_intensity < 0)
+            map->cam.edge_intensity = 0;
+        else if (map->cam.edge_intensity > 1)
+            map->cam.edge_intensity = 1;
+    }
+    else if (x >= SCREEN_WIDTH - map->cam.edge_margin)
+    {
+        map->cam.edge_dir = 1;
+        map->cam.edge_intensity = (float)(x - (SCREEN_WIDTH - map->cam.edge_margin)) / (float)map->cam.edge_margin;
+        if (map->cam.edge_intensity < 0)
+            map->cam.edge_intensity = 0;
+        else if (map->cam.edge_intensity > 1)
+            map->cam.edge_intensity = 1;
+    }
+    else
+    {
+        map->cam.edge_dir = 0;
+        map->cam.edge_intensity = 0.0f;
+    }
 
     int m = map->cam.edge_margin;
     if (x <= m) {
@@ -116,27 +139,7 @@ int     mouse_movement(int x, int y, void *param)
         map->cam.edge_intensity = 0.0f;
     }
 
-    // if (x <= map->cam.edge_margin)
-    // {
-    //     map->cam.edge_dir = -1;
-    //     map->cam.edge_intensity = (map->cam.edge_margin - x) / map->cam.edge_margin;
-    //     if (map->cam.edge_intensity < 0)
-    //         map->cam.edge_intensity = 0;
-
-    // }
-    // else if (x >= SCREEN_WIDTH - map->cam.edge_margin)
-    // {
-    //     map->cam.edge_dir = 1;
-    //     map->cam.edge_intensity = (x - (SCREEN_WIDTH - map->cam.edge_margin)) / map->cam.edge_margin;
-    //     if (map->cam.edge_intensity < 0)
-    //         map->cam.edge_intensity = 0;
-    // }
-    // else
-    // {
-    //     map->cam.edge_dir = 0;
-    //     map->cam.edge_intensity = 0;
-    // }
- 
+    
     yaw = smooth_dx * map->cam.yaw_sens;
     if (yaw < -0.03)
         yaw = -0.03;
