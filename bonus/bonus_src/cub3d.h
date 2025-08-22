@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/21 17:12:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 12:54:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ typedef struct s_camera {
 	int center_x;
 	int	center_y;
 	float dx_prev_smooth;
+
+	int last_x;
+	int last_y;
+	bool mouse_init;
+
+
+	int edge_margin;
+	int	edge_dir;
+	float edge_intensity;
+	float edge_gain;
 } t_cam;
 
 typedef struct s_minimap {

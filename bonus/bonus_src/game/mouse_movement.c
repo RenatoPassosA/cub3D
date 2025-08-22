@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/21 17:12:47 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 12:53:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    init_cam()
     map = get_map_instance();
     map->cam.pitch_offset = 0;
     map->cam.pitch_sens = 0.3;
-    map->cam.yaw_sens = 0.0009;
+    map->cam.yaw_sens = 0.004;
     map->cam.pitch_max = SCREEN_HEIGHT / 4;
 	map->cam.deadzone = 2;
 	map->cam.ignore_warp = false;
@@ -28,6 +28,17 @@ void    init_cam()
     map->cam.center_y = SCREEN_HEIGHT / 2;
     map->cam.dx_prev_smooth = 0;
 
+    map->cam.last_x = 0;
+	map->cam.last_y = 0;
+	map->cam.mouse_init = false;
+
+
+    map->cam.edge_margin = 80;
+
+	map->cam.edge_dir = 0;
+
+	map->cam.edge_intensity = 0.0;
+    map->cam.edge_gain = 1.0;
 }
 void    recenter_mouse()
 {
@@ -43,85 +54,112 @@ void    recenter_mouse()
     }
 }
 
-
 int     mouse_movement(int x, int y, void *param)
 {
     t_map *map;
     int dy = 0;
     int dx = 0;
     float yaw = 0;
-    float dx_smooth = 0;
     float smoothiness = 0.35;
-    float fdx;
-    float fdy;
-    float ratio;
+    float smooth_dx = 0;
 
     map = (t_map *)param;
-    if (map->cam.ignore_warp && (x == map->cam.center_x && y == map->cam.center_y))
+
+
+    if (!map->cam.mouse_init)
     {
-        map->cam.ignore_warp = false;
-        return (0);
+        map->cam.last_x = x;
+        map->cam.last_y = y;
+        map->cam.dx_prev_smooth = 0.0f;
+        map->cam.mouse_init = true;
     }
-    
-    dx = x - map->cam.center_x;
-    dy = y - map->cam.center_y;
+
+
+       
+    dx = x - map->cam.last_x;
+    dy = y - map->cam.last_y;
     
     if (abs(dx) < map->cam.deadzone)
     {
         dx = 0;
-        map->cam.dx_prev_smooth = 0;
+        map->cam.dx_prev_smooth = 0.0f;
     }
 
     if (abs(dy) < map->cam.deadzone)
         dy = 0;
     
-   
-
-   
-
-   
-
-
-    fdx = fabsf(dx);
-    fdy = fabsf(dy);
-    ratio = 0.15f;
-
-    
-    if (fdy <= ratio * fdx)
-        dy = 0;
-    else if (fdx <= ratio * fdy)
+    if ((dx != 0) && (map->cam.dx_prev_smooth != 0.0f) && ((dx > 0 && map->cam.dx_prev_smooth < 0.0f) || (dx < 0 && map->cam.dx_prev_smooth > 0.0f)))
     {
-        map->cam.dx_prev_smooth = 0;
-        dx = 0;
+        map->cam.dx_prev_smooth = 0.0f;
+    }
+       
+    smooth_dx = smoothiness * (float)dx + (1.0f - smoothiness) * map->cam.dx_prev_smooth;
+    map->cam.dx_prev_smooth = smooth_dx;
+
+
+
+    int m = map->cam.edge_margin;
+    if (x <= m) {
+        map->cam.edge_dir = -1;
+        float t = (float)(m - x) / (float)m;      // 0..1
+        if (t < 0.0f) t = 0.0f;
+        if (t > 1.0f) t = 1.0f;
+        map->cam.edge_intensity = t;
+    } else if (x >= SCREEN_WIDTH - m) {
+        map->cam.edge_dir = +1;
+        float t = (float)(x - (SCREEN_WIDTH - m)) / (float)m; // 0..1
+        if (t < 0.0f) t = 0.0f;
+        if (t > 1.0f) t = 1.0f;
+        map->cam.edge_intensity = t;
+    } else {
+        map->cam.edge_dir = 0;
+        map->cam.edge_intensity = 0.0f;
     }
 
+    // if (x <= map->cam.edge_margin)
+    // {
+    //     map->cam.edge_dir = -1;
+    //     map->cam.edge_intensity = (map->cam.edge_margin - x) / map->cam.edge_margin;
+    //     if (map->cam.edge_intensity < 0)
+    //         map->cam.edge_intensity = 0;
 
-    if (dx == 0 && dy == 0)
-        return (0);
-
-    if (dx > 18)
-        dx = 18;
-    if (dx < -18)
-        dx = -18;
-        
-    dx_smooth = smoothiness * dx + (1 - smoothiness) * map->cam.dx_prev_smooth;
-    map->cam.dx_prev_smooth = dx_smooth;
-    yaw = dx_smooth * map->cam.yaw_sens;
+    // }
+    // else if (x >= SCREEN_WIDTH - map->cam.edge_margin)
+    // {
+    //     map->cam.edge_dir = 1;
+    //     map->cam.edge_intensity = (x - (SCREEN_WIDTH - map->cam.edge_margin)) / map->cam.edge_margin;
+    //     if (map->cam.edge_intensity < 0)
+    //         map->cam.edge_intensity = 0;
+    // }
+    // else
+    // {
+    //     map->cam.edge_dir = 0;
+    //     map->cam.edge_intensity = 0;
+    // }
+ 
+    yaw = smooth_dx * map->cam.yaw_sens;
     if (yaw < -0.03)
         yaw = -0.03;
     if (yaw > 0.03)
         yaw = 0.03;
-    rotate_player(map, yaw);
-    map->cam.pitch_offset += dy * map->cam.pitch_sens;
-    if (map->cam.pitch_offset < -map->cam.pitch_max)
-        map->cam.pitch_offset = -map->cam.pitch_max;
-    if (map->cam.pitch_offset > map->cam.pitch_max)
-        map->cam.pitch_offset = map->cam.pitch_max;
+    if (yaw != 0.0f)
+        rotate_player(map, yaw);
+    if (dy != 0)
+    {
+        map->cam.pitch_offset += dy * map->cam.pitch_sens;
+        if (map->cam.pitch_offset < -map->cam.pitch_max)
+            map->cam.pitch_offset = -map->cam.pitch_max;
+        if (map->cam.pitch_offset > map->cam.pitch_max)
+            map->cam.pitch_offset = map->cam.pitch_max;
+    }
     
-    map->cam.should_recentre = true;
+    map->cam.last_x = x;
+    map->cam.last_y = y;
 
     return (0);
 }
+
+
 
 
 

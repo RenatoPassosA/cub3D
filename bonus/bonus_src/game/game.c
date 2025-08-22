@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/21 17:12:45 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 12:53:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,14 @@ int	update_frame(void)
 	map->player.move_speed = map->player.frame_time * 6.0;
 	map->player.rotate_speed  = map->player.frame_time * 3.0;
 	keyboard_inputs(map);
+	if (map->cam.edge_dir != 0)
+	{
+		float yaw_extra = map->cam.edge_dir * map->player.rotate_speed * map->cam.edge_gain * map->cam.edge_intensity;
+		rotate_player(map, yaw_extra);
+	}
 	init_minimap_data();
 	render();
 	render_minimap();
-	recenter_mouse();
     return (0);
 }
 

@@ -6,12 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/08/20 10:46:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 12:56:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GRAPHICS_BONUS_H
-# define GRAPHICS_BONUS_H
+#ifndef GRAPHICS_H
+# define GRAPHICS_H
 
 #include "../cub3d.h"
 #include "../../../mlx/mlx.h"

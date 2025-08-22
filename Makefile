@@ -6,7 +6,7 @@
 #    By: renato <renato@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/22 17:02:19 by rpassos-          #+#    #+#              #
-#    Updated: 2025/08/21 12:26:48 by renato           ###   ########.fr        #
+#    Updated: 2025/08/22 12:25:31 by renato           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,9 @@ compilebonus:
 
 sanitizer:
 	$(CC) $(CCFLAGS) $(SRCS) $(MLX) -g -o cub3d -g -fsanitize=address -fno-omit-frame-pointer
+
+sanitizerbonus:
+	$(CC) $(CCFLAGS) $(SRC_BONUS) $(MLX) -g -o cub3d_bonus -g -fsanitize=address -fno-omit-frame-pointer
 
 test:
 	@clear
