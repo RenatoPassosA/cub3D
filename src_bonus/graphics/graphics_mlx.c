@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:00:36 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:54:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 16:33:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    init_mlx()
 {
-     t_map   *map;
+    t_map   *map;
 
     map = get_map_instance();
     map->mlx.mlx_ptr = mlx_init();
@@ -25,5 +25,5 @@ void    init_mlx()
         exit(1);
     map->mlx.img_ptr = mlx_new_image(map->mlx.mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT);
     map->mlx.img_data = mlx_get_data_addr(map->mlx.img_ptr, &map->mlx.bits_per_pixel, &map->mlx.size_line, &map->mlx.endian);
-    mlx_mouse_hide(map->mlx.mlx_ptr, map->mlx.win_ptr);
+
 }

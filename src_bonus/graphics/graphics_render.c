@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:53:58 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/22 16:29:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,61 @@ static void    set_initial_data(t_map *map, int x)
     data->deltaDistY = fabs(1 / data->rayDirY);
 }
 
+void    draw_target()
+{
+    t_map   *map;
+
+    map = get_map_instance();
+    
+    int len = fmax(8, SCREEN_HEIGHT/100);
+    int t = 2;
+    int color = 0xFFFFFF;
+    int cx = SCREEN_WIDTH / 2;
+    int cy = SCREEN_HEIGHT / 2;
+    int x = cx - len;
+    int y = cy - t;
+
+    while (x <= cx + len)
+    {
+       if (abs(x - cx) < 3)
+            {
+                x++;
+                continue;
+            }
+        while (y <= cy + t)
+        {
+            if ((unsigned)x >= SCREEN_WIDTH || (unsigned)y >= SCREEN_HEIGHT)
+                continue;
+            map->render_data.offset = y * map->mlx.size_line + x * (map->mlx.bits_per_pixel/8);
+            *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = color;
+            y++;
+        }
+        y = cy - t;
+        x++;
+    }
+    x = cx - t;
+    while (y <= cy + len)
+    {
+       if (abs(y - cy) < 3)
+            {
+                y++;
+                continue;
+            }
+        while (x <= cx + t)
+        {
+            if ((unsigned)x >= SCREEN_WIDTH || (unsigned)y >= SCREEN_HEIGHT)
+                continue;
+            map->render_data.offset = y * map->mlx.size_line + x * (map->mlx.bits_per_pixel/8);
+            *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = color;
+            x++;
+        }
+        x = cx - t;
+        y++;
+    }
+    
+    
+}
+
 void    render()
 {
     t_map   *map;
@@ -120,6 +175,7 @@ void    render()
         draw_ceiling(map, x);
         draw_walls(map, texture, x);
         draw_floor(map, x);
+        draw_target();
     }
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);
 }

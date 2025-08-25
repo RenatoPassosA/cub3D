@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 15:58:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/25 15:36:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,29 @@ int     mouse_movement(int x, int y, void *param)
         map->cam.edge_intensity = 0.0f;
     }
 
-    int m = map->cam.edge_margin;
-    if (x <= m) {
+    float t;
+    if (x <= map->cam.edge_margin)
+    {
         map->cam.edge_dir = -1;
-        float t = (float)(m - x) / (float)m;      // 0..1
-        if (t < 0.0f) t = 0.0f;
-        if (t > 1.0f) t = 1.0f;
+        t = (float)(map->cam.edge_margin - x) / (float)map->cam.edge_margin;
+        if (t < 0.0f)
+            t = 0.0f;
+        if (t > 1.0f)
+            t = 1.0f;
         map->cam.edge_intensity = t;
-    } else if (x >= SCREEN_WIDTH - m) {
+    }
+    else if (x >= SCREEN_WIDTH - map->cam.edge_margin)
+    {
         map->cam.edge_dir = +1;
-        float t = (float)(x - (SCREEN_WIDTH - m)) / (float)m; // 0..1
-        if (t < 0.0f) t = 0.0f;
-        if (t > 1.0f) t = 1.0f;
+        t = (float)(x - (SCREEN_WIDTH - map->cam.edge_margin)) / (float)map->cam.edge_margin;
+        if (t < 0.0f)
+            t = 0.0f;
+        if (t > 1.0f)
+            t = 1.0f;
         map->cam.edge_intensity = t;
-    } else {
+    }
+    else
+    {
         map->cam.edge_dir = 0;
         map->cam.edge_intensity = 0.0f;
     }
