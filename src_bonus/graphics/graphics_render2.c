@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 09:44:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 10:06:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
 
     data = &map->render_data;
     data->text_step = (double)texture->height / (double)data->lineHeight;
-    data->text_position = (data->drawStart - SCREEN_HEIGHT/2 + data->lineHeight/2) * data->text_step;
+    data->text_position = (data->drawStart - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
     y = data->drawStart;
     while (y < data->drawEnd)
     {

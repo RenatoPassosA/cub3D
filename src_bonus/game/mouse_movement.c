@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:25:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:06:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    init_cam()
 
     map = get_map_instance();
     map->cam.pitch_offset = 0;
-    map->cam.pitch_sens = 0.3;
+    map->cam.pitch_sens = 0.9;
     map->cam.yaw_sens = 0.004;
     map->cam.pitch_max = SCREEN_HEIGHT / 4;
 	map->cam.deadzone = 2;

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:21:29 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 09:25:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:02:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,12 @@ void    render_floor_and_ceiling()
     double fracX;
     double fracY;
     int p;
-    int y_top;
  
     horizon = SCREEN_HEIGHT / 2 + map->cam.pitch_offset;
-
-    y = horizon + 1;
-    if (y < 0)
-        y = 0;
-    x = 0;
+    //y = horizon + 1;
+    // if (y < 0)
+    //     y = 0;
+    
 
     
     
@@ -56,16 +54,58 @@ void    render_floor_and_ceiling()
     rayDirY0 = map->player.dirY - map->player.planeY;
     rayDirX1 = map->player.dirX + map->player.planeX;
     rayDirY1 = map->player.dirY + map->player.planeY;
-    while (y < SCREEN_HEIGHT)
+
+
+    y = 0;
+    x = 0;
+    while (y < horizon - 1)
     {
-        p = y - horizon;
-        
-        
+        p = horizon - y;
+        if (p <= 0)
+        {
+            y++;
+            continue ;
+        }
         rowDistance = posZ / p;  
         floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
         floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
         floorX = map->player.posX + rowDistance * rayDirX0;
         floorY = map->player.posY + rowDistance * rayDirY0;
+
+        while (x < SCREEN_WIDTH)
+        {
+            cellX = (int)(floorX);
+            cellY = (int)(floorY);
+
+            fracX = floorX - cellX;
+            fracY = floorY - cellY;
+
+            
+            tx = (int)(map->textures[5].width * fracX) & (map->textures[5].width - 1);
+            ty = (int)(map->textures[5].height * fracY) & (map->textures[5].height - 1);
+
+            data->color = texel_at(&map->textures[5], tx, ty);
+            data->bytes = map->mlx.bits_per_pixel / 8;
+            data->offset = y * map->mlx.size_line + x * data->bytes;
+            *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
+            floorX += floorStepX;
+            floorY += floorStepY;
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+    
+    y = horizon + 1;
+    while (y < SCREEN_HEIGHT - 1)
+    {
+        p = y - horizon;
+        rowDistance = posZ / p;  
+        floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
+        floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
+        floorX = map->player.posX + rowDistance * rayDirX0;
+        floorY = map->player.posY + rowDistance * rayDirY0;
+
         while (x < SCREEN_WIDTH)
         {
             cellX = (int)(floorX);
@@ -82,35 +122,81 @@ void    render_floor_and_ceiling()
             data->bytes = map->mlx.bits_per_pixel / 8;
             data->offset = y * map->mlx.size_line + x * data->bytes;
             *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
-
-            y_top = 2 * horizon - y;
-            if (y_top <= 0)
-                y_top = 0;
-            else if (y_top > horizon)
-                y_top = horizon;
-            tx = (int)(map->textures[5].width * fracX) & (map->textures[5].width - 1);
-            ty = (int)(map->textures[5].height * fracY) & (map->textures[5].height - 1);
-
-            data->color = texel_at(&map->textures[5], tx, ty);
-            data->color = (data->color >> 1) & 0x7F7F7F;
-            data->bytes = map->mlx.bits_per_pixel / 8;
-            data->offset = y_top * map->mlx.size_line + x * data->bytes;
-            *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
-
-
-           
-            
-            
             floorX += floorStepX;
             floorY += floorStepY;
             x++;
         }
         x = 0;
+
+
+        y++;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+    
+    // while (y < SCREEN_HEIGHT)
+    // {
+    //     p = y - horizon;
+        
+        
+    //     rowDistance = posZ / p;  
+    //     floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
+    //     floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
+    //     floorX = map->player.posX + rowDistance * rayDirX0;
+    //     floorY = map->player.posY + rowDistance * rayDirY0;
+    //     while (x < SCREEN_WIDTH)
+    //     {
+    //         cellX = (int)(floorX);
+    //         cellY = (int)(floorY);
+
+    //         fracX = floorX - cellX;
+    //         fracY = floorY - cellY;
+
+            
+    //         tx = (int)(map->textures[4].width * fracX) & (map->textures[4].width - 1);
+    //         ty = (int)(map->textures[4].height * fracY) & (map->textures[4].height - 1);
+
+    //         data->color = texel_at(&map->textures[4], tx, ty);
+    //         data->bytes = map->mlx.bits_per_pixel / 8;
+    //         data->offset = y * map->mlx.size_line + x * data->bytes;
+    //         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
+
+    //         y_top = 2 * horizon - y;
+    //         if (y_top <= 0)
+    //             y_top = 0;
+    //         else if (y_top > horizon)
+    //             y_top = horizon;
+    //         tx = (int)(map->textures[5].width * fracX) & (map->textures[5].width - 1);
+    //         ty = (int)(map->textures[5].height * fracY) & (map->textures[5].height - 1);
+
+    //         data->color = texel_at(&map->textures[5], tx, ty);
+    //         data->color = (data->color >> 1) & 0x7F7F7F;
+    //         data->bytes = map->mlx.bits_per_pixel / 8;
+    //         data->offset = y_top * map->mlx.size_line + x * data->bytes;
+    //         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
+
+
+           
+            
+            
+    //         floorX += floorStepX;
+    //         floorY += floorStepY;
+    //         x++;
+    //     }
+    //     x = 0;
         
        
     
-        y++;
-    }
+    //     y++;
+    // }
 
-    
-}

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 09:44:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 10:05:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void    render()
     t_map   *map;
     t_tex   *texture;
     int x;
- 
     
     map = get_map_instance();
     x = -1;    
@@ -169,15 +168,14 @@ void    render()
         check_hit_wall(map);
         set_perp_dist(map);
         if (map->render_data.perpWallDist <= 0)
-        {
-            x++;
             continue;
-        }
         set_texture_and_coordinates(map, &texture);
         set_wall_height(map);
+        if (map->render_data.drawEnd < 0 || map->render_data.drawStart >= SCREEN_HEIGHT || map->render_data.lineHeight <= 0)
+            continue;
         draw_walls(map, texture, x);
-        draw_target();
     }
+    draw_target();
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);
 }
 

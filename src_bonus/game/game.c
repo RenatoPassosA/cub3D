@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:23:43 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 11:04:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	quit_game(void)
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[1].img);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[2].img);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[3].img);
+	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[4].img);
+	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[5].img);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->mlx.img_ptr);
 	mlx_destroy_window(map->mlx.mlx_ptr, map->mlx.win_ptr);
 	mlx_loop_end(map->mlx.mlx_ptr);
