@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game.h                                             :+:      :+:    :+:   */
+/*   game_bonus.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:50:52 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 16:35:46 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:12:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GAME_H
-# define GAME_H
+#ifndef GAME_BONUS_H
+# define GAME_BONUS_H
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 #include "../../mlx/mlx.h"
-#include "../graphics/graphics.h"
+#include "../graphics/graphics_bonus.h"
 
 #include <X11/X.h>
 

@@ -6,14 +6,14 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/22 16:31:00 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:25:26 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-#include "./parser/parser.h"
-#include "./game/game.h"
-#include "./graphics/graphics.h"
+#include "cub3d_bonus.h"
+#include "./parser/parser_bonus.h"
+#include "./game/game_bonus.h"
+#include "./graphics/graphics_bonus.h"
 
 int	check_argument(int ac, char **av)
 {

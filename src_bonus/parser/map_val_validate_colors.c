@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:05:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/19 13:55:01 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:11:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parser_bonus.h"
 
 static bool check_rgb_range(int val)
 {

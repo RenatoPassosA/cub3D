@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:54:00 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:09:47 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
+#include "graphics_bonus.h"
 
 static void    set_player_direction(t_player *player, char c)
 {

@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 17:34:28 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 13:55:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:11:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 
 static void	putstr(char *msg)
 {

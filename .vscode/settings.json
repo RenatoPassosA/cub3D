@@ -75,6 +75,9 @@
     "graphics.h": "c",
     "cmath": "c",
     "stdint.h": "c",
-    "math.h": "c"
+    "math.h": "c",
+    "mlx.h": "c",
+    "parser_bonus.h": "c",
+    "game_bonus.h": "c"
   }
 }

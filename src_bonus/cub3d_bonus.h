@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/22 15:46:19 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 09:46:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 #include "../utils/utils.h"
 
@@ -33,12 +33,9 @@ typedef struct s_camera {
 	int center_x;
 	int	center_y;
 	float dx_prev_smooth;
-
 	int last_x;
 	int last_y;
 	bool mouse_init;
-
-
 	int edge_margin;
 	int	edge_dir;
 	float edge_intensity;
@@ -150,7 +147,7 @@ typedef struct map_infos
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
-	t_tex		textures[4];
+	t_tex		textures[6];
 	t_mini		minimap;
 	t_cam		cam;
 } t_map;
@@ -192,6 +189,7 @@ typedef enum e_validation_status
 #define SCREEN_HEIGHT 600
 #define texWidth 64
 #define texHeight 64
+#define PI 3.14
 
 #define KEY_ESC     65307
 #define KEY_LEFT    65361

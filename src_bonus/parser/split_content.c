@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:36:13 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 13:55:32 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:10:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parser_bonus.h"
 
 bool	is_type_identifier(char *splitted)
 {

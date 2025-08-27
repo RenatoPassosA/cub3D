@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics.h                                         :+:      :+:    :+:   */
+/*   graphics_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 15:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 09:01:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GRAPHICS_H
-# define GRAPHICS_H
+#ifndef GRAPHICS_BONUS_H
+# define GRAPHICS_BONUS_H
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 #include "../../mlx/mlx.h"
 
 void    render();
@@ -25,8 +25,10 @@ uint32_t texel_at(const t_tex *t, int tx, int ty);
 void    draw_walls(t_map *map, t_tex *texture, int x);
 void    set_texture_and_coordinates(t_map *map, t_tex **texture);
 
+void    render_floor_and_ceiling();
 
-//BONUS
+
+
 
 void    render_minimap();
 void    init_minimap_data();

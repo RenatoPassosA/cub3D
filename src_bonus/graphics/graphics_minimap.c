@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:27:27 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:54:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:09:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
+#include "graphics_bonus.h"
 
 void    init_minimap_data()
 {

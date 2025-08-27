@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:48:31 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 14:07:51 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:10:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PARSER_BONUS_H
+# define PARSER_BONUS_H
 
-#include "../cub3d.h"
+#include "../cub3d_bonus.h"
 
 bool                find_map(char *line);
 t_validation_status	flood_fill(char **map);

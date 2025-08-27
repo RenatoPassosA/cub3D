@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:19:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 13:55:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:11:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parser_bonus.h"
 
 static int get_rgb(int r, int g, int b)
 {

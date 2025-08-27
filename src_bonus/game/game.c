@@ -6,12 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 16:36:04 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/26 15:23:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
-#include "../graphics/graphics.h"
+#include "game_bonus.h"
+#include "../graphics/graphics_bonus.h"
 
 int	quit_game(void)
 {

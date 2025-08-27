@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 12:53:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 09:44:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
+#include "graphics_bonus.h"
 
 void    set_texture_and_coordinates(t_map *map, t_tex **texture)
 {
@@ -55,22 +55,6 @@ void    set_wall_height(t_map *map)
         data->drawEnd = SCREEN_HEIGHT - 1;
 }
 
-void    draw_ceiling(t_map *map, int x)
-{
-    int y;
-    t_render *data;
-
-    y = 0;
-    data = &map->render_data;
-    while (y < map->render_data.drawStart)
-    {
-        data->bytes = map->mlx.bits_per_pixel / 8;
-        data->offset = y * map->mlx.size_line + x * data->bytes;
-        *(uint32_t *)(map->mlx.img_data + data->offset) = map->ceiling_rgb;
-        y++;
-    }   
-}
-
 void    draw_walls(t_map *map, t_tex *texture, int x)
 {
     int y;
@@ -78,7 +62,7 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
 
     data = &map->render_data;
     data->text_step = (double)texture->height / (double)data->lineHeight;
-    data->text_position = (data->drawStart - (SCREEN_HEIGHT / 2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
+    data->text_position = (data->drawStart - SCREEN_HEIGHT/2 + data->lineHeight/2) * data->text_step;
     y = data->drawStart;
     while (y < data->drawEnd)
     {
@@ -92,22 +76,6 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
         data->bytes = map->mlx.bits_per_pixel / 8;
         data->offset = y * map->mlx.size_line + x * data->bytes;
         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
-        y++;
-    }
-}
-
-void    draw_floor(t_map *map, int x)
-{
-    int y;
-    t_render *data;
-
-    data = &map->render_data;
-    y = map->render_data.drawEnd + 1;
-    while (y < SCREEN_HEIGHT)
-    {
-        data->bytes = map->mlx.bits_per_pixel / 8;
-        data->offset = y * map->mlx.size_line + x * data->bytes;
-        *(uint32_t *)(map->mlx.img_data + data->offset) = map->floor_rgb;
         y++;
     }
 }

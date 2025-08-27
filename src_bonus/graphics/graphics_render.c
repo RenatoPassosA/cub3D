@@ -6,11 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/22 16:29:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/27 09:44:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
+#include "graphics_bonus.h"
 
 static void    set_perp_dist(t_map *map)
 {
@@ -155,12 +155,15 @@ void    render()
     t_map   *map;
     t_tex   *texture;
     int x;
+ 
     
     map = get_map_instance();
     x = -1;    
     ft_memset(map->mlx.img_data, 0, SCREEN_WIDTH * SCREEN_HEIGHT * (map->mlx.bits_per_pixel / 8));
+    render_floor_and_ceiling();
     while (++x < SCREEN_WIDTH)
     {
+       
         set_initial_data(map, x);
         get_ray_direction(map);
         check_hit_wall(map);
@@ -172,9 +175,7 @@ void    render()
         }
         set_texture_and_coordinates(map, &texture);
         set_wall_height(map);
-        draw_ceiling(map, x);
         draw_walls(map, texture, x);
-        draw_floor(map, x);
         draw_target();
     }
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);
