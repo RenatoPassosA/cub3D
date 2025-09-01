@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 11:06:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/28 12:09:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,15 @@ void    init_cam()
     map->cam.center_x = SCREEN_WIDTH / 2;
     map->cam.center_y = SCREEN_HEIGHT / 2;
     map->cam.dx_prev_smooth = 0;
-
     map->cam.last_x = 0;
 	map->cam.last_y = 0;
 	map->cam.mouse_init = false;
-
-
     map->cam.edge_margin = 80;
-
 	map->cam.edge_dir = 0;
-
 	map->cam.edge_intensity = 0.0;
     map->cam.edge_gain = 1.0;    
 }
+
 void    recenter_mouse()
 {
     t_map *map;
@@ -169,6 +165,17 @@ int     mouse_movement(int x, int y, void *param)
     map->cam.last_y = y;
 
     return (0);
+}
+
+void	check_rotate_on_edge(t_map *map)
+{
+	float yaw_extra;
+	
+	if (map->cam.edge_dir != 0)
+	{
+		yaw_extra = map->cam.edge_dir * map->player.rotate_speed * map->cam.edge_gain * map->cam.edge_intensity;
+		rotate_player(map, yaw_extra);
+	}
 }
 
 

@@ -6,11 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:12:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 12:28:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game_bonus.h"
+#include "../graphics/graphics_bonus.h"
 
 int on_key_press(int key, t_map *map)
 { 
@@ -22,12 +23,10 @@ int on_key_press(int key, t_map *map)
         map->input.a = 1;
     else if (key == KEY_D)
         map->input.d = 1;
-    // else if (key == KEY_LEFT)   
-    //     map->input.left  = 1;
-    // else if (key == KEY_RIGHT)
-    //     map->input.right = 1;
     else if (key == KEY_ESC)
         map->input.esc = 1;
+    else if (key == KEY_E)
+        map->input.use = 1;
     return (0);
 }
 
@@ -41,16 +40,14 @@ int on_key_release(int key, t_map *map)
         map->input.a = 0;
     else if (key == KEY_D)
         map->input.d = 0;
-    // else if (key == KEY_LEFT)   
-    //     map->input.left  = 0;
-    // else if (key == KEY_RIGHT)
-    //     map->input.right = 0;
     else if (key == KEY_ESC)
         map->input.esc = 0;
+    else if (key == KEY_E)
+        map->input.use = 0;
     return (0);
 }
 
-int is_walkable(t_map *map, int x, int y)
+int is_walkable(t_map *map, int y, int x)
 {
     int width;
     
@@ -62,23 +59,36 @@ int is_walkable(t_map *map, int x, int y)
     return (map->map[y][x] == '0');
 }
 
-void move_axis(t_map *map, double nextX, double nextY, char axis)
+void move_axis(t_map *map, double next_x, double next_y, char axis)
 {
-    int targetCellX;
-    int targetCellY;
+    int target_cell_x;
+    int target_cell_y;
+    int door_id;
     if (axis == 'X')
     {
-        targetCellX = (int)floor(nextX);
-        targetCellY = (int)floor(map->player.posY);
-        if (is_walkable(map, targetCellX, targetCellY))
-            map->player.posX = nextX;
+        target_cell_x = (int)floor(next_x);
+        target_cell_y = (int)floor(map->player.posY);
+        if (is_walkable(map, target_cell_y, target_cell_x))
+            map->player.posX = next_x;
+        else if (is_door(map, target_cell_y, target_cell_x))
+        {
+            door_id = get_door_id(map, target_cell_y, target_cell_x);
+            if (map->doors[door_id].open_amount >= DOOR_THRESHOLD)
+                map->player.posX = next_x;
+        }
     }
     else
     {
-        targetCellX = (int)floor(map->player.posX);
-        targetCellY = (int)floor(nextY);
-        if (is_walkable(map, targetCellX, targetCellY))
-            map->player.posY = nextY;
+        target_cell_x = (int)floor(map->player.posX);
+        target_cell_y = (int)floor(next_y);
+        if (is_walkable(map, target_cell_y, target_cell_x))
+            map->player.posY = next_y;
+        else if (is_door(map, target_cell_y, target_cell_x))
+        {
+            door_id = get_door_id(map, target_cell_y, target_cell_x);
+            if (map->doors[door_id].open_amount >= DOOR_THRESHOLD)
+                map->player.posY = next_y;
+        }
     }
 }
 

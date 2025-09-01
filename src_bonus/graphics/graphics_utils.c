@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 08:51:54 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 12:37:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_textures()
 	map->textures[3].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->EA_texture, &map->textures[3].width, &map->textures[3].height);
 	map->textures[4].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/colorstone.xpm", &map->textures[4].width, &map->textures[4].height);
 	map->textures[5].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/ceiling.xpm", &map->textures[5].width, &map->textures[5].height);
+	map->textures[6].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/door.xpm", &map->textures[6].width, &map->textures[6].height);
 
 	if (!map->textures[0].img || !map->textures[1].img || !map->textures[2].img || !map->textures[3].img || !map->textures[4].img || !map->textures[5].img) //inserir loop para verificar tudo
 	{
@@ -46,8 +47,10 @@ void	init_textures()
 	map->textures[3].addr = mlx_get_data_addr(map->textures[3].img, &map->textures[3].bpp, &map->textures[3].line_len, &map->textures[3].endian);
 	map->textures[4].addr = mlx_get_data_addr(map->textures[4].img, &map->textures[4].bpp, &map->textures[4].line_len, &map->textures[4].endian);
 	map->textures[5].addr = mlx_get_data_addr(map->textures[5].img, &map->textures[5].bpp, &map->textures[5].line_len, &map->textures[5].endian);
+	map->textures[6].addr = mlx_get_data_addr(map->textures[6].img, &map->textures[6].bpp, &map->textures[6].line_len, &map->textures[6].endian);
+	
 
-	if (!map->textures[0].addr || !map->textures[1].addr || !map->textures[2].addr || !map->textures[3].addr || !map->textures[4].addr || !map->textures[5].addr) //inserir loop para verificar tudo
+	if (!map->textures[0].addr || !map->textures[1].addr || !map->textures[2].addr || !map->textures[3].addr || !map->textures[4].addr || !map->textures[5].addr  || !map->textures[6].addr) //inserir loop para verificar tudo
 	{
 		clean_all_and_message_error("Error on loading texture.", NULL, NULL);
 		quit_game();

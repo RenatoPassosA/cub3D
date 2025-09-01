@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:50:52 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:12:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 12:42:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,9 @@ void    move_axis(t_map *map, double nextX, double nextY, char axis);
 int    mouse_movement(int x, int y, void *param);
 void    recenter_mouse();
 void    init_cam();
+void	check_rotate_on_edge(t_map *map);
+bool is_door(t_map *map, int y, int x);
+int get_door_id(t_map *map, int y, int x);
+void    input_use(t_map *map);
 
 #endif

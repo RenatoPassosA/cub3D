@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 11:04:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 13:07:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	quit_game(void)
 	exit(1);
 }
 
+
+
+
 int	update_frame(void)
 {
 	t_map *map;
@@ -48,12 +51,11 @@ int	update_frame(void)
 	map->player.move_speed = map->player.frame_time * 6.0;
 	map->player.rotate_speed  = map->player.frame_time * 3.0;
 	keyboard_inputs(map);
-	if (map->cam.edge_dir != 0)
-	{
-		float yaw_extra = map->cam.edge_dir * map->player.rotate_speed * map->cam.edge_gain * map->cam.edge_intensity;
-		rotate_player(map, yaw_extra);
-	}
+	check_rotate_on_edge(map);
 	init_minimap_data();
+	
+	door_animation(map->player.frame_time);
+
 	render();
 	render_minimap();
     return (0);

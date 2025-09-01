@@ -6,11 +6,12 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 10:05:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/01 13:01:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics_bonus.h"
+#include "../game/game_bonus.h"
 
 static void    set_perp_dist(t_map *map)
 {
@@ -24,9 +25,129 @@ static void    set_perp_dist(t_map *map)
     
 }
 
+
+void set_door_plane(t_map *map, int id)
+{
+    double offset;
+    double x_plane;
+    double y_plane;
+    double t;
+    double Y_hit;
+    double X_hit;
+    double frac;
+    double perpdist;
+    int tx;
+    int tw;
+
+    
+
+    offset = map->doors[id].open_amount * 0.4999;
+    if (map->doors[id].orientation == DOOR_VERTICAL)
+    {
+        if (map->doors[id].is_open)
+            return;
+        x_plane = map->doors[id].x + 0.5 + offset;
+        if (!(map->doors[id].x <= x_plane && x_plane < map->doors[id].x + 1))
+            return ;
+        if (fabs(map->render_data.rayDirX) < 0.000001)
+            return ;
+        if (map->render_data.rayDirX != 0)
+        {
+            t = (x_plane - map->player.posX) / map->render_data.rayDirX;
+            if (t <= 0)
+            {
+                return;
+            }
+            Y_hit = map->player.posY + t * map->render_data.rayDirY;
+            if (!(map->doors[id].y <= Y_hit && Y_hit < map->doors[id].y + 1)) {
+                return;
+            }
+         
+            frac = Y_hit - floor(Y_hit);
+            perpdist = t * map->render_data.ray_view_cos;
+            if (perpdist <= 0)
+                return;
+            tx = (int)(frac * map->textures[6].width);
+            if (tx < 0)
+                tx = 0;
+            tw = map->textures[6].width;
+            if (tx >= tw)
+                tx = tw - 1;
+        }
+         if (!map->render_data.door_has_hit || t < map->render_data.door_t)
+         {
+            map->render_data.door_has_hit = 1;
+            map->render_data.door_t = t;
+            map->render_data.door_perp_dist = perpdist;
+            map->render_data.door_is_vertical = 1;
+            map->render_data.door_hitx = x_plane;
+            map->render_data.door_hity = Y_hit;
+            map->render_data.door_tx = tx;
+            map->render_data.door_id = id;
+        }
+
+        
+    }
+    else if (map->doors[id].orientation == DOOR_HORIZONTAL)
+    {
+        if (map->doors[id].is_open)
+            return;
+        y_plane = map->doors[id].y + 0.5 + offset;
+        if (!(map->doors[id].y <= y_plane && y_plane < map->doors[id].y + 1))
+            return ;
+        if (fabs(map->render_data.rayDirY) < 0.000001)
+            return ;
+        if (map->render_data.rayDirY != 0)
+        {
+                        
+            t = (y_plane - map->player.posY) / map->render_data.rayDirY;
+
+            if (t <= 0)
+                return;
+            X_hit = map->player.posX + t * map->render_data.rayDirX;
+
+            if (!(map->doors[id].x <= X_hit && X_hit < map->doors[id].x + 1))
+                return;
+            frac = X_hit - floor(X_hit);
+            perpdist = t * map->render_data.ray_view_cos;
+            if (perpdist <= 0)
+                return;
+            tx = (int)(frac * map->textures[6].width);
+            if (tx < 0)
+                tx = 0;
+            tw = map->textures[6].width;
+            if (tx >= tw)
+                tx = tw - 1;
+        }
+
+         if (!map->render_data.door_has_hit || t < map->render_data.door_t)
+         {
+            map->render_data.door_has_hit = 1;
+            map->render_data.door_t = t;
+            map->render_data.door_perp_dist = perpdist;
+            map->render_data.door_is_vertical = 0;
+            map->render_data.door_hitx = X_hit;
+            map->render_data.door_hity = y_plane;
+            map->render_data.door_tx = tx;
+            map->render_data.door_id = id;
+        }
+
+        
+    }
+    
+    
+}
+
+static int is_wall_like(char c)
+{
+    return (c == '1' || c == ' ' || c == '\0');
+}
+
 static void    check_hit_wall(t_map *map)
 {
     t_render *data;
+    int roww;
+    int did;
 
     data = &map->render_data;
     while (!data->hit)
@@ -42,13 +163,28 @@ static void    check_hit_wall(t_map *map)
             data->sideDistY += data->deltaDistY;
             data->mapY += data->stepY;
             data->side = 1;
-        }
-        if (data->mapY >= 0 && data->mapY < get_map_height(map->map) &&
-            data->mapX >= 0 && data->mapX < get_line_width(map->map[0]))
+        }      
+        if (data->mapY < 0 || data->mapY >= get_map_height(map->map))
         {
-            if (map->map[data->mapY][data->mapX] == '1')
-                data->hit = true;
-        }       
+            data->hit = true;
+            break;
+        }
+
+        roww = get_line_width(map->map[data->mapY]);
+        if (data->mapX < 0 || data->mapX >= roww)
+        {
+            data->hit = true;
+            break;
+        }
+
+        char cell = map->map[data->mapY][data->mapX];
+        if (is_wall_like(cell))
+            data->hit = true;
+        else if (cell == 'D')
+        {
+            did = get_door_id(map, data->mapY, data->mapX);
+            set_door_plane(map, did);
+        }
     }
 }
 
@@ -93,6 +229,9 @@ static void    set_initial_data(t_map *map, int x)
     data->rayDirY = map->player.dirY + map->player.planeY * data->cameraX;
     data->deltaDistX = fabs(1 / data->rayDirX);
     data->deltaDistY = fabs(1 / data->rayDirY);
+    data->is_door = 0;
+	data->door_has_hit = false;
+	
 }
 
 void    draw_target()
@@ -155,6 +294,7 @@ void    render()
     t_map   *map;
     t_tex   *texture;
     int x;
+    float cosA;
     
     map = get_map_instance();
     x = -1;    
@@ -162,18 +302,28 @@ void    render()
     render_floor_and_ceiling();
     while (++x < SCREEN_WIDTH)
     {
-       
+        map->render_data.door_has_hit = 0;
         set_initial_data(map, x);
         get_ray_direction(map);
+
+        cosA = map->render_data.rayDirX * map->player.dirX + map->render_data.rayDirY * map->player.dirY;
+        map->render_data.ray_view_cos = cosA;
+        
         check_hit_wall(map);
         set_perp_dist(map);
         if (map->render_data.perpWallDist <= 0)
             continue;
         set_texture_and_coordinates(map, &texture);
-        set_wall_height(map);
+        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perpWallDist - 1e-6)
+            set_door_height(map);
+        else
+            set_wall_height(map);
         if (map->render_data.drawEnd < 0 || map->render_data.drawStart >= SCREEN_HEIGHT || map->render_data.lineHeight <= 0)
             continue;
-        draw_walls(map, texture, x);
+        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perpWallDist - 1e-6)
+            draw_doors(map, x);
+        else
+            draw_walls(map, texture, x);
     }
     draw_target();
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);

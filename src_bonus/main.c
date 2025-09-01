@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/26 15:25:26 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 12:45:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,30 @@ int	main(int ac, char **av)
 	init_player();
 	init_textures();
 	init_cam();
+	init_door();
 	game_loop();
+	t_map *map = get_map_instance();
+
+	int index = 0;
+	while (map->num_doors && index < map->num_doors)
+	{
+		printf("X:---%d\n", map->doors[index].x);
+		printf("Y:---%d\n", map->doors[index].y);
+		printf("ORIENTATION:---%d\n", map->doors[index].orientation);
+		printf("OPEN AMOUNT:---%f\n", map->doors[index].open_amount);
+		index++;
+	}
+
+	
+	
 	return (0);
 }
+
+
+/*int x;
+	int y;
+	int	orientation;
+	double open_amount;
+	int	opening_status;
+	int close_time;
+	int	opening_dir;*/

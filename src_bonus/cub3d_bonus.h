@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/27 09:46:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 16:07:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 #include <math.h>
 #include <sys/time.h>
 #include <stdint.h>
+
+typedef struct s_door {
+    int x;
+	int y;
+	int	orientation;
+	double open_amount;
+	int	opening_dir;
+	bool	is_open;
+	long long opened_at;
+} t_door;
 
 typedef struct s_camera {
 	float pitch_offset;
@@ -71,8 +81,7 @@ typedef struct s_input {
 	int s;
 	int a;
 	int d;
-	int left;
-	int right;
+	int use;
 	int esc;
 } t_input;
 
@@ -129,7 +138,18 @@ typedef struct render_data
 	int tx;
     int ty;
 	double wallX;
+
+	int is_door;
+	bool door_has_hit;
+	double door_t;
+	double door_perp_dist;
+	double door_hitx;
+	double door_hity;
+	int door_is_vertical;
+	int door_tx;
+	int door_id;
 	
+	float ray_view_cos;
 } t_render;
 
 typedef struct map_infos
@@ -143,13 +163,15 @@ typedef struct map_infos
 	int			map_lines;
 	int			fd;
 	char		**map;
+	int			num_doors;
 	t_player	player;
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
-	t_tex		textures[6];
+	t_tex		textures[7];
 	t_mini		minimap;
 	t_cam		cam;
+	t_door		*doors;
 } t_map;
 
 typedef enum e_validation_status
@@ -191,13 +213,18 @@ typedef enum e_validation_status
 #define texHeight 64
 #define PI 3.14
 
+#define DOOR_VERTICAL 1
+#define DOOR_HORIZONTAL 2
+
+#define DOOR_THRESHOLD 0.88
+
 #define KEY_ESC     65307
-#define KEY_LEFT    65361
-#define KEY_RIGHT   65363
 #define KEY_W       119
 #define KEY_S       115
 #define KEY_A       97
 #define KEY_D       100
+#define KEY_E		101
+
 
 void	free_map_info(void);
 void	init_data(char *path);

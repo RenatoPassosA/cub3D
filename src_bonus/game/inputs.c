@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:12:12 by renato           ###   ########.fr       */
+/*   Updated: 2025/08/29 12:42:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,46 @@
 
 static void    input_w(t_map *map)
 {
-    double nextX;
-    double nextY;
+    double next_x;
+    double next_y;
 
-    nextX = map->player.posX + map->player.dirX * map->player.move_speed;
-    nextY = map->player.posY + map->player.dirY * map->player.move_speed;
-    move_axis(map, nextX, map->player.posY, 'X');
-    move_axis(map, map->player.posX, nextY, 'Y');
+    next_x = map->player.posX + map->player.dirX * map->player.move_speed;
+    next_y = map->player.posY + map->player.dirY * map->player.move_speed;
+    move_axis(map, next_x, map->player.posY, 'X');
+    move_axis(map, map->player.posX, next_y, 'Y');
 }
 
 static void    input_s(t_map *map)
 {
-    double nextX;
-    double nextY;
+    double next_x;
+    double next_y;
 
-    nextX = map->player.posX - map->player.dirX * map->player.move_speed;
-    nextY = map->player.posY - map->player.dirY * map->player.move_speed;
-    move_axis(map, nextX, map->player.posY, 'X');
-    move_axis(map, map->player.posX, nextY, 'Y');
+    next_x = map->player.posX - map->player.dirX * map->player.move_speed;
+    next_y = map->player.posY - map->player.dirY * map->player.move_speed;
+    move_axis(map, next_x, map->player.posY, 'X');
+    move_axis(map, map->player.posX, next_y, 'Y');
 }
 
 static void    input_a(t_map *map)
 {
-    double nextX;
-    double nextY;
+    double next_x;
+    double next_y;
     
-    nextX = map->player.posX - map->player.planeX * map->player.move_speed;
-    nextY = map->player.posY - map->player.planeY * map->player.move_speed;
-    move_axis(map, nextX, map->player.posY, 'X');
-    move_axis(map, map->player.posX, nextY, 'Y');
+    next_x = map->player.posX - map->player.planeX * map->player.move_speed;
+    next_y = map->player.posY - map->player.planeY * map->player.move_speed;
+    move_axis(map, next_x, map->player.posY, 'X');
+    move_axis(map, map->player.posX, next_y, 'Y');
 }
 
 static void    input_d(t_map *map)
 {
-    double nextX;
-    double nextY;
+    double next_x;
+    double next_y;
     
-    nextX = map->player.posX + map->player.planeX * map->player.move_speed;
-    nextY = map->player.posY + map->player.planeY * map->player.move_speed;
-    move_axis(map, nextX, map->player.posY, 'X');
-    move_axis(map, map->player.posX, nextY, 'Y');
+    next_x = map->player.posX + map->player.planeX * map->player.move_speed;
+    next_y = map->player.posY + map->player.planeY * map->player.move_speed;
+    move_axis(map, next_x, map->player.posY, 'X');
+    move_axis(map, map->player.posX, next_y, 'Y');
 }
 
 int    keyboard_inputs(t_map *map)
@@ -69,10 +69,7 @@ int    keyboard_inputs(t_map *map)
 	    input_a(map);
 	else if (map->input.d)
         input_d(map);
-    else if (map->input.left)
-        rotate_player(map, -map->player.rotate_speed);
-    else if (map->input.right)
-        rotate_player(map, map->player.rotate_speed);
+    else if (map->input.use)
+        input_use(map);
     return (0);
 }
-
