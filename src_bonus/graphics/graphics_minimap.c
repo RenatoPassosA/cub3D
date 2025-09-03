@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:27:27 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:09:43 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/01 13:18:59 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void    init_minimap_data()
     map->minimap.player_color = 0xFFFF0000;
     map->minimap.void_color = 0xFF222222;
     map->minimap.orientation_color = 0xFFFFFF00;
+    map->minimap.door_color = 0x88000000;
     map->minimap.enabled = true;
 }
 void    render_minimap()
@@ -110,6 +111,8 @@ void    render_minimap()
                 cell_color = map->minimap.wall_color;
             else if (map->map[map_row][map_col] == ' ')
                 cell_color = map->minimap.void_color;
+            else if (map->map[map_row][map_col] == 'D')
+                cell_color = map->minimap.door_color;
             while (px < map->minimap.pixels_per_cell)
             {
                 while (py < map->minimap.pixels_per_cell)

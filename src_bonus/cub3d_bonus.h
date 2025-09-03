@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/29 16:07:08 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 11:43:15 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 #include <math.h>
 #include <sys/time.h>
 #include <stdint.h>
+
+typedef struct s_sprites {
+    float x;
+	float y;
+	float	z_offset;
+	int	texture_id;
+	int	opening_dir;
+	bool	collision;
+	float	dist;
+} t_sprite;
 
 typedef struct s_door {
     int x;
@@ -63,6 +73,7 @@ typedef struct s_minimap {
 	int background_color;
 	int	void_color;
 	int	orientation_color;
+	int	door_color;
 	bool enabled;
 } t_mini;
 
@@ -164,14 +175,18 @@ typedef struct map_infos
 	int			fd;
 	char		**map;
 	int			num_doors;
+	int			num_sprites;
+	double		*z_buffer;
 	t_player	player;
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
 	t_tex		textures[7];
+	t_tex		sprites_tex[3];
 	t_mini		minimap;
 	t_cam		cam;
 	t_door		*doors;
+	t_sprite	*sprites;
 } t_map;
 
 typedef enum e_validation_status
@@ -224,6 +239,13 @@ typedef enum e_validation_status
 #define KEY_A       97
 #define KEY_D       100
 #define KEY_E		101
+
+#define PILLAR 7
+#define LIGHT 8
+#define BARREL 9
+
+#define CHROMA 0x000000
+
 
 
 void	free_map_info(void);

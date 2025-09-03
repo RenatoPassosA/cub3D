@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 13:14:41 by renato            #+#    #+#             */
-/*   Updated: 2025/09/01 13:02:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 10:54:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_door    create_door(int y, int x)
     door.opening_dir = 0;
     return (door);
 }
-void    fill_data(t_map *map)
+void    fill_door_data(t_map *map)
 {
     int x;
     int y;
@@ -128,7 +128,7 @@ void    init_door()
         map->doors = (t_door *)malloc(sizeof(t_door) * map->num_doors);
         if (!map->doors)
             quit_game();
-        fill_data(map);
+        fill_door_data(map);
     }  
 }
 

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/08/29 12:37:04 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 11:53:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	init_textures()
 	map->textures[4].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/colorstone.xpm", &map->textures[4].width, &map->textures[4].height);
 	map->textures[5].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/ceiling.xpm", &map->textures[5].width, &map->textures[5].height);
 	map->textures[6].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/door.xpm", &map->textures[6].width, &map->textures[6].height);
+	map->textures[7].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/pillar.xpm", &map->textures[7].width, &map->textures[7].height);
+	map->textures[8].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/light.xpm", &map->textures[8].width, &map->textures[8].height);
+	map->textures[9].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/barrel.xpm", &map->textures[9].width, &map->textures[9].height);
 
 	if (!map->textures[0].img || !map->textures[1].img || !map->textures[2].img || !map->textures[3].img || !map->textures[4].img || !map->textures[5].img) //inserir loop para verificar tudo
 	{
@@ -48,6 +51,9 @@ void	init_textures()
 	map->textures[4].addr = mlx_get_data_addr(map->textures[4].img, &map->textures[4].bpp, &map->textures[4].line_len, &map->textures[4].endian);
 	map->textures[5].addr = mlx_get_data_addr(map->textures[5].img, &map->textures[5].bpp, &map->textures[5].line_len, &map->textures[5].endian);
 	map->textures[6].addr = mlx_get_data_addr(map->textures[6].img, &map->textures[6].bpp, &map->textures[6].line_len, &map->textures[6].endian);
+	map->textures[7].addr = mlx_get_data_addr(map->textures[7].img, &map->textures[7].bpp, &map->textures[7].line_len, &map->textures[7].endian);
+	map->textures[8].addr = mlx_get_data_addr(map->textures[8].img, &map->textures[8].bpp, &map->textures[8].line_len, &map->textures[8].endian);
+	map->textures[9].addr = mlx_get_data_addr(map->textures[9].img, &map->textures[9].bpp, &map->textures[9].line_len, &map->textures[9].endian);
 	
 
 	if (!map->textures[0].addr || !map->textures[1].addr || !map->textures[2].addr || !map->textures[3].addr || !map->textures[4].addr || !map->textures[5].addr  || !map->textures[6].addr) //inserir loop para verificar tudo
@@ -57,6 +63,37 @@ void	init_textures()
 	}
 
 }
+
+// void	init_sprites_textures()
+// {
+// 	t_map   *map;
+    
+//     map = get_map_instance();
+
+	
+// 	map->sprites_tex[0].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/pillar.xpm", &map->sprites_tex[0].width, &map->sprites_tex[0].height);
+// 	map->sprites_tex[1].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/light.xpm", &map->sprites_tex[1].width, &map->sprites_tex[1].height);
+// 	map->sprites_tex[2].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/barrel.xpm", &map->sprites_tex[2].width, &map->sprites_tex[2].height);
+
+// 	if (!map->sprites_tex[0].img || !map->sprites_tex[1].img || !map->sprites_tex[2].img) //inserir loop para verificar tudo
+// 	{
+// 		clean_all_and_message_error("Error on loading texture.", NULL, NULL);
+// 		quit_game();
+// 	}
+	
+	
+// 	map->sprites_tex[0].addr = mlx_get_data_addr(map->sprites_tex[0].img, &map->sprites_tex[0].bpp, &map->sprites_tex[0].line_len, &map->sprites_tex[0].endian);
+// 	map->sprites_tex[1].addr = mlx_get_data_addr(map->sprites_tex[1].img, &map->sprites_tex[1].bpp, &map->sprites_tex[1].line_len, &map->sprites_tex[1].endian);
+// 	map->sprites_tex[2].addr = mlx_get_data_addr(map->sprites_tex[2].img, &map->sprites_tex[2].bpp, &map->sprites_tex[2].line_len, &map->sprites_tex[2].endian);
+	
+
+// 	if (!map->sprites_tex[0].addr || !map->sprites_tex[1].addr || !map->sprites_tex[2].addr) //inserir loop para verificar tudo
+// 	{
+// 		clean_all_and_message_error("Error on loading texture.", NULL, NULL);
+// 		quit_game();
+// 	}
+
+// }
 
 uint32_t texel_at(const t_tex *t, int tx, int ty)
 {

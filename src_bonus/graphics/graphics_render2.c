@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/01 12:54:49 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:44:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void    draw_doors(t_map *map, int x)
         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
         y++;
     }
+    map->z_buffer[x] = 0;
 }
 
 void    draw_walls(t_map *map, t_tex *texture, int x)
@@ -119,4 +120,5 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
         y++;
     }
+    map->z_buffer[x] = data->perpWallDist;
 }

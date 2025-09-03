@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:18:49 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/27 12:06:10 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/02 14:19:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static bool	check_forbidden_char_in_line(char *line)
 			line[index] != 'E' &&
 			line[index] != 'W' &&
 			line[index] != 'D' &&
+			line[index] != 'L' &&
+			line[index] != 'P' &&
+			line[index] != 'B' &&
 			line[index] != ' ')
 			return (true);
 		line++;

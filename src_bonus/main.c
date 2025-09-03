@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/29 12:45:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 16:10:31 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,20 @@ int	main(int ac, char **av)
 		exit(1);
 	init_data(av[1]);
 	map_validations(av);
+	t_map *map = get_map_instance();
+	for (int i = 0; i < SCREEN_WIDTH; i++) {
+    map->z_buffer[i] = 1e6; // ou 1e6, ou um valor adequado
+}
 	init_mlx();
 	init_player();
 	init_textures();
+	init_sprites();
 	init_cam();
 	init_door();
 	game_loop();
-	t_map *map = get_map_instance();
+	
 
-	int index = 0;
-	while (map->num_doors && index < map->num_doors)
-	{
-		printf("X:---%d\n", map->doors[index].x);
-		printf("Y:---%d\n", map->doors[index].y);
-		printf("ORIENTATION:---%d\n", map->doors[index].orientation);
-		printf("OPEN AMOUNT:---%f\n", map->doors[index].open_amount);
-		index++;
-	}
+	
 
 	
 	

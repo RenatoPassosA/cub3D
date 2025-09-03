@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/26 15:11:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/02 16:43:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void init_data(char *path)
 	map->floor_rgb = -1;
 	map->ceiling_rgb = -1;
 	map->map_lines = 0;
+	map->z_buffer = malloc(sizeof(double) * SCREEN_WIDTH);
+	if (!map->z_buffer)
+		clean_all_and_message_error("Error on malloc.", NULL, NULL);
 	map->fd = open(path, O_RDONLY);
 	if (map->fd < 0)
 		clean_all_and_message_error("Error on opening fd.", NULL, NULL);

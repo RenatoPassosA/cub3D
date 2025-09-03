@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/08/29 13:07:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/03 12:01:54 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void    render_floor_and_ceiling();
 void    render_minimap();
 void    init_minimap_data();
 void init_door();
+void init_sprites();
 void	door_animation(double delta_time);
 void    draw_doors(t_map *map, int x);
 void    set_door_height(t_map *map);
+void    render_decorative_sprites();
 
 #endif
