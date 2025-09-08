@@ -6,14 +6,14 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/03 16:44:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/08 15:17:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics_bonus.h"
 #include "../game/game_bonus.h"
 
-static void    set_perp_dist(t_map *map, int x)
+static void    set_perp_dist(t_map *map)
 {
     t_render *data;
 
@@ -23,7 +23,6 @@ static void    set_perp_dist(t_map *map, int x)
         
     else
         data->perpWallDist = (data->mapY - map->player.posY + (1 - data->stepY) / 2) / data->rayDirY;
-    // map->z_buffer[x] = data->perpWallDist;
     
 }
 
@@ -312,7 +311,7 @@ void    render()
         map->render_data.ray_view_cos = cosA;
         
         check_hit_wall(map);
-        set_perp_dist(map, x);
+        set_perp_dist(map);
         if (map->render_data.perpWallDist <= 0)
             continue;
         set_texture_and_coordinates(map, &texture);
@@ -327,6 +326,8 @@ void    render()
         else
             draw_walls(map, texture, x);
     }
+
+    render_monsters();
     render_decorative_sprites(map);
     draw_target();
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);

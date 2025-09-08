@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/03 16:10:31 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/05 12:47:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,15 @@ int	main(int ac, char **av)
 		exit(1);
 	init_data(av[1]);
 	map_validations(av);
-	t_map *map = get_map_instance();
-	for (int i = 0; i < SCREEN_WIDTH; i++) {
-    map->z_buffer[i] = 1e6; // ou 1e6, ou um valor adequado
-}
 	init_mlx();
 	init_player();
+	init_monster_type();
+	init_monsters();
 	init_textures();
 	init_sprites();
 	init_cam();
 	init_door();
 	game_loop();
-	
-
-	
-
-	
-	
 	return (0);
 }
 
-
-/*int x;
-	int y;
-	int	orientation;
-	double open_amount;
-	int	opening_status;
-	int close_time;
-	int	opening_dir;*/

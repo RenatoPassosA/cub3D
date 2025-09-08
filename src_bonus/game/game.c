@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/29 13:07:46 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/08 15:58:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@ int	update_frame(void)
 	t_map *map;
 
 	map = get_map_instance();
+	if (map->player.state == DEAD)
+		quit_game();
+	map = get_map_instance();
 	map->player.old_time = map->player.time;
 	map->player.time = get_current_time_ms();
 	map->player.frame_time = (map->player.time - map->player.old_time) / 1000.0;
 	map->player.move_speed = map->player.frame_time * 6.0;
 	map->player.rotate_speed  = map->player.frame_time * 3.0;
+	monster_animation();
 	keyboard_inputs(map);
 	check_rotate_on_edge(map);
 	init_minimap_data();

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/03 11:43:15 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/08 15:10:59 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,51 @@
 #include <math.h>
 #include <sys/time.h>
 #include <stdint.h>
+
+typedef enum e_monster_state {
+    MON_IDLE = 0,
+    MON_CHASE  = 1,
+    MON_DEAD   = 2
+}   t_mon_state;
+
+typedef enum e_player_state {
+    ALIVE = 0,
+    DEAD   = 1
+}   t_player_state;
+
+typedef struct s_monster_type {
+	int	type_id;
+	int		max_hp;
+	float r_mon;
+	float speed_chase;
+	float	r_detect;
+	float	r_lost;
+	int		index_walk_sprite_1;
+	int		index_walk_sprite_2;
+	int		index_died_sprite;
+	float		time_frame_walk;
+	
+	
+} t_monster_type;
+
+typedef struct s_monster {
+	int	id;
+	int	type_id;
+	float x;
+	float y;
+	float x_speed;
+	float y_speed;
+	int	hp;
+	t_mon_state	state;
+	int	animation_index;
+	float t_animation;
+	float x_screen;
+	float height_screen;
+	float dist;
+	double transformY;
+	
+	
+} t_monster;
 
 typedef struct s_sprites {
     float x;
@@ -120,6 +165,8 @@ typedef struct player_infos
 	double frame_time;
 	double move_speed;
     double rotate_speed;
+	t_player_state state;
+	double r_player;
 } t_player;
 
 typedef struct render_data
@@ -176,17 +223,19 @@ typedef struct map_infos
 	char		**map;
 	int			num_doors;
 	int			num_sprites;
+	int			num_monsters;
 	double		*z_buffer;
 	t_player	player;
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
-	t_tex		textures[7];
-	t_tex		sprites_tex[3];
+	t_tex		textures[13];
 	t_mini		minimap;
 	t_cam		cam;
 	t_door		*doors;
 	t_sprite	*sprites;
+	t_monster_type monster_type[2];
+	t_monster	*monsters;
 } t_map;
 
 typedef enum e_validation_status
@@ -245,6 +294,9 @@ typedef enum e_validation_status
 #define BARREL 9
 
 #define CHROMA 0x000000
+
+#define MUMMY 0
+#define MONSTER 1
 
 
 
