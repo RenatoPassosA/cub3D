@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:41 by renato            #+#    #+#             */
-/*   Updated: 2025/09/03 16:45:44 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 10:20:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ t_sprite    create_sprite(int y, int x, char c)
     sprite.x = x + 0.5;
     sprite.y = y + 0.5;
     sprite.z_offset = 0.0;
-    if (c == 'L')
-        sprite.z_offset = 0.0;
     sprite.dist = 0.0;
     sprite.collision = false;
+    if (c == 'B' || c == 'P')
+        sprite.collision = true;
     sprite.texture_id = get_sprite_id(c);
     return (sprite);
 }
@@ -157,7 +157,6 @@ void    render_decorative_sprites()
     double det;
     double invDet;
     double transformX;
-    double transformY;
     double spriteScreenX;
 
     double spriteHeight;
@@ -183,22 +182,22 @@ void    render_decorative_sprites()
         dy = map->sprites[counter].y - map->player.posY;
 
         transformX = invDet * ( map->player.dirY * dx - map->player.dirX * dy );
-        transformY = invDet * (-map->player.planeY * dx + map->player.planeX * dy );
+        map->sprites[counter].transformY = invDet * (-map->player.planeY * dx + map->player.planeX * dy );
 
-        if (transformY <= 0)
+        if (map->sprites[counter].transformY <= 0)
         {
             counter++; 
             continue;
         }
 
-        spriteScreenX = (SCREEN_WIDTH / 2) * (1 + transformX / transformY);
+        spriteScreenX = (SCREEN_WIDTH / 2) * (1 + transformX / map->sprites[counter].transformY);
        
         
-        spriteHeight = fabs(SCREEN_HEIGHT / transformY);
+        spriteHeight = fabs(SCREEN_HEIGHT / map->sprites[counter].transformY);
         if (spriteHeight < 1)
             spriteHeight = 1;
 
-        spriteWidth = fabs(SCREEN_HEIGHT / transformY);
+        spriteWidth = fabs(SCREEN_HEIGHT / map->sprites[counter].transformY);
         if (spriteWidth  < 1)
             spriteWidth  = 1;
 
@@ -208,7 +207,7 @@ void    render_decorative_sprites()
         float move_screen;
         double left = spriteScreenX - spriteWidth / 2.0;
 
-        move_screen = -(map->sprites[counter].z_offset) * (SCREEN_HEIGHT / transformY);
+        move_screen = -(map->sprites[counter].z_offset) * (SCREEN_HEIGHT / map->sprites[counter].transformY);
         centerY = (SCREEN_HEIGHT / 2) + map->cam.pitch_offset + move_screen;
         drawStartX = (int)left;
         if (drawStartX < 0)
@@ -251,7 +250,7 @@ void    render_decorative_sprites()
         x = drawStartX;
         while (x <= (int)drawEndX)
         {
-            if (transformY >= map->z_buffer[x])
+            if (map->sprites[counter].transformY >= map->z_buffer[x])
             {
                 x++;
                 continue;

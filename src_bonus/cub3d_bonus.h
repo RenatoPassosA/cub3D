@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/08 15:10:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 10:19:28 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_sprites {
 	int	opening_dir;
 	bool	collision;
 	float	dist;
+	double transformY;
 } t_sprite;
 
 typedef struct s_door {

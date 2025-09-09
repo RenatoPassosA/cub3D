@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:49:25 by renato            #+#    #+#             */
-/*   Updated: 2025/09/08 16:13:17 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 10:09:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_monster    create_monster_sprite(int y, int x, char c, int index)
     monster.y_speed = 0;
     monster.hp = map->monster_type[monster.type_id].max_hp;
     monster.state = MON_IDLE;
-    monster.animation_index = 0;
+    monster.animation_index = 10;
     monster.t_animation = 0.0;
     return (monster);
 }
@@ -143,6 +143,47 @@ void    init_monsters()
     }  
 }
 
+bool    check_door_opened(int y, int x)
+{
+    t_map *map;
+    int     counter;
+
+    map = get_map_instance();
+    counter = 0;
+
+    while (counter < map->num_doors)
+    {
+        if (map->doors[counter].y == y && map->doors[counter].x == x)
+        {
+            if (map->doors[counter].open_amount > 0.90)
+                return (true);
+        }
+        counter++;
+    }
+    return (false);
+}
+
+bool    check_sprite_collision(int y, int x)
+{
+    t_map *map;
+    int     counter;
+
+    map = get_map_instance();
+    counter = 0;
+
+    while (counter < map->num_sprites)
+    {
+        if ((int)map->sprites[counter].y == y && (int)map->sprites[counter].x == x)
+        {
+            if (map->sprites[counter].collision)
+                return (true);
+        }
+        counter++;
+    }
+    return (false);
+    
+}
+
 void    monster_animation()
 {
     t_map *map;
@@ -174,14 +215,23 @@ void    monster_animation()
         if (next_x > get_line_width(map->map[0]))
             next_x = map->monsters[counter].x;
         
-        if (map->map[(int)map->monsters[counter].y][(int)next_x] != '1' && map->map[(int)map->monsters[counter].y][(int)next_x] != 'D')
+        if (map->map[(int)map->monsters[counter].y][(int)next_x] == 'D' && check_door_opened((int)map->monsters[counter].y, (int)next_x))
+            map->monsters[counter].x = next_x;
+        else if (check_sprite_collision((int)map->monsters[counter].y, next_x))
+            ;
+        else if (map->map[(int)map->monsters[counter].y][(int)next_x] == '0')
             map->monsters[counter].x = next_x;
 
         next_y = map->monsters[counter].y + map->monsters[counter].y_speed * map->player.frame_time;
         if (next_y > get_map_height(map->map) )
             next_y = map->monsters[counter].y;
 
-        if (map->map[(int)next_y][(int)map->monsters[counter].x] != '1' && map->map[(int)next_y][(int)map->monsters[counter].x] != 'D')
+    
+        if (map->map[(int)next_y][(int)map->monsters[counter].x] == 'D' && check_door_opened((int)next_y, (int)map->monsters[counter].x))
+            map->monsters[counter].y = next_y;
+        else if (check_sprite_collision((int)next_y, (int)map->monsters[counter].x))
+            ;
+        else if (map->map[(int)next_y][(int)map->monsters[counter].x] == '0')
             map->monsters[counter].y = next_y;
 
 
@@ -227,89 +277,7 @@ void    monster_animation()
     }   
 }
 
-// void    monster_animation()
-// {
-//     t_map *map;
-//     int counter;
-    
-//     map = get_map_instance();
-//     counter = 0;
 
-//     float dist;
-//     float dx;
-//     float dy;
-//     float ux;
-//     float uy;
-//     float next_x;
-//     float next_y;
-    
-
-//     while (counter < map->num_monsters)
-//     {
-//         map->monsters[counter].t_animation += map->player.frame_time;
-//         dx = (map->player.posX - map->monsters[counter].x);
-//         dy = (map->player.posY - map->monsters[counter].y);
-//         dist = sqrt(dx * dx + dy * dy);
-//         if (dist <= (map->monster_type[map->monsters[counter].type_id].r_mon + map->player.r_player))
-//             map->player.state = DEAD;
-//         if (map->monsters[counter].state == MON_DEAD)
-//         {
-//             counter++;
-//             continue;
-//         }
-        
-//         if (map->monsters[counter].state == MON_IDLE && dist < map->monster_type[map->monsters[counter].type_id].r_detect)
-//             map->monsters[counter].state = MON_CHASE;
-//         else if (map->monsters[counter].state == MON_CHASE && dist >= map->monster_type[map->monsters[counter].type_id].r_lost)
-//             map->monsters[counter].state = MON_IDLE;
-            
-//         if (map->monsters[counter].state == MON_IDLE)
-//         {
-//             map->monsters[counter].x_speed = 0;
-//             map->monsters[counter].y_speed = 0;
-//             map->monsters[counter].animation_index = 10;
-//         }
-//         else if (map->monsters[counter].state == MON_CHASE)
-//         {
-//             ux = dx / fmax(dist, 0.0001);
-//             uy = dy / fmax(dist, 0.0001);
-//             map->monsters[counter].x_speed = map->monster_type[map->monsters[counter].type_id].speed_chase * ux;
-//             map->monsters[counter].y_speed = map->monster_type[map->monsters[counter].type_id].speed_chase * uy;
-            
-//             next_x = map->monsters[counter].x + map->monsters[counter].x_speed * map->player.frame_time;
-//             if (next_x > get_line_width(map->map[0]))
-//                 next_x = get_line_width(map->map[0]);
-//             next_y = map->monsters[counter].y + map->monsters[counter].y_speed * map->player.frame_time;
-//             if (next_y > get_map_height(map->map) )
-//                 next_y = get_map_height(map->map);
-//             if (map->map[(int)map->monsters[counter].y][(int)next_x] != '1' && map->map[(int)map->monsters[counter].y][(int)next_x] != 'D')
-//                 map->monsters[counter].x = next_x;
-//             else
-//             {
-//                 if (map->map[(int)next_y][(int)map->monsters[counter].x] != '1' && map->map[(int)next_y][(int)map->monsters[counter].x] != 'D')
-//                     map->monsters[counter].y = next_y;
-//             }
-//             if (map->monsters[counter].t_animation > (map->monster_type[map->monsters[counter].type_id].time_frame_walk))
-//             {
-//                 if (map->monsters[counter].animation_index == 10)
-//                     map->monsters[counter].animation_index = 11;
-//                 else
-//                     map->monsters[counter].animation_index = 10;
-//                 map->monsters[counter].t_animation = 0;
-//             }
-            
-//         }
-            
-            
-    
-//            counter++; 
-//     }
-        
-
-
-        
-    
-// }
 
 void    sort_monsters(t_map *map)
 {
