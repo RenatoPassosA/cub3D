@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:49:25 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 10:09:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 10:45:57 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,8 @@ int get_sprite_index(t_map *map, int counter, t_mon_state state)
         return (map->monster_type[map->monsters[counter].type_id].index_died_sprite);
     return (map->monster_type[map->monsters[counter].type_id].index_walk_sprite_1);
 }
+
+
 
 void    render_monsters()
 {

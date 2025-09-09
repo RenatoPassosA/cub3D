@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/29 12:28:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 10:37:17 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,20 @@ int on_key_release(int key, t_map *map)
 int is_walkable(t_map *map, int y, int x)
 {
     int width;
+    int     counter;
     
+    counter = 0;
     if (y < 0 || y >= get_map_height(map->map))
         return 0;
     width = (int)ft_strlen(map->map[y]);
     if (x < 0 || x >= width)
         return 0;
+    while (counter < map->num_sprites)
+    {
+        if ((int)map->sprites[counter].x == x && (int)map->sprites[counter].y == y && map->sprites[counter].collision)
+            return 0;
+        counter++;
+    }
     return (map->map[y][x] == '0');
 }
 
