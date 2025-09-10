@@ -79,6 +79,8 @@
     "mlx.h": "c",
     "parser_bonus.h": "c",
     "game_bonus.h": "c",
-    "cub3d_bonus.h": "c"
+    "cub3d_bonus.h": "c",
+    "random": "c",
+    "limits": "c"
   }
 }

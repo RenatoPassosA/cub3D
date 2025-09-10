@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/05 12:47:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 13:55:44 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int ac, char **av)
 	init_sprites();
 	init_cam();
 	init_door();
+	set_render_list();
 	game_loop();
 	return (0);
 }

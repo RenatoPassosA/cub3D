@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/09 10:19:28 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:29:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <math.h>
 #include <sys/time.h>
 #include <stdint.h>
+
+typedef void (*t_render_fn)(void *data);
 
 typedef enum e_monster_state {
     MON_IDLE = 0,
@@ -76,7 +78,21 @@ typedef struct s_sprites {
 	bool	collision;
 	float	dist;
 	double transformY;
+	double transformX;
 } t_sprite;
+
+typedef enum e_sprite_type {
+    MONSTER = 0,
+    SPRITE  = 1,
+}   t_type;
+
+typedef struct e_render_list {
+	void *data;
+	t_render_fn	render_fn;
+	float	transform_y;
+	t_type	type;
+	
+} t_render_list;
 
 typedef struct s_door {
     int x;
@@ -237,6 +253,7 @@ typedef struct map_infos
 	t_sprite	*sprites;
 	t_monster_type monster_type[2];
 	t_monster	*monsters;
+	t_render_list	*render_list;
 } t_map;
 
 typedef enum e_validation_status

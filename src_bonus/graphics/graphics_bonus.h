@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/09/08 15:58:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 15:37:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,18 @@ void init_sprites();
 void	door_animation(double delta_time);
 void    draw_doors(t_map *map, int x);
 void    set_door_height(t_map *map);
-void    render_decorative_sprites();
+void    render_decorative_sprites(void *sprite);
 void    init_monster_type();
-void    render_monsters();
+void    render_monsters(void *monster);
 void    init_monsters();
+
+void    render_sprites();
+void    set_monsters_projection();
 void    monster_animation();
+void    set_monsters_projection();
+void    sort_monsters(t_map *map);
+void    set_sprites_projection();
+void    sort_sprites(t_map *map);
+void    set_render_list();
+void    set_priority_order();
 #endif

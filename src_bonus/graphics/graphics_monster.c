@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:49:25 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 10:45:57 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/09 16:53:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,7 @@ void    sort_monsters(t_map *map)
         j = 0;
         while (j < map->num_monsters - i - 1)
         {
-            if (map->monsters[j].dist < map->monsters[j + 1].dist)
+            if (map->monsters[j].transformY < map->monsters[j + 1].transformY)
             {
                 tmp = map->monsters[j];
                 map->monsters[j] = map->monsters[j + 1];
@@ -303,20 +303,18 @@ void    sort_monsters(t_map *map)
     }
 }
 
-int get_sprite_index(t_map *map, int counter, t_mon_state state)
+int get_sprite_index(t_map *map, t_monster *monster, t_mon_state state)
 {
     if (state == MON_CHASE)
-        return (map->monsters[counter].animation_index);
+        return (monster->animation_index);
     if (state == MON_DEAD)
-        return (map->monster_type[map->monsters[counter].type_id].index_died_sprite);
-    return (map->monster_type[map->monsters[counter].type_id].index_walk_sprite_1);
+        return (map->monster_type[monster->type_id].index_died_sprite);
+    return (map->monster_type[monster->type_id].index_walk_sprite_1);
+    
 }
 
-
-
-void    render_monsters()
+void    set_monsters_projection()
 {
-    
     t_map *map;
     int counter;
     
@@ -345,8 +343,18 @@ void    render_monsters()
         map->monsters[counter].height_screen = (int)fabs((double)(SCREEN_HEIGHT / map->monsters[counter].transformY));
         counter++;
     }
+}
 
-    sort_monsters(map);
+void    render_monsters(void *monster)
+{
+    
+    t_map *map;
+
+    t_monster *m = (t_monster *)monster;
+    map = get_map_instance();
+
+
+    
 
     int x;
     int sprite_index;
@@ -372,82 +380,68 @@ void    render_monsters()
     
     int sprite_width;
 
-    counter = 0;
-    while (counter < map->num_monsters)
+    
+    sprite_width = m->height_screen;
+    
+    sprite_index = get_sprite_index(map, m, m->state);
+    text = &map->textures[sprite_index];        
+
+    move_screen = (0 + 0.5) / m->transformY * SCREEN_HEIGHT;
+
+    y_floor = SCREEN_HEIGHT / 2 + map->cam.pitch_offset + move_screen;
+    y_end = y_floor;
+    y_e = y_end;
+    if (y_end >= SCREEN_HEIGHT - 1)
+        y_end = SCREEN_HEIGHT - 1;
+    else if (y_end < 0)
+        y_end = 0;
+    y_start = y_end - m->height_screen;
+    y_s = y_start;
+    if (y_start < 0)
+        y_start = 0;
+
+    x_start = m->x_screen - sprite_width / 2;
+    x_s = x_start;
+    if (x_start < 0)
+        x_start = 0;
+    x_end = m->x_screen + sprite_width / 2;
+    x_e = x_end;
+    if (x_end > SCREEN_WIDTH - 1)
+        x_end = SCREEN_WIDTH - 1;
+
+    if (x_end <= x_start || y_end <= y_start)
+        return;
+    x = x_start;
+    while (x <= (int)x_end)
     {
-        sprite_width = map->monsters[counter].height_screen;
-      
-        sprite_index = get_sprite_index(map, counter, map->monsters[counter].state);
-        text = &map->textures[sprite_index];        
-
-        dx = map->monsters[counter].x - map->player.posX;
-        dy = map->monsters[counter].y - map->player.posY;
-
-        move_screen = (0 + 0.5) / map->monsters[counter].transformY * SCREEN_HEIGHT;
-
-        y_floor = SCREEN_HEIGHT / 2 + map->cam.pitch_offset + move_screen;
-        y_end = y_floor;
-        y_e = y_end;
-        if (y_end >= SCREEN_HEIGHT - 1)
-            y_end = SCREEN_HEIGHT - 1;
-        else if (y_end < 0)
-            y_end = 0;
-        y_start = y_end - map->monsters[counter].height_screen;
-        y_s = y_start;
-        if (y_start < 0)
-            y_start = 0;
-
-        x_start = map->monsters[counter].x_screen - sprite_width / 2;
-        x_s = x_start;
-        if (x_start < 0)
-            x_start = 0;
-        x_end = map->monsters[counter].x_screen + sprite_width / 2;
-        x_e = x_end;
-        if (x_end > SCREEN_WIDTH - 1)
-            x_end = SCREEN_WIDTH - 1;
-
-        if (x_end <= x_start || y_end <= y_start)
+        if (x >= 0 && x < SCREEN_WIDTH &&
+            m->transformY > 0.0 &&
+            m->transformY < map->z_buffer[x])
         {
-            counter++;
-            continue;
-        }
-        x = x_start;
-        while (x <= (int)x_end)
-        {
-            if (x >= 0 && x < SCREEN_WIDTH &&
-                map->monsters[counter].transformY > 0.0 &&
-                map->monsters[counter].transformY < map->z_buffer[x])
+            tex_x = (x - x_s) * text->width / (float)(x_e - x_s);
+            if (tex_x < 0)
+                tex_x = 0;
+            else if (tex_x > text->width - 1)
+                tex_x = text->width - 1;
+            tex_x_int = (int)tex_x;
+
+            y = (int)y_start;
+            while (y <= (int)y_end)
             {
-                tex_x = (x - x_s) * text->width / (float)(x_e - x_s);
-                if (tex_x < 0)
-                    tex_x = 0;
-                else if (tex_x > text->width - 1)
-                    tex_x = text->width - 1;
-                tex_x_int = (int)tex_x;
-
-                y = (int)y_start;
-                while (y <= (int)y_end)
-                {
-                    tex_y = (y - y_s) * text->height / (y_e - y_s);
-                    if (tex_y < 0)
-                        tex_y = 0;
-                    else if (tex_y > text->height - 1)
-                        tex_y = text->height - 1;
-                    tex_y_int = (int)tex_y;
-
-                    map->render_data.color = texel_at(text, tex_x_int, tex_y_int);
-                    map->render_data.bytes = map->mlx.bits_per_pixel / 8;
-                    map->render_data.offset = y * map->mlx.size_line + x * map->render_data.bytes;
-                    if (map->render_data.color != CHROMA)
-                        *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = map->render_data.color;
-                    y++;
-                }
+                tex_y = (y - y_s) * text->height / (y_e - y_s);
+                if (tex_y < 0)
+                    tex_y = 0;
+                else if (tex_y > text->height - 1)
+                    tex_y = text->height - 1;
+                tex_y_int = (int)tex_y;
+                map->render_data.color = texel_at(text, tex_x_int, tex_y_int);
+                map->render_data.bytes = map->mlx.bits_per_pixel / 8;
+                map->render_data.offset = y * map->mlx.size_line + x * map->render_data.bytes;
+                if (map->render_data.color != CHROMA)
+                    *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = map->render_data.color;
+                y++;
             }
-            x++;
         }
-      
-
-        counter++;
+        x++;
     }
 }
-
