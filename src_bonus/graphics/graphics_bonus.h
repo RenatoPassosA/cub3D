@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 15:37:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:05:17 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ void    set_sprites_projection();
 void    sort_sprites(t_map *map);
 void    set_render_list();
 void    set_priority_order();
+void    check_damaged_monster();
 #endif

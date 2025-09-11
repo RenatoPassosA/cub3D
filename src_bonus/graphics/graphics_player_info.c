@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/09/04 16:37:52 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/10 15:06:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static void    remove_zeros(t_map *map)
         i++;
     }
 }
+
+
 
 void    init_player()
 {

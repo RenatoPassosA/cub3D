@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 15:08:31 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 13:20:48 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,10 +328,10 @@ void    render()
     }
     set_priority_order();
     render_sprites();
-    // render_monsters();
-    // render_decorative_sprites(map);
     draw_target();
     mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.img_ptr, 0, 0);
+    // mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win_ptr, map->mlx.cursor_img, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
 }
 
 

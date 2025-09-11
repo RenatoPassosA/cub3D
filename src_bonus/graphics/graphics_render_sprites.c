@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:32:23 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 16:49:44 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 11:28:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_render_list resolve_draw(t_map *map, int *counter_monster, int *counter_sprite
     else
         return (ret_sprite(map, ret, counter_sprite));
 }
+
 t_render_list filter(t_map *map, int *counter_monster, int *counter_sprite)
 {
     t_render_list ret;

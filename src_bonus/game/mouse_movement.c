@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:52:19 by renato            #+#    #+#             */
-/*   Updated: 2025/08/28 12:09:52 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 11:23:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void    init_cam()
 
     map = get_map_instance();
     map->cam.pitch_offset = 0;
+    map->cam.base_pitch= 0;
     map->cam.pitch_sens = 0.9;
     map->cam.yaw_sens = 0.004;
     map->cam.pitch_max = SCREEN_HEIGHT / 4;
@@ -58,6 +59,7 @@ int     mouse_movement(int x, int y, void *param)
     float yaw = 0;
     float smoothiness = 0.35;
     float smooth_dx = 0;
+    float t;
 
     map = (t_map *)param;
 
@@ -117,7 +119,7 @@ int     mouse_movement(int x, int y, void *param)
         map->cam.edge_intensity = 0.0f;
     }
 
-    float t;
+   
     if (x <= map->cam.edge_margin)
     {
         map->cam.edge_dir = -1;
@@ -152,15 +154,23 @@ int     mouse_movement(int x, int y, void *param)
         yaw = 0.03;
     if (yaw != 0.0f)
         rotate_player(map, yaw);
+    // if (dy != 0)
+    // {
+    //     map->cam.pitch_offset += dy * map->cam.pitch_sens;// + map->gun.recoil_kick_y;//////////////////
+    //     if (map->cam.pitch_offset < -map->cam.pitch_max)
+    //         map->cam.pitch_offset = -map->cam.pitch_max;
+    //     if (map->cam.pitch_offset > map->cam.pitch_max)
+    //         map->cam.pitch_offset = map->cam.pitch_max;
+    // }
     if (dy != 0)
     {
-        map->cam.pitch_offset += dy * map->cam.pitch_sens;
-        if (map->cam.pitch_offset < -map->cam.pitch_max)
-            map->cam.pitch_offset = -map->cam.pitch_max;
-        if (map->cam.pitch_offset > map->cam.pitch_max)
-            map->cam.pitch_offset = map->cam.pitch_max;
+        map->cam.base_pitch += dy * map->cam.pitch_sens;
+
+        if (map->cam.base_pitch < -map->cam.pitch_max)
+            map->cam.base_pitch = -map->cam.pitch_max;
+        if (map->cam.base_pitch > map->cam.pitch_max)
+            map->cam.base_pitch = map->cam.pitch_max;
     }
-    
     map->cam.last_x = x;
     map->cam.last_y = y;
 

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/09 15:29:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 13:10:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 
 typedef void (*t_render_fn)(void *data);
 
+typedef enum e_monster_type {
+    FLYING = 0,
+    GROUND  = 1,
+}   t_mon_type;
+
 typedef enum e_monster_state {
     MON_IDLE = 0,
     MON_CHASE  = 1,
@@ -34,6 +39,16 @@ typedef enum e_player_state {
     ALIVE = 0,
     DEAD   = 1
 }   t_player_state;
+
+typedef struct s_gun {
+	double cooldown;
+	double fire_interval;
+	int damage;
+	float recoil_kick_y;
+	float recoil_decay_y;
+	bool is_firing;
+	bool	shot_pressed;
+} t_gun;
 
 typedef struct s_monster_type {
 	int	type_id;
@@ -46,6 +61,8 @@ typedef struct s_monster_type {
 	int		index_walk_sprite_2;
 	int		index_died_sprite;
 	float		time_frame_walk;
+	float v_move_world;
+	t_mon_type type;
 	
 	
 } t_monster_type;
@@ -65,8 +82,13 @@ typedef struct s_monster {
 	float height_screen;
 	float dist;
 	double transformY;
-	
-	
+	float x_left;
+	float x_right;
+	float y_top;
+	float y_bottom;
+	float y_center_monster;
+	bool is_damaged;
+	float damage_timer;
 } t_monster;
 
 typedef struct s_sprites {
@@ -106,6 +128,7 @@ typedef struct s_door {
 
 typedef struct s_camera {
 	float pitch_offset;
+	float base_pitch;
     float pitch_sens;
     float yaw_sens;
     int pitch_max;
@@ -164,6 +187,7 @@ typedef struct mlx_data
 	void				*win_ptr;	
 	void				*img_ptr;
 	void				*img_data;
+	void				*cursor_img;
 	int					bits_per_pixel;
 	int					size_line;
 	int					endian;
@@ -182,8 +206,8 @@ typedef struct player_infos
 	double frame_time;
 	double move_speed;
     double rotate_speed;
-	t_player_state state;
 	double r_player;
+	t_player_state state;
 } t_player;
 
 typedef struct render_data
@@ -254,6 +278,7 @@ typedef struct map_infos
 	t_monster_type monster_type[2];
 	t_monster	*monsters;
 	t_render_list	*render_list;
+	t_gun	gun;
 } t_map;
 
 typedef enum e_validation_status
@@ -289,8 +314,8 @@ typedef enum e_validation_status
 #define	F_RGB 4
 #define	C_RGB 5
 
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 800
 #define texWidth 64
 #define texHeight 64
 #define PI 3.14

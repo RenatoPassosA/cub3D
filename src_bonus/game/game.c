@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/09/08 15:58:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:21:58 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,40 @@ int	quit_game(void)
 int	update_frame(void)
 {
 	t_map *map;
-
+	
 	map = get_map_instance();
+	
 	if (map->player.state == DEAD)
 		quit_game();
-	map = get_map_instance();
 	map->player.old_time = map->player.time;
 	map->player.time = get_current_time_ms();
 	map->player.frame_time = (map->player.time - map->player.old_time) / 1000.0;
 	map->player.move_speed = map->player.frame_time * 6.0;
 	map->player.rotate_speed  = map->player.frame_time * 3.0;
+
+	set_cooldown();
+	
+	
+	check_damaged_monster();
 	monster_animation();
 	keyboard_inputs(map);
 	check_rotate_on_edge(map);
-	init_minimap_data();
-	
+	init_minimap_data();	
 	door_animation(map->player.frame_time);
+	map->cam.pitch_offset = map->cam.base_pitch + map->gun.recoil_kick_y;
 
 	render();
+	if (map->gun.shot_pressed && map->gun.cooldown <= 0)
+	{
+		shoot();
+		map->gun.shot_pressed = false;
+	}
+	relax_recoil();
 	render_minimap();
     return (0);
 }
+
+// transformY, x_left, x_right, y_center_monster, height_screen
 
 void    game_loop(void)
 {
@@ -72,6 +85,7 @@ void    game_loop(void)
     map = get_map_instance();
     mlx_hook(map->mlx.win_ptr, 2, 1L<<0, on_key_press, map);
 	mlx_hook(map->mlx.win_ptr, 3, 1L<<1, on_key_release, map); 
+	mlx_hook(map->mlx.win_ptr, 4, 1L<<2, on_mouse_press, map);
 	mlx_hook(map->mlx.win_ptr, 17, 0, quit_game, map);
 	mlx_hook(map->mlx.win_ptr, 6, PointerMotionMask, mouse_movement, map);
 	mlx_loop_hook(map->mlx.mlx_ptr, update_frame, map);

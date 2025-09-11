@@ -6,12 +6,46 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:49:25 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 16:53:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 12:08:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graphics_bonus.h"
 #include "../game/game_bonus.h"
+
+
+void    check_damaged_monster()
+{
+    t_map *map;
+    int     counter;
+
+    map = get_map_instance();
+    counter = 0;
+
+    while (counter < map->num_monsters)
+    {
+        if (map->monsters[counter].is_damaged)
+        {
+            map->monsters[counter].damage_timer -= map->player.frame_time;
+                if (map->monsters[counter].damage_timer <= 0)
+                    map->monsters[counter].is_damaged = false;
+        }
+        counter++;
+    }
+}
+
+uint32_t tint_red(uint32_t color, float strength)
+{
+    uint8_t r = (color >> 16) & 0xFF;
+    uint8_t g = (color >> 8) & 0xFF;
+    uint8_t b = color & 0xFF;
+
+    r = (uint8_t)fminf(255, r + (255 - r) * strength); // puxa pro vermelho
+    g = (uint8_t)(g * (1.0f - strength));              // diminui verde
+    b = (uint8_t)(b * (1.0f - strength));              // diminui azul
+
+    return (r << 16) | (g << 8) | b;
+}
 
 void    init_monster_type()
 {
@@ -28,6 +62,9 @@ void    init_monster_type()
     map->monster_type[MUMMY].index_walk_sprite_2 = 11;
     map->monster_type[MUMMY].index_died_sprite = 12;
     map->monster_type[MUMMY].time_frame_walk = 0.30;
+    map->monster_type[MUMMY].type = GROUND;
+    map->monster_type[MUMMY].v_move_world = 0.75;
+    
 
     map->monster_type[MONSTER].type_id = MONSTER;
     map->monster_type[MONSTER].max_hp = 5;
@@ -39,6 +76,8 @@ void    init_monster_type()
     map->monster_type[MONSTER].index_walk_sprite_2 = 11;
     map->monster_type[MONSTER].index_died_sprite = 12;
     map->monster_type[MONSTER].time_frame_walk = 0.10;
+    map->monster_type[MONSTER].type = FLYING;
+    map->monster_type[MONSTER].v_move_world = 2.5;
     
 }
 
@@ -96,6 +135,16 @@ t_monster    create_monster_sprite(int y, int x, char c, int index)
     monster.state = MON_IDLE;
     monster.animation_index = 10;
     monster.t_animation = 0.0;
+    monster.x_screen = 0;
+	monster.height_screen = 0;
+	monster.dist = 0;
+	monster.transformY = 0;
+	monster.x_left = 0;
+	monster.x_right = 0;
+	monster.y_top = 0;
+	monster.y_bottom = 0;
+	monster.y_center_monster = 0;
+    monster.is_damaged = false;
     return (monster);
 }
 
@@ -207,7 +256,7 @@ void    monster_animation()
         dx = (map->player.posX - map->monsters[counter].x);
         dy = (map->player.posY - map->monsters[counter].y);
         dist = sqrt(dx * dx + dy * dy);
-        if (dist <= (map->monster_type[map->monsters[counter].type_id].r_mon + map->player.r_player))
+        if (map->monsters[counter].state != MON_DEAD && (dist <= (map->monster_type[map->monsters[counter].type_id].r_mon + map->player.r_player)))//////////////
             map->player.state = DEAD;
         
 
@@ -239,6 +288,8 @@ void    monster_animation()
 
         if (map->monsters[counter].state == MON_DEAD)
         {
+            map->monsters[counter].x_speed = 0;
+            map->monsters[counter].y_speed = 0;
             counter++;
             continue;
         }
@@ -326,10 +377,14 @@ void    set_monsters_projection()
     double det;
     double invDet;
     double transformX;
+    float move_screen;
+
+    
 
     // --- Projeção dos monstros ---
     while (counter < map->num_monsters)
     {
+        move_screen = 0;
         dx = map->monsters[counter].x - map->player.posX;
         dy = map->monsters[counter].y - map->player.posY;
         map->monsters[counter].dist = sqrt(dx * dx + dy * dy);
@@ -338,9 +393,22 @@ void    set_monsters_projection()
         invDet = 1.0 / det;
         transformX = invDet * (map->player.dirY * dx - map->player.dirX * dy);
         map->monsters[counter].transformY = invDet * (-map->player.planeY * dx + map->player.planeX * dy);
+        if (map->monster_type[map->monsters[counter].id].type == GROUND)
+            move_screen = - map->monster_type[map->monsters[counter].id].v_move_world / map->monsters[counter].transformY * SCREEN_HEIGHT;
+        else if (map->monster_type[map->monsters[counter].id].type == FLYING)
+            move_screen = - map->monster_type[map->monsters[counter].id].v_move_world / map->monsters[counter].transformY * SCREEN_HEIGHT;
     
         map->monsters[counter].x_screen = (int)((SCREEN_WIDTH / 2) * (1 + transformX / map->monsters[counter].transformY));
         map->monsters[counter].height_screen = (int)fabs((double)(SCREEN_HEIGHT / map->monsters[counter].transformY));
+        map->monsters[counter].y_center_monster = SCREEN_HEIGHT/2 + map->cam.pitch_offset + move_screen;
+    
+        ////FAZER CLAMP:
+        map->monsters[counter].x_left = map->monsters[counter].x_screen - map->monsters[counter].height_screen/2;
+        map->monsters[counter].x_right = map->monsters[counter].x_screen + map->monsters[counter].height_screen / 2;
+        map->monsters[counter].y_top = map->monsters[counter].y_center_monster - map->monsters[counter].height_screen / 2;
+        map->monsters[counter]. y_bottom = map->monsters[counter].y_center_monster + map->monsters[counter].height_screen / 2;
+
+        
         counter++;
     }
 }
@@ -388,7 +456,7 @@ void    render_monsters(void *monster)
 
     move_screen = (0 + 0.5) / m->transformY * SCREEN_HEIGHT;
 
-    y_floor = SCREEN_HEIGHT / 2 + map->cam.pitch_offset + move_screen;
+    y_floor = SCREEN_HEIGHT / 2 + map->cam.pitch_offset  + move_screen ;
     y_end = y_floor;
     y_e = y_end;
     if (y_end >= SCREEN_HEIGHT - 1)
@@ -437,6 +505,13 @@ void    render_monsters(void *monster)
                 map->render_data.color = texel_at(text, tex_x_int, tex_y_int);
                 map->render_data.bytes = map->mlx.bits_per_pixel / 8;
                 map->render_data.offset = y * map->mlx.size_line + x * map->render_data.bytes;
+                if (map->render_data.color == CHROMA)
+                {
+                    y++;
+                    continue;
+                }
+                if (m->is_damaged)
+                    map->render_data.color = tint_red(map->render_data.color, 0.6f);
                 if (map->render_data.color != CHROMA)
                     *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = map->render_data.color;
                 y++;

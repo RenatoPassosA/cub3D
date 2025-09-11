@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:57:23 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/09 13:55:44 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/10 15:06:31 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int ac, char **av)
 	map_validations(av);
 	init_mlx();
 	init_player();
+	init_gun();
 	init_monster_type();
 	init_monsters();
 	init_textures();

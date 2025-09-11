@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 12:19:18 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/26 15:09:32 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/10 12:04:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int *get_player_position(char **map)
     free(position);
     return(NULL);
 }
+
+
 
 
 

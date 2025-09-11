@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:21:29 by renato            #+#    #+#             */
-/*   Updated: 2025/08/27 12:08:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 11:25:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    render_floor_and_ceiling()
     double fracY;
     int p;
  
-    horizon = SCREEN_HEIGHT / 2 + map->cam.pitch_offset;
+    horizon = SCREEN_HEIGHT / 2 + map->cam.pitch_offset ;
    
     
     posZ = 0.5 * SCREEN_HEIGHT;

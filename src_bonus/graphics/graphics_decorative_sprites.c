@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:41 by renato            #+#    #+#             */
-/*   Updated: 2025/09/09 16:53:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 11:24:47 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void    set_sprites_projection()
 void    render_decorative_sprites(void *sprite)
 {
     t_map *map;
-    int counter;
 
     t_sprite *s = (t_sprite *)sprite;
 
@@ -210,7 +209,7 @@ void    render_decorative_sprites(void *sprite)
     double left = spriteScreenX - spriteWidth / 2.0;
 
     move_screen = -(s->z_offset) * (SCREEN_HEIGHT / s->transformY);
-    centerY = (SCREEN_HEIGHT / 2) + map->cam.pitch_offset + move_screen;
+    centerY = (SCREEN_HEIGHT / 2) + map->cam.pitch_offset + move_screen ;
     drawStartX = (int)left;
     if (drawStartX < 0)
         drawStartX = 0;
@@ -278,7 +277,6 @@ void    render_decorative_sprites(void *sprite)
         }
         x++;
     }
-    counter++;
 
 }
 
