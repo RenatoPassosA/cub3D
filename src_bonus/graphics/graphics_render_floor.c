@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:21:29 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 11:25:00 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:51:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void    render_floor_and_ceiling()
 {
     t_map *map;
     t_render *data;
+    t_tex   *texture;
     
     map = get_map_instance();
     data = &map->render_data;  
@@ -53,6 +54,9 @@ void    render_floor_and_ceiling()
 
     y = 0;
     x = 0;
+    texture = &map->textures[5];
+    if (map->player.is_high)
+        texture = &map->textures[18];
     while (y < horizon - 1)
     {
         p = horizon - y;
@@ -76,10 +80,11 @@ void    render_floor_and_ceiling()
             fracY = floorY - cellY;
 
             
-            tx = (int)(map->textures[5].width * fracX) & (map->textures[5].width - 1);
-            ty = (int)(map->textures[5].height * fracY) & (map->textures[5].height - 1);
-
-            data->color = texel_at(&map->textures[5], tx, ty);
+            tx = (int)(texture->width * fracX) & (texture->width - 1);
+            ty = (int)(texture->height * fracY) & (texture->height - 1);
+            if (map->player.is_high)
+                trippy_effect(map, y, &ty, texture);
+            data->color = texel_at(texture, tx, ty);
             data->bytes = map->mlx.bits_per_pixel / 8;
             data->offset = y * map->mlx.size_line + x * data->bytes;
             *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
@@ -91,6 +96,11 @@ void    render_floor_and_ceiling()
         y++;
     }
     
+
+
+    texture = &map->textures[4];
+    if (map->player.is_high)
+        texture = &map->textures[18];
     y = horizon + 1;
     while (y < SCREEN_HEIGHT - 1)
     {
@@ -110,10 +120,12 @@ void    render_floor_and_ceiling()
             fracY = floorY - cellY;
 
             
-            tx = (int)(map->textures[4].width * fracX) & (map->textures[4].width - 1);
-            ty = (int)(map->textures[4].height * fracY) & (map->textures[4].height - 1);
+            tx = (int)(texture->width * fracX) & (texture->width - 1);
+            ty = (int)(texture->height * fracY) & (texture->height - 1);
 
-            data->color = texel_at(&map->textures[4], tx, ty);
+            if (map->player.is_high)
+                trippy_effect(map, y, &ty, texture);
+            data->color = texel_at(texture, tx, ty);
             data->bytes = map->mlx.bits_per_pixel / 8;
             data->offset = y * map->mlx.size_line + x * data->bytes;
             *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;

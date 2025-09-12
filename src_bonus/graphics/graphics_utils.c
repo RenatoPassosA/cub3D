@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/09/04 15:48:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:53:58 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ void	init_textures()
 	map->textures[10].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/mummy-l.xpm", &map->textures[10].width, &map->textures[10].height);
 	map->textures[11].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/mummy-r.xpm", &map->textures[11].width, &map->textures[11].height);
 	map->textures[12].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/diedmummy.xpm", &map->textures[12].width, &map->textures[12].height);
+	map->textures[13].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/psych_mush.xpm", &map->textures[13].width, &map->textures[13].height);
+	map->textures[14].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/psych_wall1.xpm", &map->textures[14].width, &map->textures[14].height);
+	map->textures[15].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/psych_wall2.xpm", &map->textures[15].width, &map->textures[15].height);
+	map->textures[16].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/psych_wall3.xpm", &map->textures[16].width, &map->textures[16].height);
+	map->textures[17].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/psych_wall4.xpm", &map->textures[17].width, &map->textures[17].height);
+	map->textures[18].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/trippy_floor.xpm", &map->textures[18].width, &map->textures[18].height);
 	
 
 	if (!map->textures[0].img || !map->textures[1].img || !map->textures[2].img || !map->textures[3].img || !map->textures[4].img || !map->textures[5].img) //inserir loop para verificar tudo
@@ -61,6 +67,13 @@ void	init_textures()
 	map->textures[10].addr = mlx_get_data_addr(map->textures[10].img, &map->textures[10].bpp, &map->textures[10].line_len, &map->textures[10].endian);
 	map->textures[11].addr = mlx_get_data_addr(map->textures[11].img, &map->textures[11].bpp, &map->textures[11].line_len, &map->textures[11].endian);
 	map->textures[12].addr = mlx_get_data_addr(map->textures[12].img, &map->textures[12].bpp, &map->textures[12].line_len, &map->textures[12].endian);
+	map->textures[13].addr = mlx_get_data_addr(map->textures[13].img, &map->textures[13].bpp, &map->textures[13].line_len, &map->textures[13].endian);
+	map->textures[14].addr = mlx_get_data_addr(map->textures[14].img, &map->textures[14].bpp, &map->textures[14].line_len, &map->textures[14].endian);
+	map->textures[15].addr = mlx_get_data_addr(map->textures[15].img, &map->textures[15].bpp, &map->textures[15].line_len, &map->textures[15].endian);
+	map->textures[16].addr = mlx_get_data_addr(map->textures[16].img, &map->textures[16].bpp, &map->textures[16].line_len, &map->textures[16].endian);
+	map->textures[17].addr = mlx_get_data_addr(map->textures[17].img, &map->textures[17].bpp, &map->textures[17].line_len, &map->textures[17].endian);
+	map->textures[18].addr = mlx_get_data_addr(map->textures[18].img, &map->textures[18].bpp, &map->textures[18].line_len, &map->textures[18].endian);
+	
 	
 
 	if (!map->textures[0].addr || !map->textures[1].addr || !map->textures[2].addr || !map->textures[3].addr || !map->textures[4].addr || !map->textures[5].addr  || !map->textures[6].addr) //inserir loop para verificar tudo

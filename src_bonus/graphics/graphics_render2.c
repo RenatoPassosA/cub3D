@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 11:25:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:32:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,26 @@ void    set_door_height(t_map *map)
         data->drawEnd = SCREEN_HEIGHT - 1;
 }
 
+void    trippy_effect(t_map *map, int y, int *ty, t_tex *texture)
+{
+    
+    float offset;
+    float frequency;
+    float wave_size;
+    float wave_offset;
+
+    frequency = 2.0;
+    
+    wave_size = 0.1;
+    wave_offset = 5;
+    offset = sin(map->player.trippy_phase * frequency + y * wave_size) * wave_offset;
+    *ty += offset;
+    if (*ty < 0)
+        *ty = 0;
+    else if (*ty >= texture->height)
+        *ty = texture->height - 1;
+}
+
 void    draw_doors(t_map *map, int x)
 {
     int y;
@@ -88,6 +108,8 @@ void    draw_doors(t_map *map, int x)
         else if (data->ty >= texture->height)
             data->ty = texture->height - 1;
         data->text_position += data->text_step;
+        if (map->player.is_high)
+            trippy_effect(map, y, &data->ty, texture);
         data->color = texel_at(texture, data->door_tx, data->ty);
         data->bytes = map->mlx.bits_per_pixel / 8;
         data->offset = y * map->mlx.size_line + x * data->bytes;
@@ -97,11 +119,15 @@ void    draw_doors(t_map *map, int x)
     map->z_buffer[x] = data->door_perp_dist;
 }
 
+
+
 void    draw_walls(t_map *map, t_tex *texture, int x)
 {
     int y;
     t_render *data;
-
+    
+    if (map->player.is_high)
+        texture = &map->textures[map->frame_index];
     data = &map->render_data;
     data->text_step = (double)texture->height / (double)data->lineHeight;
     data->text_position = (data->drawStart - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
@@ -114,7 +140,9 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
         else if (data->ty >= texture->height)
             data->ty = texture->height - 1;
         data->text_position += data->text_step;
-        data->color = texel_at(texture, data->tx, data->ty);
+        if (map->player.is_high)
+            trippy_effect(map, y, &data->ty, texture);
+        data->color = texel_at(texture, data->tx, (int)data->ty);
         data->bytes = map->mlx.bits_per_pixel / 8;
         data->offset = y * map->mlx.size_line + x * data->bytes;
         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;

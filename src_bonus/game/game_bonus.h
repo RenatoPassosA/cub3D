@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:50:52 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 13:04:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:25:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void    relax_recoil();
 int on_mouse_press(int button, int x, int y, t_map *map);
 void    init_gun();
 void    shoot();
-void hide_cursor(t_map *map);
+
+
+void check_mush(t_map *map);
+void    check_high();
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:41 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 11:24:47 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:55:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int    sprites_counter()
     {
         while (x < get_line_width(map->map[0]))
         {
-            if (map->map[y][x] == 'P' || map->map[y][x] == 'L' || map->map[y][x] == 'B')
+            if (map->map[y][x] == 'P' || map->map[y][x] == 'L' || map->map[y][x] == 'B' || map->map[y][x] == 'm')
                 counter++;
             x++;
         }
@@ -47,6 +47,8 @@ int get_sprite_id(char c)
         return (BARREL);
     else if (c == 'L')
         return (LIGHT);
+    else if (c == 'm')
+        return (MUSH);
     return (-1);
 }
 
@@ -62,6 +64,10 @@ t_sprite    create_sprite(int y, int x, char c)
     if (c == 'B' || c == 'P')
         sprite.collision = true;
     sprite.texture_id = get_sprite_id(c);
+    sprite.is_mush = false;
+    if (c == 'm')
+        sprite.is_mush = true;
+    sprite.is_visible = true;
     return (sprite);
 }
 
@@ -78,7 +84,7 @@ void    fill_sprite_data(t_map *map)
     {
         while (x < get_line_width(map->map[0]))
         {
-            if (map->map[y][x] == 'L' || map->map[y][x] == 'P' || map->map[y][x] == 'B')
+            if (map->map[y][x] == 'L' || map->map[y][x] == 'P' || map->map[y][x] == 'B' || map->map[y][x] == 'm')
             {
                 map->sprites[index] = create_sprite(y, x, map->map[y][x]);
                 map->map[y][x] = '0';
@@ -185,7 +191,8 @@ void    render_decorative_sprites(void *sprite)
     
     
    
-        
+    if (!s->is_visible) 
+        return;
    
    
     if (s->transformY <= 0)
@@ -268,6 +275,8 @@ void    render_decorative_sprites(void *sprite)
             else if (tex_y > text->height - 1)
                 tex_y = text->height - 1;
             tex_y_int = (int)tex_y;
+            if (map->player.is_high)
+                trippy_effect(map, y, &tex_y_int, text);
             map->render_data.color = texel_at(text, tex_x_int, tex_y_int);
             map->render_data.bytes = map->mlx.bits_per_pixel / 8;
             map->render_data.offset = y * map->mlx.size_line + x * map->render_data.bytes;
@@ -280,130 +289,3 @@ void    render_decorative_sprites(void *sprite)
 
 }
 
-// void    render_decorative_sprites()
-// {
-//     t_map *map;
-//     int counter;
-
-//     map = get_map_instance();
-//     counter = 0;
-
-   
-//     double spriteScreenX;
-
-//     double spriteHeight;
-//     double spriteWidth;
-
-//     double centerY;
-
-//     double drawStartX;
-//     double drawEndX;
-//     double drawStartY;
-//     double drawEndY;
-
-    
-    
-
-   
-        
-//     counter = 0;
-//     while (counter < map->num_sprites)
-//     {
-//         if (map->sprites[counter].transformY <= 0)
-//         {
-//             counter++; 
-//             continue;
-//         }
-
-//         spriteScreenX = (SCREEN_WIDTH / 2) * (1 + map->sprites[counter].transformX / map->sprites[counter].transformY);
-       
-        
-//         spriteHeight = fabs(SCREEN_HEIGHT / map->sprites[counter].transformY);
-//         if (spriteHeight < 1)
-//             spriteHeight = 1;
-
-//         spriteWidth = fabs(SCREEN_HEIGHT / map->sprites[counter].transformY);
-//         if (spriteWidth  < 1)
-//             spriteWidth  = 1;
-
-
-        
-
-//         float move_screen;
-//         double left = spriteScreenX - spriteWidth / 2.0;
-
-//         move_screen = -(map->sprites[counter].z_offset) * (SCREEN_HEIGHT / map->sprites[counter].transformY);
-//         centerY = (SCREEN_HEIGHT / 2) + map->cam.pitch_offset + move_screen;
-//         drawStartX = (int)left;
-//         if (drawStartX < 0)
-//             drawStartX = 0;
-//         drawEndX = (int)(left + spriteWidth);
-//         if (drawEndX > SCREEN_WIDTH - 1)
-//             drawEndX = SCREEN_WIDTH - 1;
-        
-
-            
-//         drawStartY = (int)(centerY - spriteHeight / 2.0);
-//         if (drawStartY < 0)
-//             drawStartY = 0;
-//         else if (drawStartY > SCREEN_HEIGHT - 1)
-//             drawEndY = SCREEN_HEIGHT - 1;
-//         drawEndY = (int)(centerY + spriteHeight / 2.0);
-//         if (drawEndY > SCREEN_HEIGHT - 1)
-//             drawEndY = SCREEN_HEIGHT - 1;
-//         else if (drawEndY < 0)
-//             drawEndY  = 0;
-
-//         if (drawStartX > drawEndX || drawStartY > drawEndY)
-//         {
-//             counter++;
-//             continue;
-//         }
-
-//         int x;
-//         int y;
-//         float tex_x;
-//         int tex_x_int;
-//         float tex_y;
-//         int tex_y_int;
-    
-//         int tex_id;
-//         t_tex *text;
-        
-//         tex_id = map->sprites[counter].texture_id;
-//         text = &map->textures[tex_id];
-//         x = drawStartX;
-//         while (x <= (int)drawEndX)
-//         {
-//             if (map->sprites[counter].transformY >= map->z_buffer[x])
-//             {
-//                 x++;
-//                 continue;
-//             }
-//             tex_x = (int)(((x - left) / spriteWidth) * text->width);
-//             if (tex_x < 0)
-//                 tex_x = 0;
-//             else if (tex_x > text->width - 1)
-//                 tex_x = text->width - 1;
-//             tex_x_int = (int)tex_x;
-//             y = drawStartY;
-//             while (y <= (int)drawEndY)
-//             {
-//                 tex_y = (int)(((double)(y - drawStartY) / (double)(drawEndY - drawStartY + 1)) * text->height);
-//                 if (tex_y < 0)
-//                     tex_y = 0;
-//                 else if (tex_y > text->height - 1)
-//                     tex_y = text->height - 1;
-//                 tex_y_int = (int)tex_y;
-//                 map->render_data.color = texel_at(text, tex_x_int, tex_y_int);
-//                 map->render_data.bytes = map->mlx.bits_per_pixel / 8;
-//                 map->render_data.offset = y * map->mlx.size_line + x * map->render_data.bytes;
-//                 if (map->render_data.color != CHROMA)
-//                     *(uint32_t *)(map->mlx.img_data + map->render_data.offset) = map->render_data.color;
-//                 y++;
-//             }
-//             x++;
-//         }
-//         counter++;
-//     }
-// }

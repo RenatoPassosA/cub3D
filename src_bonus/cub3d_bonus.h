@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/11 13:10:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:44:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ typedef struct s_sprites {
 	float	dist;
 	double transformY;
 	double transformX;
+	bool	is_mush;
+	bool	is_visible;
 } t_sprite;
 
 typedef enum e_sprite_type {
@@ -208,6 +210,9 @@ typedef struct player_infos
     double rotate_speed;
 	double r_player;
 	t_player_state state;
+	bool	is_high;
+	float	trippy_duration;
+	float	trippy_phase;
 } t_player;
 
 typedef struct render_data
@@ -270,7 +275,7 @@ typedef struct map_infos
 	t_input		input;
 	t_render	render_data;
 	t_mlx		mlx;
-	t_tex		textures[13];
+	t_tex		textures[19];
 	t_mini		minimap;
 	t_cam		cam;
 	t_door		*doors;
@@ -279,6 +284,13 @@ typedef struct map_infos
 	t_monster	*monsters;
 	t_render_list	*render_list;
 	t_gun	gun;
+
+	int frame_index;
+	float time_accumulator;
+	float frame_duration;
+	int frames [4];
+
+	
 } t_map;
 
 typedef enum e_validation_status
@@ -335,6 +347,7 @@ typedef enum e_validation_status
 #define PILLAR 7
 #define LIGHT 8
 #define BARREL 9
+#define MUSH 13
 
 #define CHROMA 0x000000
 

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/09/10 15:06:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:10:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ void    init_player()
     map->player.move_speed = 0;
     map->player.state = ALIVE;
     map->player.r_player = 0.30;
+    map->player.is_high = false;
+	map->player.trippy_duration = 6;
+    map->player.trippy_phase = 0;
     free(player);
     remove_zeros(map);
 }

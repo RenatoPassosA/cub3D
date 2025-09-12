@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 12:21:58 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:26:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	update_frame(void)
 	check_damaged_monster();
 	monster_animation();
 	keyboard_inputs(map);
+	check_mush(map);
+	check_high();
 	check_rotate_on_edge(map);
 	init_minimap_data();	
 	door_animation(map->player.frame_time);
@@ -76,7 +78,7 @@ int	update_frame(void)
     return (0);
 }
 
-// transformY, x_left, x_right, y_center_monster, height_screen
+
 
 void    game_loop(void)
 {

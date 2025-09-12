@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/02 16:43:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/11 16:32:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ void init_data(char *path)
 	map->fd = open(path, O_RDONLY);
 	if (map->fd < 0)
 		clean_all_and_message_error("Error on opening fd.", NULL, NULL);
+	map->frame_index = 14;
+	map-> time_accumulator = 0;
+	map->frame_duration = 0.2;
+	map->frames[0] = 14;
+	map->frames[1] = 15;
+	map->frames[2] = 16;
+	map->frames[3] = 17;
 }
 
 void	fd_manage(char *path, int fd, char ***content, char **map)

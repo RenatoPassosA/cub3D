@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:45:05 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 12:05:17 by renato           ###   ########.fr       */
+/*   Updated: 2025/09/12 10:27:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 void    render();
 void	init_textures();
 void    set_wall_height(t_map *map);
-void    draw_floor(t_map *map, int x);
-void    draw_ceiling(t_map *map, int x);
 uint32_t texel_at(const t_tex *t, int tx, int ty);
 void    draw_walls(t_map *map, t_tex *texture, int x);
 void    set_texture_and_coordinates(t_map *map, t_tex **texture);
@@ -52,4 +50,6 @@ void    sort_sprites(t_map *map);
 void    set_render_list();
 void    set_priority_order();
 void    check_damaged_monster();
+
+void    trippy_effect(t_map *map, int y, int *ty, t_tex *texture);
 #endif
