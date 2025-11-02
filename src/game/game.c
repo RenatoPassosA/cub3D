@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:54:51 by renato            #+#    #+#             */
-/*   Updated: 2025/09/04 16:39:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:18:00 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	quit_game(void)
 
 	map = get_map_instance();
 	free_bidimensional_array(map->map);
-	free(map->NO_texture);
-	free(map->SO_texture);
-	free(map->WE_texture);
-	free(map->EA_texture);
+	free(map->no_texture);
+	free(map->so_texture);
+	free(map->we_texture);
+	free(map->ea_texture);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[0].img);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[1].img);
 	mlx_destroy_image(map->mlx.mlx_ptr, map->textures[2].img);

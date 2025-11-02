@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 15:33:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,27 @@ void move_axis(t_map *map, double next_x, double next_y, char axis)
     if (axis == 'X')
     {
         target_cell_x = (int)floor(next_x);
-        target_cell_y = (int)floor(map->player.posY);
+        target_cell_y = (int)floor(map->player.pos_y);
         if (is_walkable(map, target_cell_y, target_cell_x))
-            map->player.posX = next_x;
+            map->player.pos_x = next_x;
         else if (is_door(map, target_cell_y, target_cell_x))
         {
             door_id = get_door_id(map, target_cell_y, target_cell_x);
             if (map->doors[door_id].open_amount >= DOOR_THRESHOLD)
-                map->player.posX = next_x;
+                map->player.pos_x = next_x;
         }
     }
     else
     {
-        target_cell_x = (int)floor(map->player.posX);
+        target_cell_x = (int)floor(map->player.pos_x);
         target_cell_y = (int)floor(next_y);
         if (is_walkable(map, target_cell_y, target_cell_x))
-            map->player.posY = next_y;
+            map->player.pos_y = next_y;
         else if (is_door(map, target_cell_y, target_cell_x))
         {
             door_id = get_door_id(map, target_cell_y, target_cell_x);
             if (map->doors[door_id].open_amount >= DOOR_THRESHOLD)
-                map->player.posY = next_y;
+                map->player.pos_y = next_y;
         }
     }
 }

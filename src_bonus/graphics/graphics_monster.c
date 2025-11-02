@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_monster.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:49:25 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 12:08:46 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,8 +253,8 @@ void    monster_animation()
     while (counter < map->num_monsters)
     {
         map->monsters[counter].t_animation += map->player.frame_time;
-        dx = (map->player.posX - map->monsters[counter].x);
-        dy = (map->player.posY - map->monsters[counter].y);
+        dx = (map->player.pos_x - map->monsters[counter].x);
+        dy = (map->player.pos_y - map->monsters[counter].y);
         dist = sqrt(dx * dx + dy * dy);
         if (map->monsters[counter].state != MON_DEAD && (dist <= (map->monster_type[map->monsters[counter].type_id].r_mon + map->player.r_player)))//////////////
             map->player.state = DEAD;
@@ -385,8 +385,8 @@ void    set_monsters_projection()
     while (counter < map->num_monsters)
     {
         move_screen = 0;
-        dx = map->monsters[counter].x - map->player.posX;
-        dy = map->monsters[counter].y - map->player.posY;
+        dx = map->monsters[counter].x - map->player.pos_x;
+        dy = map->monsters[counter].y - map->player.pos_y;
         map->monsters[counter].dist = sqrt(dx * dx + dy * dy);
 
         det = map->player.dirY * map->player.planeX - map->player.dirX * map->player.planeY;

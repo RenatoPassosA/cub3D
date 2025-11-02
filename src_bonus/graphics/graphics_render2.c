@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_render2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:32:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:16:26 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ void    set_texture_and_coordinates(t_map *map, t_tex **texture)
     t_render *data;
 
     data = &map->render_data;
-    if (data->side == 0 && data->rayDirX > 0)
+    if (data->side == 0 && data->ray_dir_x > 0)
         texture_index = WE;
-    else if (data->side == 0 && data->rayDirX < 0)
+    else if (data->side == 0 && data->ray_dir_x < 0)
         texture_index = EA;
-    else if (data->side == 1 && data->rayDirY > 0)
+    else if (data->side == 1 && data->ray_dir_y > 0)
         texture_index = NO;
-    else if (data->side == 1 && data->rayDirY < 0)
+    else if (data->side == 1 && data->ray_dir_y < 0)
         texture_index = SO;
     *texture = &map->textures[texture_index];
     if (data->side == 0)
-        data->wallX = map->player.posY + data->perpWallDist * data->rayDirY;
+        data->wall_x = map->player.pos_y + data->perp_wall_dist * data->ray_dir_y;
     else
-        data->wallX = map->player.posX + data->perpWallDist * data->rayDirX;
+        data->wall_x = map->player.pos_x + data->perp_wall_dist * data->ray_dir_x;
 
-    data->wallX = data->wallX - floor(data->wallX);    
-    data->tx = (int)(data->wallX * (*texture)->width);
+    data->wall_x = data->wall_x - floor(data->wall_x);    
+    data->tx = (int)(data->wall_x * (*texture)->width);
 
-    if (data->side == 0 && data->rayDirX > 0)
+    if (data->side == 0 && data->ray_dir_x > 0)
         data->tx = (*texture)->width - data->tx - 1;
-    else if (data->side == 1 && data->rayDirY < 0)
+    else if (data->side == 1 && data->ray_dir_y < 0)
         data->tx = (*texture)->width - data->tx - 1;
 }
 
@@ -46,13 +46,13 @@ void    set_wall_height(t_map *map)
     t_render *data;
 
     data = &map->render_data;
-    data->lineHeight = (int)(SCREEN_HEIGHT / data->perpWallDist);
-    data->drawStart = -data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
-    data->drawEnd = data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
-    if (data->drawStart < 0)
-        data->drawStart = 0;
-    if (data->drawEnd >= SCREEN_HEIGHT)
-        data->drawEnd = SCREEN_HEIGHT - 1;
+    data->line_height = (int)(SCREEN_HEIGHT / data->perp_wall_dist);
+    data->draw_start = -data->line_height / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
+    data->draw_end = data->line_height / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
+    if (data->draw_start < 0)
+        data->draw_start = 0;
+    if (data->draw_end >= SCREEN_HEIGHT)
+        data->draw_end = SCREEN_HEIGHT - 1;
 }
 
 void    set_door_height(t_map *map)
@@ -60,13 +60,13 @@ void    set_door_height(t_map *map)
     t_render *data;
 
     data = &map->render_data;
-    data->lineHeight = (int)(SCREEN_HEIGHT / data->door_perp_dist);
-    data->drawStart = -data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
-    data->drawEnd = data->lineHeight / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
-    if (data->drawStart < 0)
-        data->drawStart = 0;
-    if (data->drawEnd >= SCREEN_HEIGHT)
-        data->drawEnd = SCREEN_HEIGHT - 1;
+    data->line_height = (int)(SCREEN_HEIGHT / data->door_perp_dist);
+    data->draw_start = -data->line_height / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
+    data->draw_end = data->line_height / 2 + (SCREEN_HEIGHT / 2 + map->cam.pitch_offset);
+    if (data->draw_start < 0)
+        data->draw_start = 0;
+    if (data->draw_end >= SCREEN_HEIGHT)
+        data->draw_end = SCREEN_HEIGHT - 1;
 }
 
 void    trippy_effect(t_map *map, int y, int *ty, t_tex *texture)
@@ -97,10 +97,10 @@ void    draw_doors(t_map *map, int x)
     
     data = &map->render_data;
     texture = &map->textures[6];
-    data->text_step = (double)texture->height / (double)data->lineHeight;
-    data->text_position = (data->drawStart - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
-    y = data->drawStart;
-    while (y < data->drawEnd)
+    data->text_step = (double)texture->height / (double)data->line_height;
+    data->text_position = (data->draw_start - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->line_height/2) * data->text_step;
+    y = data->draw_start;
+    while (y < data->draw_end)
     {
         data->ty = (int)data->text_position;
         if (data->ty < 0)
@@ -129,10 +129,10 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
     if (map->player.is_high)
         texture = &map->textures[map->frame_index];
     data = &map->render_data;
-    data->text_step = (double)texture->height / (double)data->lineHeight;
-    data->text_position = (data->drawStart - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->lineHeight/2) * data->text_step;
-    y = data->drawStart;
-    while (y < data->drawEnd)
+    data->text_step = (double)texture->height / (double)data->line_height;
+    data->text_position = (data->draw_start - (SCREEN_HEIGHT/2 + map->cam.pitch_offset) + data->line_height/2) * data->text_step;
+    y = data->draw_start;
+    while (y < data->draw_end)
     {
         data->ty = (int)data->text_position;
         if (data->ty < 0)
@@ -148,5 +148,5 @@ void    draw_walls(t_map *map, t_tex *texture, int x)
         *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
         y++;
     }
-    map->z_buffer[x] = data->perpWallDist;
+    map->z_buffer[x] = data->perp_wall_dist;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_high.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:58:54 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:11:10 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void check_mush(t_map *map)
     int x;
     int counter;
     
-    y = (int)map->player.posY;
-    x = (int)map->player.posX;
+    y = (int)map->player.pos_y;
+    x = (int)map->player.pos_x;
     counter = 0;
     if (y < 0 || y >= get_map_height(map->map))
         return ;

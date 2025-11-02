@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_minimap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:27:27 by renato            #+#    #+#             */
-/*   Updated: 2025/09/01 13:18:59 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void    render_minimap()
     col = 0;
 
     visible_cells = 12;
-    start_col = floor(map->player.posX) - visible_cells/2;
-    start_row = floor(map->player.posY) - visible_cells/2;
+    start_col = floor(map->player.pos_x) - visible_cells/2;
+    start_row = floor(map->player.pos_y) - visible_cells/2;
 
     while (row < visible_cells)
     {
@@ -143,8 +143,8 @@ void    render_minimap()
 
     
 
-    float frac_x = map->player.posX - floor(map->player.posX);
-    float frac_y = map->player.posY - floor(map->player.posY);
+    float frac_x = map->player.pos_x - floor(map->player.pos_x);
+    float frac_y = map->player.pos_y - floor(map->player.pos_y);
 
     
     int center_player_x = originX + (visible_cells/2) * map->minimap.pixels_per_cell + (int)(frac_x * map->minimap.pixels_per_cell);

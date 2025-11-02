@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_render_floor.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 16:21:29 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:51:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:11:36 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void    render_floor_and_ceiling()
     map = get_map_instance();
     data = &map->render_data;  
 
-    float rayDirX0;
-    float rayDirY0;
-    float rayDirX1;
-    float rayDirY1;
+    float ray_dir_x0;
+    float ray_dir_y0;
+    float ray_dir_x1;
+    float ray_dir_y1;
     int horizon;
     int y;
     int x;
     float posZ;
     double rowDistance;
-    double floorStepX;
-    double floorStepY;
+    double floorstep_x;
+    double floorstep_y;
     double floorX;
     double floorY;
     int cellX;
@@ -46,10 +46,10 @@ void    render_floor_and_ceiling()
    
     
     posZ = 0.5 * SCREEN_HEIGHT;
-    rayDirX0 = map->player.dirX - map->player.planeX;
-    rayDirY0 = map->player.dirY - map->player.planeY;
-    rayDirX1 = map->player.dirX + map->player.planeX;
-    rayDirY1 = map->player.dirY + map->player.planeY;
+    ray_dir_x0 = map->player.dirX - map->player.planeX;
+    ray_dir_y0 = map->player.dirY - map->player.planeY;
+    ray_dir_x1 = map->player.dirX + map->player.planeX;
+    ray_dir_y1 = map->player.dirY + map->player.planeY;
 
 
     y = 0;
@@ -66,10 +66,10 @@ void    render_floor_and_ceiling()
             continue ;
         }
         rowDistance = posZ / p;  
-        floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
-        floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
-        floorX = map->player.posX + rowDistance * rayDirX0;
-        floorY = map->player.posY + rowDistance * rayDirY0;
+        floorstep_x = rowDistance * (ray_dir_x1 - ray_dir_x0) / SCREEN_WIDTH;
+        floorstep_y = rowDistance * (ray_dir_y1 - ray_dir_y0) / SCREEN_WIDTH;
+        floorX = map->player.pos_x + rowDistance * ray_dir_x0;
+        floorY = map->player.pos_y + rowDistance * ray_dir_y0;
 
         while (x < SCREEN_WIDTH)
         {
@@ -88,8 +88,8 @@ void    render_floor_and_ceiling()
             data->bytes = map->mlx.bits_per_pixel / 8;
             data->offset = y * map->mlx.size_line + x * data->bytes;
             *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
-            floorX += floorStepX;
-            floorY += floorStepY;
+            floorX += floorstep_x;
+            floorY += floorstep_y;
             x++;
         }
         x = 0;
@@ -106,10 +106,10 @@ void    render_floor_and_ceiling()
     {
         p = y - horizon;
         rowDistance = posZ / p;  
-        floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
-        floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
-        floorX = map->player.posX + rowDistance * rayDirX0;
-        floorY = map->player.posY + rowDistance * rayDirY0;
+        floorstep_x = rowDistance * (ray_dir_x1 - ray_dir_x0) / SCREEN_WIDTH;
+        floorstep_y = rowDistance * (ray_dir_y1 - ray_dir_y0) / SCREEN_WIDTH;
+        floorX = map->player.pos_x + rowDistance * ray_dir_x0;
+        floorY = map->player.pos_y + rowDistance * ray_dir_y0;
 
         while (x < SCREEN_WIDTH)
         {
@@ -129,8 +129,8 @@ void    render_floor_and_ceiling()
             data->bytes = map->mlx.bits_per_pixel / 8;
             data->offset = y * map->mlx.size_line + x * data->bytes;
             *(uint32_t *)(map->mlx.img_data + data->offset) = data->color;
-            floorX += floorStepX;
-            floorY += floorStepY;
+            floorX += floorstep_x;
+            floorY += floorstep_y;
             x++;
         }
         x = 0;

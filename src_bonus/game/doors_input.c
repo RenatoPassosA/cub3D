@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 11:28:01 by renato            #+#    #+#             */
-/*   Updated: 2025/08/29 13:55:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void    input_use(t_map *map)
     
     if (map->input.use == 1)
     {
-        next_x = (int)floor(map->player.posX + map->player.dirX * 0.6);
-        next_y = (int)floor(map->player.posY + map->player.dirY * 0.6);
+        next_x = (int)floor(map->player.pos_x + map->player.dirX * 0.6);
+        next_y = (int)floor(map->player.pos_y + map->player.dirY * 0.6);
         if (is_door(map, next_y, next_x))
         {
             id = get_door_id(map, next_y,  next_x);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inputs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:59:03 by renato            #+#    #+#             */
-/*   Updated: 2025/08/19 14:01:04 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ void move_axis(t_map *map, double nextX, double nextY, char axis)
     if (axis == 'X')
     {
         targetCellX = (int)floor(nextX);
-        targetCellY = (int)floor(map->player.posY);
+        targetCellY = (int)floor(map->player.pos_y);
         if (is_walkable(map, targetCellX, targetCellY))
-            map->player.posX = nextX;
+            map->player.pos_x = nextX;
     }
     else
     {
-        targetCellX = (int)floor(map->player.posX);
+        targetCellX = (int)floor(map->player.pos_x);
         targetCellY = (int)floor(nextY);
         if (is_walkable(map, targetCellX, targetCellY))
-            map->player.posY = nextY;
+            map->player.pos_y = nextY;
     }
 }
 

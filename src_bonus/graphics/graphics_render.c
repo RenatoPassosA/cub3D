@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_render.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:01:49 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 13:20:48 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:16:26 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void    set_perp_dist(t_map *map)
 
     data = &map->render_data;
     if (data->side == 0)
-        data->perpWallDist = (data->mapX - map->player.posX + (1 - data->stepX) / 2) / data->rayDirX;
+        data->perp_wall_dist = (data->map_x - map->player.pos_x + (1 - data->step_x) / 2) / data->ray_dir_x;
         
     else
-        data->perpWallDist = (data->mapY - map->player.posY + (1 - data->stepY) / 2) / data->rayDirY;
+        data->perp_wall_dist = (data->map_y - map->player.pos_y + (1 - data->step_y) / 2) / data->ray_dir_y;
     
 }
 
@@ -50,16 +50,16 @@ void set_door_plane(t_map *map, int id)
         x_plane = map->doors[id].x + 0.5 + offset;
         if (!(map->doors[id].x <= x_plane && x_plane < map->doors[id].x + 1))
             return ;
-        if (fabs(map->render_data.rayDirX) < 0.000001)
+        if (fabs(map->render_data.ray_dir_x) < 0.000001)
             return ;
-        if (map->render_data.rayDirX != 0)
+        if (map->render_data.ray_dir_x != 0)
         {
-            t = (x_plane - map->player.posX) / map->render_data.rayDirX;
+            t = (x_plane - map->player.pos_x) / map->render_data.ray_dir_x;
             if (t <= 0)
             {
                 return;
             }
-            Y_hit = map->player.posY + t * map->render_data.rayDirY;
+            Y_hit = map->player.pos_y + t * map->render_data.ray_dir_y;
             if (!(map->doors[id].y <= Y_hit && Y_hit < map->doors[id].y + 1)) {
                 return;
             }
@@ -96,16 +96,16 @@ void set_door_plane(t_map *map, int id)
         y_plane = map->doors[id].y + 0.5 + offset;
         if (!(map->doors[id].y <= y_plane && y_plane < map->doors[id].y + 1))
             return ;
-        if (fabs(map->render_data.rayDirY) < 0.000001)
+        if (fabs(map->render_data.ray_dir_y) < 0.000001)
             return ;
-        if (map->render_data.rayDirY != 0)
+        if (map->render_data.ray_dir_y != 0)
         {
                         
-            t = (y_plane - map->player.posY) / map->render_data.rayDirY;
+            t = (y_plane - map->player.pos_y) / map->render_data.ray_dir_y;
 
             if (t <= 0)
                 return;
-            X_hit = map->player.posX + t * map->render_data.rayDirX;
+            X_hit = map->player.pos_x + t * map->render_data.ray_dir_x;
 
             if (!(map->doors[id].x <= X_hit && X_hit < map->doors[id].x + 1))
                 return;
@@ -153,37 +153,37 @@ static void    check_hit_wall(t_map *map)
     data = &map->render_data;
     while (!data->hit)
     {
-        if (data->sideDistX < data->sideDistY)
+        if (data->side_dist_x < data->side_dist_y)
         {
-            data->sideDistX += data->deltaDistX;
-            data->mapX += data->stepX;
+            data->side_dist_x += data->delta_x;
+            data->map_x += data->step_x;
             data->side = 0;
         }
         else
         {
-            data->sideDistY += data->deltaDistY;
-            data->mapY += data->stepY;
+            data->side_dist_y += data->delta_y;
+            data->map_y += data->step_y;
             data->side = 1;
         }      
-        if (data->mapY < 0 || data->mapY >= get_map_height(map->map))
+        if (data->map_y < 0 || data->map_y >= get_map_height(map->map))
         {
             data->hit = true;
             break;
         }
 
-        roww = get_line_width(map->map[data->mapY]);
-        if (data->mapX < 0 || data->mapX >= roww)
+        roww = get_line_width(map->map[data->map_y]);
+        if (data->map_x < 0 || data->map_x >= roww)
         {
             data->hit = true;
             break;
         }
 
-        char cell = map->map[data->mapY][data->mapX];
+        char cell = map->map[data->map_y][data->map_x];
         if (is_wall_like(cell))
             data->hit = true;
         else if (cell == 'D')
         {
-            did = get_door_id(map, data->mapY, data->mapX);
+            did = get_door_id(map, data->map_y, data->map_x);
             set_door_plane(map, did);
         }
     }
@@ -194,25 +194,25 @@ static void    get_ray_direction(t_map *map)
     t_render *data;
 
     data = &map->render_data;
-    if (data->rayDirX < 0)
+    if (data->ray_dir_x < 0)
     {
-        data->stepX = -1;
-        data->sideDistX = (map->player.posX - data->mapX) * data->deltaDistX;
+        data->step_x = -1;
+        data->side_dist_x = (map->player.pos_x - data->map_x) * data->delta_x;
     }
     else
     {
-        data->stepX = 1;
-        data->sideDistX = (data->mapX + 1.0 - map->player.posX) * data->deltaDistX;
+        data->step_x = 1;
+        data->side_dist_x = (data->map_x + 1.0 - map->player.pos_x) * data->delta_x;
     }
-    if (data->rayDirY < 0)
+    if (data->ray_dir_y < 0)
     {
-        data->stepY = -1;
-        data->sideDistY = (map->player.posY - data->mapY) * data->deltaDistY;
+        data->step_y = -1;
+        data->side_dist_y = (map->player.pos_y - data->map_y) * data->delta_y;
     }
     else
     {
-        data-> stepY = 1;
-        data->sideDistY = (data->mapY + 1.0 - map->player.posY) * data->deltaDistY;
+        data-> step_y = 1;
+        data->side_dist_y = (data->map_y + 1.0 - map->player.pos_y) * data->delta_y;
     }
 }
 
@@ -221,15 +221,15 @@ static void    set_initial_data(t_map *map, int x)
     t_render *data;
 
     data = &map->render_data;
-    data->mapX = (int)map->player.posX;
-    data->mapY = (int)map->player.posY;
+    data->map_x = (int)map->player.pos_x;
+    data->map_y = (int)map->player.pos_y;
     data->hit = false;
     data->side = 0;
-    data->cameraX = 2.0 * x / (double)SCREEN_WIDTH - 1;
-    data->rayDirX = map->player.dirX + map->player.planeX * data->cameraX;
-    data->rayDirY = map->player.dirY + map->player.planeY * data->cameraX;
-    data->deltaDistX = fabs(1 / data->rayDirX);
-    data->deltaDistY = fabs(1 / data->rayDirY);
+    data->camera_x = 2.0 * x / (double)SCREEN_WIDTH - 1;
+    data->ray_dir_x = map->player.dirX + map->player.planeX * data->camera_x;
+    data->ray_dir_y = map->player.dirY + map->player.planeY * data->camera_x;
+    data->delta_x = fabs(1 / data->ray_dir_x);
+    data->delta_y = fabs(1 / data->ray_dir_y);
     data->is_door = 0;
 	data->door_has_hit = false;
 	
@@ -307,21 +307,21 @@ void    render()
         set_initial_data(map, x);
         get_ray_direction(map);
 
-        cosA = map->render_data.rayDirX * map->player.dirX + map->render_data.rayDirY * map->player.dirY;
+        cosA = map->render_data.ray_dir_x * map->player.dirX + map->render_data.ray_dir_y * map->player.dirY;
         map->render_data.ray_view_cos = cosA;
         
         check_hit_wall(map);
         set_perp_dist(map);
-        if (map->render_data.perpWallDist <= 0)
+        if (map->render_data.perp_wall_dist <= 0)
             continue;
         set_texture_and_coordinates(map, &texture);
-        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perpWallDist - 1e-6)
+        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perp_wall_dist - 1e-6)
             set_door_height(map);
         else
             set_wall_height(map);
-        if (map->render_data.drawEnd < 0 || map->render_data.drawStart >= SCREEN_HEIGHT || map->render_data.lineHeight <= 0)
+        if (map->render_data.draw_end < 0 || map->render_data.draw_start >= SCREEN_HEIGHT || map->render_data.line_height <= 0)
             continue;
-        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perpWallDist - 1e-6)
+        if (map->render_data.door_has_hit && map->render_data.door_perp_dist < map->render_data.perp_wall_dist - 1e-6)
             draw_doors(map, x);
         else
             draw_walls(map, texture, x);
@@ -347,59 +347,59 @@ void    render()
 Com isso, você calcula a que distância a parede está e desenha uma linha vertical com altura proporcional a essa distância.
 
 formulas:
-    cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
+    camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
         converte os valores de x (colunas de pixel da tela, de 0 até SCREEN_WIDTH - 1) em um intervalo contínuo de valores entre -1 e +1
 
-    rayDirX = dirX + planeX * cameraX;
-    rayDirY = dirY + planeY * cameraX;
+    ray_dir_x = dir_x + plane_x * camera_x;
+    ray_dir_y = dir_y + plane_y * camera_x;
 
-    dirX e dirY - valores com base no plano cartesiano para ver pra onde está virado (N: 0, 1; S: 0, -1; E: 1, 0; W: -1, 0)
-    planeX e Y - FOV (field of view) - vetor perpendicular que define a abertura de angulo do campo de visão - defini como 0.66
+    dir_x e dir_y - valores com base no plano cartesiano para ver pra onde está virado (N: 0, 1; S: 0, -1; E: 1, 0; W: -1, 0)
+    plane_x e Y - FOV (field of view) - vetor perpendicular que define a abertura de angulo do campo de visão - defini como 0.66
 
     rayX e rayY representam para qual direção esse raio está apontando no espaço 2D - esse vetor não representa distância, mas sim orientação e inclinação do raio.
     
 
-    deltaDistX e deltaDistY dizem quanto o raio anda em linha reta até bater na próxima linha de grade, no eixo X ou Y.
-    deltaDistX = fabs(1 / rayDirX) - o 1 é uma convenção do tamanho do tile. se assume que o mapa está em escala 1:1, onde cada célula tem tamanho 1 no mundo 2D.
+    delta_x e delta_y dizem quanto o raio anda em linha reta até bater na próxima linha de grade, no eixo X ou Y.
+    delta_x = fabs(1 / ray_dir_x) - o 1 é uma convenção do tamanho do tile. se assume que o mapa está em escala 1:1, onde cada célula tem tamanho 1 no mundo 2D.
 
-    stepX = -1 ou 1; - qual direção o raio vai andar no eixo X (esquerda ou direita)
-    Se o raio está indo para a esquerda, você vai testar o tile mapX - 1, depois mapX - 2, etc.
-    Se está indo para a direita, vai testar mapX + 1, mapX + 2, etc.
+    step_x = -1 ou 1; - qual direção o raio vai andar no eixo X (esquerda ou direita)
+    Se o raio está indo para a esquerda, você vai testar o tile map_x - 1, depois map_x - 2, etc.
+    Se está indo para a direita, vai testar map_x + 1, map_x + 2, etc.
 
-    sideDistX = (posX - mapX) * deltaDistX; - qual a distância inicial do raio até a primeira linha vertical de tile que ele vai cruzar
-    Se o raio está indo para a esquerda (rayDirX < 0):
-    posX - mapX → quanto falta para chegar na borda esquerda do tile atual
-    Multiplica por deltaDistX para saber quanto o raio anda em linha reta para chegar lá
+    side_dist_x = (pos_x - map_x) * delta_x; - qual a distância inicial do raio até a primeira linha vertical de tile que ele vai cruzar
+    Se o raio está indo para a esquerda (ray_dir_x < 0):
+    pos_x - map_x → quanto falta para chegar na borda esquerda do tile atual
+    Multiplica por delta_x para saber quanto o raio anda em linha reta para chegar lá
     
-    sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-    mapX + 1.0 - posX → quanto falta para chegar na borda direita do tile atual
-    Multiplica por deltaDistX para converter isso em distância reta no mundo
+    side_dist_x = (map_x + 1.0 - pos_x) * delta_x;
+    map_x + 1.0 - pos_x → quanto falta para chegar na borda direita do tile atual
+    Multiplica por delta_x para converter isso em distância reta no mundo
 
-    perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+    perp_wall_dist = (map_x - pos_x + (1 - step_x) / 2) / ray_dir_x;
     é o quanto a parede está “para dentro” do cenário
-    mapX - posX    → distância entre o jogador e a grade à esquerda da célula onde o raio bateu
-    (1 - stepX) / 2    → compensação para saber em qual lado da célula o raio bateu:
-    Se stepX == 1 (indo pra direita): (1 - 1)/2 = 0
-    Se stepX == -1 (indo pra esquerda): (1 - (-1))/2 = 1
+    map_x - pos_x    → distância entre o jogador e a grade à esquerda da célula onde o raio bateu
+    (1 - step_x) / 2    → compensação para saber em qual lado da célula o raio bateu:
+    Se step_x == 1 (indo pra direita): (1 - 1)/2 = 0
+    Se step_x == -1 (indo pra esquerda): (1 - (-1))/2 = 1
     ➤ Isso desloca a borda para o lado certo da célula.
 
-    Soma tudo e divide por rayDirX
+    Soma tudo e divide por ray_dir_x
     → converte a distância X em distância real ao longo do raio
     (tipo: “andei X em linha reta na direção do raio: quantas unidades isso representa?”)
-    perpWallDist é a distância real (corrigida) até a parede. Ela será usada para calcular a altura da parede renderizada
+    perp_wall_dist é a distância real (corrigida) até a parede. Ela será usada para calcular a altura da parede renderizada
 
-    lineHeight = SCREEN_HEIGHT / perpWallDist
+    line_height = SCREEN_HEIGHT / perp_wall_dist
     É a altura em pixels que a parede deve ter na tela.
     Quanto mais longe a parede estiver, menor será a linha.
 
-    drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2
-    drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2
+    draw_start = -line_height / 2 + SCREEN_HEIGHT / 2
+    draw_end = line_height / 2 + SCREEN_HEIGHT / 2
     draw start e draw end seria onde eu começaria a desenhar somente a parede
     esses limites fazem com que a parede seja desenhada crescendo metade para cima e metade para baixo do centro da tela
-    Parede próxima → perpWallDist é pequeno → lineHeight é grande
+    Parede próxima → perp_wall_dist é pequeno → line_height é grande
     ⟶ A parede vai ocupar quase a tela inteira
     ⟶ O céu e o chão ficam pequenos (como se estivesse colado na parede)
-    Parede distante → perpWallDist é grande → lineHeight é pequena
+    Parede distante → perp_wall_dist é grande → line_height é pequena
     ⟶ A parede ocupa pouca altura vertical
     ⟶ O céu e o chão ficam maiores (como se você visse ao longe)
     
@@ -415,5 +415,5 @@ formulas:
 
     tx e ty são coordenadas da textura
 
-    wallx define Em que ponto da parede (ao longo da sua largura) o raio bateu
+    wall_x define Em que ponto da parede (ao longo da sua largura) o raio bateu
 */

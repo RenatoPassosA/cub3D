@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_decorative_sprites.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:41 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:55:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:15:06 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ void    set_sprites_projection()
         
     while (counter < map->num_sprites)
     {
-        dx = map->sprites[counter].x - map->player.posX;
-        dy = map->sprites[counter].y - map->player.posY;
+        dx = map->sprites[counter].x - map->player.pos_x;
+        dy = map->sprites[counter].y - map->player.pos_y;
         det = map->player.dirY * map->player.planeX - map->player.dirX * map->player.planeY;
         invDet = 1.0 / det;
         map->sprites[counter].transformX = invDet * ( map->player.dirY * dx - map->player.dirX * dy );
@@ -182,10 +182,10 @@ void    render_decorative_sprites(void *sprite)
 
     double centerY;
 
-    double drawStartX;
-    double drawEndX;
-    double drawStartY;
-    double drawEndY;
+    double draw_startX;
+    double draw_endX;
+    double draw_startY;
+    double draw_endY;
 
     
     
@@ -217,27 +217,27 @@ void    render_decorative_sprites(void *sprite)
 
     move_screen = -(s->z_offset) * (SCREEN_HEIGHT / s->transformY);
     centerY = (SCREEN_HEIGHT / 2) + map->cam.pitch_offset + move_screen ;
-    drawStartX = (int)left;
-    if (drawStartX < 0)
-        drawStartX = 0;
-    drawEndX = (int)(left + spriteWidth);
-    if (drawEndX > SCREEN_WIDTH - 1)
-        drawEndX = SCREEN_WIDTH - 1;
+    draw_startX = (int)left;
+    if (draw_startX < 0)
+        draw_startX = 0;
+    draw_endX = (int)(left + spriteWidth);
+    if (draw_endX > SCREEN_WIDTH - 1)
+        draw_endX = SCREEN_WIDTH - 1;
     
 
         
-    drawStartY = (int)(centerY - spriteHeight / 2.0);
-    if (drawStartY < 0)
-        drawStartY = 0;
-    else if (drawStartY > SCREEN_HEIGHT - 1)
-        drawStartY = SCREEN_HEIGHT - 1;
-    drawEndY = (int)(centerY + spriteHeight / 2.0);
-    if (drawEndY > SCREEN_HEIGHT - 1)
-        drawEndY = SCREEN_HEIGHT - 1;
-    else if (drawEndY < 0)
-        drawEndY  = 0;
+    draw_startY = (int)(centerY - spriteHeight / 2.0);
+    if (draw_startY < 0)
+        draw_startY = 0;
+    else if (draw_startY > SCREEN_HEIGHT - 1)
+        draw_startY = SCREEN_HEIGHT - 1;
+    draw_endY = (int)(centerY + spriteHeight / 2.0);
+    if (draw_endY > SCREEN_HEIGHT - 1)
+        draw_endY = SCREEN_HEIGHT - 1;
+    else if (draw_endY < 0)
+        draw_endY  = 0;
 
-    if (drawStartX > drawEndX || drawStartY > drawEndY)
+    if (draw_startX > draw_endX || draw_startY > draw_endY)
         return;
 
     int x;
@@ -252,8 +252,8 @@ void    render_decorative_sprites(void *sprite)
     
     tex_id = s->texture_id;
     text = &map->textures[tex_id];
-    x = drawStartX;
-    while (x <= (int)drawEndX)
+    x = draw_startX;
+    while (x <= (int)draw_endX)
     {
         if (s->transformY >= map->z_buffer[x])
         {
@@ -266,10 +266,10 @@ void    render_decorative_sprites(void *sprite)
         else if (tex_x > text->width - 1)
             tex_x = text->width - 1;
         tex_x_int = (int)tex_x;
-        y = drawStartY;
-        while (y <= (int)drawEndY)
+        y = draw_startY;
+        while (y <= (int)draw_endY)
         {
-            tex_y = (int)(((double)(y - drawStartY) / (double)(drawEndY - drawStartY + 1)) * text->height);
+            tex_y = (int)(((double)(y - draw_startY) / (double)(draw_endY - draw_startY + 1)) * text->height);
             if (tex_y < 0)
                 tex_y = 0;
             else if (tex_y > text->height - 1)

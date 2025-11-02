@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:19:51 by renato            #+#    #+#             */
-/*   Updated: 2025/08/26 15:11:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:18:00 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static void get_identifier_content(t_map *map_data, char ***content)
         if (ft_strcmp(content[index][0], "1") == 0)
 			break;
         if (ft_strcmp(content[index][0], "NO") == 0)
-		    map_data->NO_texture = ft_strdup(content[index][1]);
+		    map_data->no_texture = ft_strdup(content[index][1]);
         else if (ft_strcmp(content[index][0], "SO") == 0)
-            map_data->SO_texture = ft_strdup(content[index][1]);
+            map_data->so_texture = ft_strdup(content[index][1]);
         else if (ft_strcmp(content[index][0], "WE") == 0)
-            map_data->WE_texture = ft_strdup(content[index][1]);
+            map_data->we_texture = ft_strdup(content[index][1]);
         else if (ft_strcmp(content[index][0], "EA") == 0)
-            map_data->EA_texture = ft_strdup(content[index][1]);
+            map_data->ea_texture = ft_strdup(content[index][1]);
         else if (ft_strcmp(content[index][0], "F") == 0)
             map_data->floor_rgb = get_color(content[index][1]);
         else if (ft_strcmp(content[index][0], "C") == 0)

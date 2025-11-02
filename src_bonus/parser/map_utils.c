@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 11:59:10 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/11 16:32:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:18:00 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void init_data(char *path)
 	t_map	*map;
 
 	map = get_map_instance();
-	map->NO_texture = NULL;
-	map->SO_texture = NULL;
-	map->WE_texture = NULL;
-	map->EA_texture = NULL;
+	map->no_texture = NULL;
+	map->so_texture = NULL;
+	map->we_texture = NULL;
+	map->ea_texture = NULL;
 	map->floor_rgb = -1;
 	map->ceiling_rgb = -1;
 	map->map_lines = 0;
@@ -64,14 +64,14 @@ void	free_map_info(void)
 	t_map	*map;
 
 	map = get_map_instance();
-	if (map->NO_texture)
-		free(map->NO_texture);
-	if (map->SO_texture)
-		free(map->SO_texture);
-	if (map->WE_texture)
-		free(map->WE_texture);
-	if (map->EA_texture)
-		free(map->EA_texture);
+	if (map->no_texture)
+		free(map->no_texture);
+	if (map->so_texture)
+		free(map->so_texture);
+	if (map->we_texture)
+		free(map->we_texture);
+	if (map->ea_texture)
+		free(map->ea_texture);
 	if (map->map)
 		free_bidimensional_array(map->map);
 }

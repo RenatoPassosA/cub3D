@@ -3,58 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/08/19 16:49:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:20:44 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include "../utils/utils.h"
+# include "../utils/utils.h"
 
-#include <stdbool.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <math.h>
-#include <sys/time.h>
-#include <stdint.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <math.h>
+# include <sys/time.h>
+# include <stdint.h>
 
 typedef struct s_minimap {
-    int margin;
-	int height;
-	int width;
-	int	pixels_per_cell;
-	int wall_color;
-	int floor_color;
-	int player_color;
-	int background_color;
-	int	void_color;
-	int	orientation_color;
-	bool enabled;
-} t_mini;
+	int		margin;
+	int		height;
+	int		width;
+	int		pixels_per_cell;
+	int		wall_color;
+	int		floor_color;
+	int		player_color;
+	int		background_color;
+	int		void_color;
+	int		orientation_color;
+	bool	enabled;
+}	t_mini;
 
 typedef struct s_tex {
-    void   *img;
-    char   *addr;
-    int     width; 
-    int     height;
-    int     bpp;
-    int     line_len;
-    int     endian;
-} t_tex;
+	void	*img;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_tex;
 
 typedef struct s_input {
-    int w;
-	int s;
-	int a;
-	int d;
-	int left;
-	int right;
-	int esc;
-} t_input;
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	left;
+	int	right;
+	int	esc;
+}	t_input;
 
 typedef struct mlx_data
 {
@@ -65,59 +65,58 @@ typedef struct mlx_data
 	int					bits_per_pixel;
 	int					size_line;
 	int					endian;
-} t_mlx;
+}	t_mlx;
 
 typedef struct player_infos
 {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
-	double time;
-	double old_time;
-	double frame_time;
-	double move_speed;
-    double rotate_speed;
-} t_player;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+	double	time;
+	double	old_time;
+	double	frame_time;
+	double	move_speed;
+	double	rotate_speed;
+}	t_player;
 
 typedef struct render_data
 {
-	double	cameraX;
-    double	rayDirX;
-    double	rayDirY;
-    int		mapX;
-    int		mapY;
-    double	deltaDistX;
-    double	deltaDistY;
-    double	stepX;
-    double	stepY;
-    double	sideDistX;
-    double	sideDistY;
-    bool	hit;
-    int		side;
-    double	perpWallDist;
-    int		lineHeight;
-    int		drawStart;
-    int		drawEnd;
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	delta_x;
+	double	delta_y;
+	double	step_x;
+	double	step_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	bool	hit;
+	int		side;
+	double	perp_wall_dist;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
 	int		color;
-	double text_step;
-	double text_position;
-	int bytes;
-	int offset;
-	int tx;
-    int ty;
-	double wallX;
-	
-} t_render;
+	double	text_step;
+	double	text_position;
+	int		bytes;
+	int		offset;
+	int		tx;
+	int		ty;
+	double	wall_x;
+}	t_render;
 
 typedef struct map_infos
 {
-	char		*NO_texture;
-	char		*SO_texture;
-	char		*WE_texture;
-	char		*EA_texture;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
 	int			floor_rgb;
 	int			ceiling_rgb;
 	int			map_lines;
@@ -129,17 +128,17 @@ typedef struct map_infos
 	t_mlx		mlx;
 	t_tex		textures[4];
 	t_mini		minimap;
-} t_map;
+}	t_map;
 
 typedef enum e_validation_status
 {
-    VALIDATION_OK = 0,
+	VALIDATION_OK = 0,
 	ERR_MISSING_IDENTIFIER,
 	ERR_DOUBLE_IDENTIFIER,
-    ERR_MISSING_TEXTURE_PATH,
+	ERR_MISSING_TEXTURE_PATH,
 	ERR_INVALID_TEXTURE_PATH,
 	ERR_MISSING_COLOR,
-    ERR_INVALID_RGB,
+	ERR_INVALID_RGB,
 	ERR_INVALID_MAP_POSITION,
 	ERR_INVALID_MAP_ELEMENT,
 	ERR_DATA_AFTER_MAP,
@@ -155,27 +154,27 @@ typedef enum e_validation_status
 	ERR_MALLOC_CONTENT,
 	ERR_MALLOC_MAP,
 	ERR_MALLOC_MAP_AND_CONTENT
-}   t_validation_status;
+}	t_validation_status;
 
-#define	NO 0
-#define	SO 1
-#define	WE 2
-#define	EA 3
-#define	F_RGB 4
-#define	C_RGB 5
+# define NO 0
+# define SO 1
+# define WE 2
+# define EA 3
+# define F_RGB 4
+# define C_RGB 5
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define texWidth 64
-#define texHeight 64
+# define SCREEN_WIDTH 640
+# define SCREEN_HEIGHT 480
+# define TEXT_WIDTH 64
+# define TEXT_HEIGHT 64
 
-#define KEY_ESC     65307
-#define KEY_LEFT    65361
-#define KEY_RIGHT   65363
-#define KEY_W       119
-#define KEY_S       115
-#define KEY_A       97
-#define KEY_D       100
+# define KEY_ESC	 65307
+# define KEY_LEFT	65361
+# define KEY_RIGHT   65363
+# define KEY_W	   119
+# define KEY_S	   115
+# define KEY_A	   97
+# define KEY_D	   100
 
 void	free_map_info(void);
 void	init_data(char *path);

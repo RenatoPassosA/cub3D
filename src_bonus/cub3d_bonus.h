@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 10:55:55 by rpassos-          #+#    #+#             */
-/*   Updated: 2025/09/12 10:44:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:20:44 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,12 +197,12 @@ typedef struct mlx_data
 
 typedef struct player_infos
 {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
+	double	pos_x;
+	double	pos_y;
+	double dir_x;
+	double dir_y;
+	double plane_x;
+	double plane_y;
 	double time;
 	double old_time;
 	double frame_time;
@@ -217,23 +217,23 @@ typedef struct player_infos
 
 typedef struct render_data
 {
-	double	cameraX;
-    double	rayDirX;
-    double	rayDirY;
-    int		mapX;
-    int		mapY;
-    double	deltaDistX;
-    double	deltaDistY;
-    double	stepX;
-    double	stepY;
-    double	sideDistX;
-    double	sideDistY;
+	double	camera_x;
+    double	ray_dir_x;
+    double	ray_dir_y;
+    int		map_x;
+    int		map_y;
+    double	delta_x;
+    double	delta_y;
+    double	step_x;
+    double	step_y;
+    double	side_dist_x;
+    double	side_dist_y;
     bool	hit;
     int		side;
-    double	perpWallDist;
-    int		lineHeight;
-    int		drawStart;
-    int		drawEnd;
+    double	perp_wall_dist;
+    int		line_height;
+    int		draw_start;
+    int		draw_end;
 	int		color;
 	double text_step;
 	double text_position;
@@ -241,7 +241,7 @@ typedef struct render_data
 	int offset;
 	int tx;
     int ty;
-	double wallX;
+	double wall_x;
 
 	int is_door;
 	bool door_has_hit;
@@ -258,10 +258,10 @@ typedef struct render_data
 
 typedef struct map_infos
 {
-	char		*NO_texture;
-	char		*SO_texture;
-	char		*WE_texture;
-	char		*EA_texture;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
 	int			floor_rgb;
 	int			ceiling_rgb;
 	int			map_lines;
@@ -328,8 +328,8 @@ typedef enum e_validation_status
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 800
-#define texWidth 64
-#define texHeight 64
+#define TEXT_WIDTH 64
+#define TEXT_HEIGHT 64
 #define PI 3.14
 
 #define DOOR_VERTICAL 1

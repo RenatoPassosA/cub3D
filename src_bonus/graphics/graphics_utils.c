@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 10:43:54 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:53:58 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:18:00 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	init_textures()
     
     map = get_map_instance();
 
-	map->textures[0].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->NO_texture, &map->textures[0].width, &map->textures[0].height);
-	map->textures[1].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->SO_texture, &map->textures[1].width, &map->textures[1].height);
-	map->textures[2].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->WE_texture, &map->textures[2].width, &map->textures[2].height);
-	map->textures[3].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->EA_texture, &map->textures[3].width, &map->textures[3].height);
+	map->textures[0].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->no_texture, &map->textures[0].width, &map->textures[0].height);
+	map->textures[1].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->so_texture, &map->textures[1].width, &map->textures[1].height);
+	map->textures[2].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->we_texture, &map->textures[2].width, &map->textures[2].height);
+	map->textures[3].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, (char *)map->ea_texture, &map->textures[3].width, &map->textures[3].height);
 	map->textures[4].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/colorstone.xpm", &map->textures[4].width, &map->textures[4].height);
 	map->textures[5].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/ceiling.xpm", &map->textures[5].width, &map->textures[5].height);
 	map->textures[6].img = mlx_xpm_file_to_image(map->mlx.mlx_ptr, "./textures/door.xpm", &map->textures[6].width, &map->textures[6].height);

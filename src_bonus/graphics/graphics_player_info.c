@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_player_info.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 12:05:40 by renato            #+#    #+#             */
-/*   Updated: 2025/09/12 10:10:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void    init_player()
     player = get_player_position(map->map);
     set_player_direction(&map->player, direction);
     set_plane_direction(&map->player, direction);
-    map->player.posY = player[0] + 0.5;
-    map->player.posX = player[1] + 0.5;
+    map->player.pos_y = player[0] + 0.5;
+    map->player.pos_x = player[1] + 0.5;
     map->player.time = get_current_time_ms();
     map->player.old_time = map->player.time;
     map->player.frame_time = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_render_sprites.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mviana-v <mviana-v@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:32:23 by renato            #+#    #+#             */
-/*   Updated: 2025/09/11 11:28:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/11/02 18:04:04 by mviana-v         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ t_render_list resolve_draw(t_map *map, int *counter_monster, int *counter_sprite
     float dist_monster;
     float dist_sprite;
     
-    dx = map->sprites[*counter_sprite].x - map->player.posX;
-    dy = map->sprites[*counter_sprite].y - map->player.posY;
+    dx = map->sprites[*counter_sprite].x - map->player.pos_x;
+    dy = map->sprites[*counter_sprite].y - map->player.pos_y;
     dist_sprite = dx * dx + dy * dy;
 
-    dx = map->monsters[*counter_monster].x - map->player.posX;
-    dy = map->monsters[*counter_monster].y - map->player.posY;
+    dx = map->monsters[*counter_monster].x - map->player.pos_x;
+    dy = map->monsters[*counter_monster].y - map->player.pos_y;
     dist_monster = dx * dx + dy * dy;
     
     if (dist_sprite < dist_monster)
